@@ -21,6 +21,10 @@ Copyright: Hong Jen Yee (PCMan)  <pcman.tw@gmail.com>
            Rafał Mużyło <galtgendo@gmail.com>
            Charles Lehner <cel10@users.sf.net>
            Stanislav Kozina, Ersin <xersin@users.sf.net>
+           Mamoru TASAKA <mtasaka@fedoraproject.org>
+           number Zero <numzero@users.sf.net>
+           Carles Pina i Estany <carles@pina.cat>
+           Max Kirillov <max@max630.net>
 License: GPL-2+
 
 Files: src/bg.* src/ev.*
