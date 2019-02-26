@@ -12,7 +12,7 @@ Build-Depends:
  libwnck-dev, libfm-gtk-dev (>= 1.2.0),
  libcurl4-gnutls-dev | libcurl4-openssl-dev,
  libxml2-dev, libkeybinder-dev
-Standards-Version: 3.9.8
+Standards-Version: 4.3.0
 Homepage: http://www.lxde.org/
 Vcs-Browser: https://git.lxde.org/gitweb/?p=debian/lxpanel.git
 Vcs-Git: https://git.lxde.org/git/debian/lxpanel.git
