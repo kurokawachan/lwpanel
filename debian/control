@@ -48,7 +48,7 @@ Description: LXDE panel
 
 Package: lxpanel-dbg
 Section: debug
-Priority: extra
+Priority: optional
 Architecture: any
 Depends: ${misc:Depends}, lxpanel (= ${binary:Version})
 Description: LXDE panel (debug)
