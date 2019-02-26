@@ -18,6 +18,7 @@ Vcs-Git: https://git.lxde.org/git/debian/lxpanel.git
 
 Package: lxpanel
 Architecture: any
+Multi-Arch: allowed
 Depends: ${misc:Depends}, ${shlibs:Depends}, lxmenu-data,
  lxpanel-data (= ${source:Version}), libfm-modules
 Recommends: xkb-data, lxterminal | x-terminal-emulator,
@@ -58,6 +59,7 @@ Description: LXDE panel (debug)
 
 Package: lxpanel-data
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends}
 Breaks: lxpanel (<< 0.7.0)
 Replaces: lxpanel (<< 0.7.0)
