@@ -217,9 +217,10 @@ thermal_la_OBJECTS = $(am_thermal_la_OBJECTS)
 volume_la_DEPENDENCIES =
 am_volume_la_OBJECTS = volumealsa/volumealsa.lo
 volume_la_OBJECTS = $(am_volume_la_OBJECTS)
-weather_la_DEPENDENCIES = $(am__DEPENDENCIES_1)
+weather_la_DEPENDENCIES = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 am_weather_la_OBJECTS = weather/weather_la-logutil.lo \
-	weather/weather_la-httputil.lo weather/weather_la-yahooutil.lo \
+	weather/weather_la-httputil.lo \
+	weather/weather_la-openweathermap.lo \
 	weather/weather_la-location.lo weather/weather_la-forecast.lo \
 	weather/weather_la-weatherwidget.lo \
 	weather/weather_la-weather.lo
@@ -326,6 +327,8 @@ CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
+CURL_CFLAGS = @CURL_CFLAGS@
+CURL_LIBS = @CURL_LIBS@
 CYGPATH_W = @CYGPATH_W@
 DATADIRNAME = @DATADIRNAME@
 DEFS = @DEFS@
@@ -372,6 +375,7 @@ LIBXML2_LIBS = @LIBXML2_LIBS@
 LIPO = @LIPO@
 LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
+LT_SYS_LIBRARY_PATH = @LT_SYS_LIBRARY_PATH@
 MAKEINFO = @MAKEINFO@
 MANIFEST_TOOL = @MANIFEST_TOOL@
 MENU_CACHE_CFLAGS = @MENU_CACHE_CFLAGS@
@@ -603,7 +607,7 @@ volume_la_SOURCES = volumealsa/volumealsa.c
 weather_la_SOURCES = \
 	weather/logutil.c          \
 	weather/httputil.c         \
-	weather/yahooutil.c        \
+	weather/openweathermap.c   \
 	weather/location.c         \
 	weather/forecast.c         \
 	weather/weatherwidget.c    \
@@ -611,9 +615,13 @@ weather_la_SOURCES = \
 
 weather_la_CFLAGS = \
 	-I$(srcdir)/weather \
-	$(LIBXML2_CFLAGS)
+	$(LIBXML2_CFLAGS) \
+	$(CURL_CFLAGS)
 
-weather_la_LIBADD = $(LIBXML2_LIBS)
+weather_la_LIBADD = \
+	$(LIBXML2_LIBS) \
+	$(CURL_LIBS)
+
 
 # xkb
 xkb_la_CFLAGS = \
@@ -780,10 +788,13 @@ EXTRA_DIST = \
 	netstatus/netstatus-util.h \
 	weather/logutil.h \
 	weather/httputil.h \
+	weather/yahooutil.c \
 	weather/yahooutil.h \
 	weather/location.h \
 	weather/forecast.h \
 	weather/weatherwidget.h \
+	weather/providers.h \
+	weather/openweathermap.h \
 	xkb/xkb.h \
 	$(flags_DATA) \
 	$(xkeyboardconfig_DATA) \
@@ -1022,7 +1033,7 @@ weather/weather_la-logutil.lo: weather/$(am__dirstamp) \
 	weather/$(DEPDIR)/$(am__dirstamp)
 weather/weather_la-httputil.lo: weather/$(am__dirstamp) \
 	weather/$(DEPDIR)/$(am__dirstamp)
-weather/weather_la-yahooutil.lo: weather/$(am__dirstamp) \
+weather/weather_la-openweathermap.lo: weather/$(am__dirstamp) \
 	weather/$(DEPDIR)/$(am__dirstamp)
 weather/weather_la-location.lo: weather/$(am__dirstamp) \
 	weather/$(DEPDIR)/$(am__dirstamp)
@@ -1117,9 +1128,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-httputil.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-location.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-logutil.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-openweathermap.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-weather.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-weatherwidget.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@weather/$(DEPDIR)/weather_la-yahooutil.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@xkb/$(DEPDIR)/xkb_la-xkb-plugin.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@xkb/$(DEPDIR)/xkb_la-xkb.Plo@am__quote@
 
@@ -1413,12 +1424,12 @@ weather/weather_la-httputil.lo: weather/httputil.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -c -o weather/weather_la-httputil.lo `test -f 'weather/httputil.c' || echo '$(srcdir)/'`weather/httputil.c
 
-weather/weather_la-yahooutil.lo: weather/yahooutil.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -MT weather/weather_la-yahooutil.lo -MD -MP -MF weather/$(DEPDIR)/weather_la-yahooutil.Tpo -c -o weather/weather_la-yahooutil.lo `test -f 'weather/yahooutil.c' || echo '$(srcdir)/'`weather/yahooutil.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) weather/$(DEPDIR)/weather_la-yahooutil.Tpo weather/$(DEPDIR)/weather_la-yahooutil.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='weather/yahooutil.c' object='weather/weather_la-yahooutil.lo' libtool=yes @AMDEPBACKSLASH@
+weather/weather_la-openweathermap.lo: weather/openweathermap.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -MT weather/weather_la-openweathermap.lo -MD -MP -MF weather/$(DEPDIR)/weather_la-openweathermap.Tpo -c -o weather/weather_la-openweathermap.lo `test -f 'weather/openweathermap.c' || echo '$(srcdir)/'`weather/openweathermap.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) weather/$(DEPDIR)/weather_la-openweathermap.Tpo weather/$(DEPDIR)/weather_la-openweathermap.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='weather/openweathermap.c' object='weather/weather_la-openweathermap.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -c -o weather/weather_la-yahooutil.lo `test -f 'weather/yahooutil.c' || echo '$(srcdir)/'`weather/yahooutil.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -c -o weather/weather_la-openweathermap.lo `test -f 'weather/openweathermap.c' || echo '$(srcdir)/'`weather/openweathermap.c
 
 weather/weather_la-location.lo: weather/location.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(weather_la_CFLAGS) $(CFLAGS) -MT weather/weather_la-location.lo -MD -MP -MF weather/$(DEPDIR)/weather_la-location.Tpo -c -o weather/weather_la-location.lo `test -f 'weather/location.c' || echo '$(srcdir)/'`weather/location.c
