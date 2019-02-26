@@ -9,6 +9,7 @@
  *               2013 Henry Gebhardt <hsggebhardt@gmail.com>
  *               2013 Rouslan <rouslan-k@users.sourceforge.net>
  *               2014 Andriy Grytsenko <andrej@rep.kiev.ua>
+ *               2018 Mamoru TASAKA <mtasaka@fedoraproject.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,8 +43,8 @@ G_BEGIN_DECLS
  */
 #define LXPANEL_CHECK_VERSION(_a,_b,_c) \
     (0 > _a || \
-    (0 == _a && 9 > _b) || \
-    (0 == _a && 9 == _b && 3 >= _c))
+    (0 == _a && 10 > _b) || \
+    (0 == _a && 10 == _b && 0 >= _c))
 
 
 #define LX_TYPE_PANEL                  (lxpanel_get_type())
@@ -109,6 +110,22 @@ extern void panel_apply_icon(GtkWindow *w);
 extern void lxpanel_draw_label_text(LXPanel * p, GtkWidget * label, const char * text,
                                     gboolean bold, float custom_size_factor,
                                     gboolean custom_color);
+
+/**
+ * lxpanel_draw_label_text_with_color
+ * @p: a panel instance
+ * @label: a label widget
+ * @text: (allow-none): text for the label
+ * @bold: %TRUE if text should be bold
+ * @custom_size_factor: scale factor for font size
+ * @color: GdkColor for drawing text
+ *
+ * Changes @label to contain @text with appropriate attributes using the
+ * panel @p settings.
+ */
+extern void lxpanel_draw_label_text_with_color(LXPanel * p, GtkWidget * label, const char * text,
+                                    gboolean bold, float custom_size_factor,
+                                    GdkColor *color);
 
 /**
  * lxpanel_config_save
