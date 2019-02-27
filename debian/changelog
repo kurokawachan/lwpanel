@@ -1,3 +1,23 @@
+lxpanel (0.10.0-1) unstable; urgency=medium
+
+  * Merging upstream version 0.10.0 (Closes: #653459, #845555, #855025,
+    #904826, #918467).
+  * Adding libcurl build dependency.
+  * Changing priority extra to optional for lxpanel-dbg package.
+  * Changing http:// to https:// in URLs.
+  * Updating authors list in the copyright file.
+  * Updating obsolete tag debian-watch-may-check-gpg-signature in lintian
+    override to debian-watch-does-not-check-gpg-signature.
+  * Bump Standards-Version to 4.3.0.
+  * Bump debhelper compat to 11.
+  * Removing compression options for sources.
+  * Adding libnotify-bin and notification-daemon as Recommended (see #854643).
+  * Adding lxterminal as a preference over x-terminal-emulator (Closes:
+    #894828).
+  * Adding Multi-Arch tags to packages.
+
+ -- Andriy Grytsenko <andrej@rep.kiev.ua>  Wed, 27 Feb 2019 02:01:11 +0200
+
 lxpanel (0.9.3-1) unstable; urgency=medium
 
   * Merging upstream version 0.9.3.
