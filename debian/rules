@@ -9,6 +9,7 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 	dh ${@}
 
 override_dh_autoreconf:
+	dh_autoreconf_clean
 	dh_autoreconf ./autogen.sh --
 
 override_dh_auto_configure:
