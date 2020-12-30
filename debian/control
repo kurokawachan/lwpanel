@@ -12,7 +12,7 @@ Build-Depends:
  libwnck-dev, libfm-gtk-dev (>= 1.2.0),
  libcurl4-gnutls-dev | libcurl4-openssl-dev,
  libxml2-dev, libkeybinder-dev
-Standards-Version: 4.3.0
+Standards-Version: 4.5.1
 Homepage: http://www.lxde.org/
 Vcs-Browser: https://salsa.debian.org/lxde-team/lxpanel
 Vcs-Git: https://salsa.debian.org/lxde-team/lxpanel.git
