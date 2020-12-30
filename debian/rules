@@ -20,9 +20,6 @@ else
 	dh_auto_configure -- --with-plugins=all,-netstat --disable-silent-rules --disable-alsa
 endif
 
-override_dh_strip:
-	dh_strip --dbg-package=lxpanel-dbg
-
 override_dh_makeshlibs:
 	# package does not provide public shared libs so disable processing
 
