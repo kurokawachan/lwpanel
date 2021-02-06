@@ -1,3 +1,13 @@
+lxpanel (0.10.1-1) unstable; urgency=medium
+
+  * Merging upstream version 0.10.1.
+  * Remove 50-fix-battery-notification.patch (included into upstream).
+  * Adding lintian override on 'maintainer-desktop-entry' messages.
+  * Making lxpanel-dev package Multi-Arch: same.
+  * Updating debian/copyright file.
+
+ -- Andriy Grytsenko <andrej@rep.kiev.ua>  Sun, 07 Feb 2021 00:12:25 +0200
+
 lxpanel (0.10.0-3) unstable; urgency=medium
 
   * Adding libgdk-pixbuf-xlib-2.0-dev | libgdk-pixbuf2.0-dev into build
