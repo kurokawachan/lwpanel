@@ -68,7 +68,6 @@
 #include <X11/Xutil.h>
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf-xlib/gdk-pixbuf-xlib.h>
 #include <gdk/gdk.h>
 #include <glib/gi18n.h>
 
@@ -2460,7 +2459,7 @@ static LXPanelPluginInit _launchbar_init = {
 
 static LXPanelPluginInit _taskbar_init = {
     .name = N_("Task Bar (Window List)"),
-    .description = N_("Taskbar shows all opened windows and allow to iconify them, shade or get focus"),
+    .description = N_("Taskbar shows all opened windows and allows to iconify them, shade or get focus"),
 
     .expand_available = TRUE,
     .expand_default = TRUE,
