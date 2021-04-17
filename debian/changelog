@@ -1,3 +1,9 @@
+lxpanel (0.10.1-2) unstable; urgency=medium
+
+  * Making lxpanel-dev package Multi-Arch: no (Closes: #985517).
+
+ -- Andriy Grytsenko <andrej@rep.kiev.ua>  Sat, 17 Apr 2021 13:22:04 +0300
+
 lxpanel (0.10.1-1) unstable; urgency=medium
 
   * Merging upstream version 0.10.1.
