@@ -26,7 +26,7 @@ Depends: ${misc:Depends}, ${shlibs:Depends}, lxmenu-data,
 Recommends: xkb-data, lxterminal | x-terminal-emulator,
  pavucontrol | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
  libnotify-bin, notification-daemon
-Suggests: menu, firefox-esr | firefox | www-browser
+Suggests: firefox-esr | firefox | www-browser
 Description: LXDE panel
  LXPanel is a GUI application for the Lightweight X11 Desktop Environment
  (LXDE).
