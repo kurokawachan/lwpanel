@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian LXDE Maintainers <team+lxde@tracker.debian.org>
 Uploaders: Andrew Lee (李健秋) <ajqlee@debian.org>,
            Andriy Grytsenko <andrej@rep.kiev.ua>
-Build-Depends: debhelper (>= 11),
+Build-Depends: debhelper-compat (= 13),
                intltool,
                libasound2-dev [linux-any],
                libcurl4-gnutls-dev | libcurl4-openssl-dev,
