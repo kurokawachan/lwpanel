@@ -2,16 +2,20 @@ Source: lxpanel
 Section: x11
 Priority: optional
 Maintainer: Debian LXDE Maintainers <pkg-lxde-maintainers@lists.alioth.debian.org>
-Uploaders:
- Andrew Lee (李健秋) <ajqlee@debian.org>,
- Andriy Grytsenko <andrej@rep.kiev.ua>
-Build-Depends:
- debhelper (>= 11), intltool, libasound2-dev [linux-any],
- libgtk2.0-dev (>= 2.18), libiw-dev [linux-any], libmenu-cache-dev,
- libgdk-pixbuf-xlib-2.0-dev | libgdk-pixbuf2.0-dev,
- libwnck-dev, libfm-gtk-dev (>= 1.2.0),
- libcurl4-gnutls-dev | libcurl4-openssl-dev,
- libxml2-dev, libkeybinder-dev
+Uploaders: Andrew Lee (李健秋) <ajqlee@debian.org>,
+           Andriy Grytsenko <andrej@rep.kiev.ua>
+Build-Depends: debhelper (>= 11),
+               intltool,
+               libasound2-dev [linux-any],
+               libcurl4-gnutls-dev | libcurl4-openssl-dev,
+               libfm-gtk-dev (>= 1.2.0),
+               libgdk-pixbuf-xlib-2.0-dev | libgdk-pixbuf2.0-dev,
+               libgtk2.0-dev (>= 2.18),
+               libiw-dev [linux-any],
+               libkeybinder-dev,
+               libmenu-cache-dev,
+               libwnck-dev,
+               libxml2-dev,
 Standards-Version: 4.5.1
 Rules-Requires-Root: no
 Homepage: http://www.lxde.org/
@@ -21,11 +25,16 @@ Vcs-Git: https://salsa.debian.org/lxde-team/lxpanel.git
 Package: lxpanel
 Architecture: any
 Multi-Arch: allowed
-Depends: ${misc:Depends}, ${shlibs:Depends}, lxmenu-data,
- lxpanel-data (= ${source:Version}), libfm-modules
-Recommends: xkb-data, lxterminal | x-terminal-emulator,
- pavucontrol | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
- libnotify-bin, notification-daemon
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         lxmenu-data,
+         lxpanel-data (= ${source:Version}),
+         libfm-modules
+Recommends: xkb-data,
+            lxterminal | x-terminal-emulator,
+            pavucontrol | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
+            libnotify-bin,
+            notification-daemon
 Suggests: firefox-esr | firefox | www-browser
 Description: LXDE panel
  LXPanel is a GUI application for the Lightweight X11 Desktop Environment
@@ -64,8 +73,10 @@ Description: LXDE panel (data files)
 Package: lxpanel-dev
 Architecture: any
 Multi-Arch: no
-Depends: ${misc:Depends}, lxpanel (= ${binary:Version}),
- libgtk2.0-dev, libfm-gtk-dev (>= 1.2.0)
+Depends: ${misc:Depends},
+         lxpanel (= ${binary:Version}),
+         libgtk2.0-dev,
+         libfm-gtk-dev (>= 1.2.0)
 Breaks: lxpanel (<< 0.8.2)
 Replaces: lxpanel (<< 0.8.2)
 Description: LXDE panel (plugins development files)
