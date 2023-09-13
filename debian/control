@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 11),
                libmenu-cache-dev,
                libwnck-3-dev,
                libxml2-dev,
-Standards-Version: 4.5.1
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 Homepage: http://www.lxde.org/
 Vcs-Browser: https://salsa.debian.org/lxde-team/lxpanel
