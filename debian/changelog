@@ -1,3 +1,24 @@
+lxpanel (0.10.1-3) experimental; urgency=medium
+
+  [ Pino Toscano ]
+  * Drop menu-xdg suggest, as it is deprecated, and not needed by LXDE.
+
+  [ ChangZhuo Chen (陳昌倬) ]
+  * Bump Standards-Version to 4.6.2.
+  * Bump compat to 13.
+  * Migrate to GTK-3 (Closes: #967613)
+  * Change team email to <team+lxde@tracker.debian.org>
+  * Change upstream to GitHub:
+    * Update Homepage to GitHub.
+    * Update d/watch.
+    * Add d/upstream/metadata.
+  * Update lintian-overrides.
+  * Add d/gbp.conf.
+  * d/control: tweak indent.
+  * Add ChangZhuo Chen (陳昌倬) <czchen@debian.org> as Uploaders.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Wed, 13 Sep 2023 23:25:41 +0800
+
 lxpanel (0.10.1-2) unstable; urgency=medium
 
   * Making lxpanel-dev package Multi-Arch: no (Closes: #985517).
