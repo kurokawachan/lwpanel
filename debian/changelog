@@ -1,3 +1,9 @@
+lxpanel (0.10.1-4) unstable; urgency=medium
+
+  * Merge to unstable.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Sat, 16 Sep 2023 10:17:33 +0800
+
 lxpanel (0.10.1-3) experimental; urgency=medium
 
   [ Pino Toscano ]
