@@ -1,5 +1,6 @@
 /**
  * Copyright (c) 2012-2014 Piotr Sipika; see the AUTHORS file for more.
+ * Copyright (C) 2023 Ingo Brückl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -481,7 +482,7 @@ gtk_weather_render(GtkWeather * weather)
         {          
           /* set this image to the one in the forecast at correct scale */
           GdkPixbuf * forecast_pixbuf = gdk_pixbuf_scale_simple(forecast->pImage_,
-                                                                req.height,
+                                                                req.height * forecast->fAspectRatio,
                                                                 req.height,
                                                                 GDK_INTERP_BILINEAR);
           
@@ -1739,8 +1740,8 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
                        GTK_EXPAND | GTK_FILL | GTK_SHRINK,
                        2,2);
 
-      gchar * pressure = g_strdup_printf("%4.2f %s", 
-                                         forecast->dPressure_,
+      gchar * pressure = g_strdup_printf("%ld %s",
+                                         (glong) forecast->dPressure_,
                                          forecast->units_.pcPressure_);
 
       GtkWidget * pressure_label = gtk_label_new(_("Pressure:"));
@@ -1766,8 +1767,8 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
                        GTK_EXPAND | GTK_FILL | GTK_SHRINK,
                        2,2);
 
-      gchar * visibility = g_strdup_printf("%4.2f %s", 
-                                         forecast->dVisibility_,
+      gchar * visibility = g_strdup_printf("%ld %s",
+                                         (glong) forecast->dVisibility_,
                                          forecast->units_.pcDistance_);
 
       GtkWidget * visibility_label = gtk_label_new(_("Visibility:"));
@@ -1793,8 +1794,9 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
                        GTK_EXPAND | GTK_FILL | GTK_SHRINK,
                        2,2);
 
-      gchar * wind = g_strdup_printf("%s, %d %s",
-                                     forecast->pcWindDirection_,
+      gchar * wind = g_strdup_printf("%s%s%d %s",
+                                     forecast->pcWindDirection_ ? forecast->pcWindDirection_ : "",
+                                     forecast->pcWindDirection_ ? ", ": "",
                                      forecast->iWindSpeed_,
                                      forecast->units_.pcSpeed_);
 
@@ -1873,14 +1875,15 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
       GtkWidget * icon_image = gtk_image_new_from_stock(GTK_STOCK_MISSING_IMAGE,
                                                         GTK_ICON_SIZE_MENU);
 
-      gchar * conditions_label_text = g_strdup_printf("<b>%d \302\260%s %s%s%s</b>", 
-                                                      forecast->iTemperature_,
-                                                      forecast->units_.pcTemperature_,
+      gchar * conditions_label_text = g_strdup_printf("<b>%s%s%s\n\n%d \302\260%s</b>",
                                                       forecast->pcClouds_ ? forecast->pcClouds_ : "",
                                                       (forecast->pcConditions_ && forecast->pcClouds_) ? ", " : "",
-                                                      forecast->pcConditions_ ? forecast->pcConditions_ : "");
+                                                      forecast->pcConditions_ ? forecast->pcConditions_ : "",
+                                                      forecast->iTemperature_,
+                                                      forecast->units_.pcTemperature_);
 
       GtkWidget * conditions_label = gtk_label_new(NULL);
+      gtk_label_set_justify(GTK_LABEL(conditions_label), GTK_JUSTIFY_CENTER);
       gtk_label_set_markup(GTK_LABEL(conditions_label), conditions_label_text);
 
       /* Pack boxes */
@@ -1922,7 +1925,7 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
       /* Need the minimum */
       gint dim = (req.width < req.height) ? req.width/2 : req.height/2;
 
-      GdkPixbuf * icon_buf = gdk_pixbuf_scale_simple(forecast->pImage_,
+      GdkPixbuf * icon_buf = gdk_pixbuf_scale_simple(forecast->pBigImage_ ? forecast->pBigImage_ : forecast->pImage_,
                                                      dim, dim,
                                                      GDK_INTERP_BILINEAR);
 
@@ -1941,7 +1944,7 @@ gtk_weather_run_conditions_dialog(GtkWeather * weather)
               gtk_weather_get_forecast(weather);
             }
 
-        }  while (response != GTK_RESPONSE_ACCEPT);
+        }  while (response != GTK_RESPONSE_ACCEPT && response != GTK_RESPONSE_DELETE_EVENT);
 
       if (GTK_IS_WIDGET(dialog))
         {
@@ -2134,7 +2137,7 @@ gtk_weather_show_location_list(GtkWeather * weather, GList * list)
 
   /* state */
   cell_renderer = gtk_cell_renderer_text_new();
-  treeview_column = gtk_tree_view_column_new_with_attributes(_("State"),
+  treeview_column = gtk_tree_view_column_new_with_attributes(C_("Politics", "State"),
                                                              cell_renderer,
                                                              "text",
                                                              STATE_COLUMN,
@@ -2267,7 +2270,7 @@ gtk_weather_get_tooltip_text(GtkWeather * weather)
       LocationInfo * location = priv->location;
       ForecastInfo * forecast = priv->forecast;
 
-      gchar * temperature = g_strdup_printf("%d \302\260%s\n", 
+      gchar * temperature = g_strdup_printf("%d \302\260%s",
                                             forecast->iTemperature_,
                                             forecast->units_.pcTemperature_);
 
@@ -2287,7 +2290,7 @@ gtk_weather_get_tooltip_text(GtkWeather * weather)
                                  forecast->pcClouds_ ? forecast->pcClouds_ : "",
                                  (forecast->pcConditions_ && forecast->pcClouds_) ? ", " : "",
                                  forecast->pcConditions_ ? forecast->pcConditions_ : "",
-                                 " ", temperature, "",
+                                 ", ", temperature, "",
 #if 0 // TODO!
                                  _("Today: "), today, "\n",
                                  _("Tomorrow: "), tomorrow,

@@ -70,6 +70,9 @@ typedef struct
   gchar * pcClouds_;
   gchar * pcImageURL_;
   GdkPixbuf * pImage_;
+  float fAspectRatio;
+  gchar * pcBigImageURL_;
+  GdkPixbuf * pBigImage_;
 } ForecastInfo;
 
 /**

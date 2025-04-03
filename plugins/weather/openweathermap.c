@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2012-2014 Piotr Sipika.
  * Copyright (C) 2019 Andriy Grytsenko <andrej@rep.kiev.ua>
+ * Copyright (C) 2023 Ingo Brückl
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -180,6 +181,83 @@ setStringIfDifferent(gchar ** pcStorage,
 }
 
 /**
+ * Creates an image from an URL.
+ *
+ * @param pImage Pointer to the image storage.
+ * @param pczURL The url.
+ * @param iCropT Lines to cut at the top.
+ * @param iCropB Lines to cut at the bottom.
+ *
+ * @return 0 on succes, -1 on failure.
+ */
+static gint
+getImageFromURL(GdkPixbuf ** pImage, const gchar * pczURL, int iCropT, int iCropB)
+{
+  gint err = 0;
+  CURLcode iRetCode = 0;
+  gint iDataSize = 0;
+  char * pResponse = NULL;
+
+  iRetCode = getURL(pczURL, &pResponse, &iDataSize, NULL);
+
+  if (!pResponse || iRetCode != CURLE_OK)
+    {
+      LXW_LOG(LXW_ERROR, "openweathermap::getImageFromURL(): Failed to get URL (%d, %d)",
+              iRetCode, iDataSize);
+      g_free(pResponse);
+
+      return -1;
+    }
+
+  GInputStream * pInputStream = g_memory_input_stream_new_from_data(pResponse,
+                                                                    iDataSize,
+                                                                    g_free);
+
+  GError * pError = NULL;
+
+  GdkPixbuf *stream = gdk_pixbuf_new_from_stream(pInputStream,
+                                                 NULL,
+                                                 &pError);
+
+  if (stream)
+    {
+      if (iCropT > 0)
+        {
+          *pImage = gdk_pixbuf_new_subpixbuf(stream,
+                                             0, iCropT - 1,
+                                             gdk_pixbuf_get_width(stream),
+                                             gdk_pixbuf_get_height(stream) - (iCropT + iCropB));
+          g_object_unref(stream);
+        }
+      else
+        {
+          *pImage = stream;
+        }
+    }
+  else
+    {
+      LXW_LOG(LXW_ERROR, "openweathermap::getImageFromURL(): PixBuff allocation failed: %s",
+              pError->message);
+
+      g_error_free(pError);
+
+      err = -1;
+    }
+
+  if (!g_input_stream_close(pInputStream, NULL, &pError))
+    {
+      LXW_LOG(LXW_ERROR, "openweathermap::getImageFromURL(): InputStream closure failed: %s",
+              pError->message);
+
+      g_error_free(pError);
+
+      err = -1;
+    }
+
+  return err;
+}
+
+/**
  * Compares the URL of an image to the 'new' value. If the two
  * are different, the image at the 'new' URL is retrieved and replaces
  * the old one. The old one is freed.
@@ -188,14 +266,23 @@ setStringIfDifferent(gchar ** pcStorage,
  * @param pImage Pointer to the image storage.
  * @param pczNewURL The new url.
  * @param szURLLength The length of the new URL.
+ * @param pcStorage2 Same as pcStorage for the second image.
+ * @param pImage2 Same as pImage for the second image.
+ * @param pczNewURL2 Same as pczNewURL for the second image.
+ * @param szURL2Length Same as szURLLength for the second image.
  *
  * @return 0 on succes, -1 on failure.
  */
 static gint
 setImageIfDifferent(gchar ** pcStorage,
                     GdkPixbuf ** pImage,
+                    float *fAspectRatio,
                     const gchar * pczNewURL,
-                    const gsize szURLLength)
+                    const gsize szURLLength,
+                    gchar ** pcStorage2,
+                    GdkPixbuf ** pImage2,
+                    const gchar * pczURL2,
+                    const gsize szURL2Length)
 {
   int err = 0;
 
@@ -203,8 +290,10 @@ setImageIfDifferent(gchar ** pcStorage,
   if (g_strcmp0(*pcStorage, pczNewURL))
     {
       g_free(*pcStorage);
+      g_free(*pcStorage2);
 
       *pcStorage = g_strndup(pczNewURL, szURLLength);
+      *pcStorage2 = g_strndup(pczURL2, szURL2Length);
 
       if (*pImage)
         {
@@ -213,52 +302,24 @@ setImageIfDifferent(gchar ** pcStorage,
           *pImage = NULL;
         }
 
-      // retrieve the URL and create the new image
-      CURLcode iRetCode = 0;
-      gint iDataSize = 0;
-      char * pResponse = NULL;
-
-      iRetCode = getURL(pczNewURL, &pResponse, &iDataSize, NULL);
-
-      if (!pResponse || iRetCode != CURLE_OK)
+      if (*pImage2)
         {
-          LXW_LOG(LXW_ERROR, "openweathermap::setImageIfDifferent(): Failed to get URL (%d, %d)",
-                  iRetCode, iDataSize);
-          g_free(pResponse);
+          g_object_unref(*pImage2);
 
-          return -1;
+          *pImage2 = NULL;
         }
 
-      GInputStream * pInputStream = g_memory_input_stream_new_from_data(pResponse,
-                                                                        iDataSize,
-                                                                        g_free);
+      /* cut 8 lines at the top and 6 lines at the bottom that
+       * are transparent and that contain no visible pixels which
+       * changes the aspect ratio from 1:1 to 50:36
+       */
+      err = getImageFromURL(pImage, pczNewURL, 8, 6);
+      *fAspectRatio = 50.0 / 36.0;
 
-      GError * pError = NULL;
-
-      *pImage = gdk_pixbuf_new_from_stream(pInputStream,
-                                           NULL,
-                                           &pError);
-
-      if (!*pImage)
+      if (err == 0)
         {
-          LXW_LOG(LXW_ERROR, "openweathermap::setImageIfDifferent(): PixBuff allocation failed: %s",
-                  pError->message);
-
-          g_error_free(pError);
-
-          err = -1;
+          err = getImageFromURL(pImage2, pczURL2, 0, 0);
         }
-
-      if (!g_input_stream_close(pInputStream, NULL, &pError))
-        {
-          LXW_LOG(LXW_ERROR, "openweathermap::setImageIfDifferent(): InputStream closure failed: %s",
-                  pError->message);
-
-          g_error_free(pError);
-
-          err = -1;
-        }
-
     }
 
   return err;
@@ -290,9 +351,54 @@ setIntIfDifferent(gint * piStorage, const gchar * pczString2)
 static gint
 setTimeIfDifferent(gchar ** pcStorage, const gchar * pczString)
 {
+  char adjTime[16];
+#if GLIB_CHECK_VERSION(2,26,0)
+  char *setTime = NULL;
+  gint year, month, day, hour, minute, second;
+  GDateTime *date_time = NULL;
+  time_t seconds;
+  struct tm *tm;
+
+  year = strtoul(pczString, (char **) &pczString, 10);
+
+  if (*pczString++ == '-')
+  {
+    month = strtoul(pczString, (char **) &pczString, 10);
+
+    if (*pczString++ == '-')
+    {
+      day = strtoul(pczString, (char **) &pczString, 10);
+
+      if (*pczString++ == 'T')
+      {
+        hour = strtoul(pczString, (char **) &pczString, 10);
+
+        if (*pczString++ == ':')
+        {
+          minute = strtoul(pczString, (char **) &pczString, 10);
+
+          if (*pczString++ == ':')
+          {
+            second = strtoul(pczString, (char **) &pczString, 10);
+
+            date_time = g_date_time_new_utc(year, month, day, hour, minute, second);
+          }
+        }
+      }
+    }
+  }
+
+  if (date_time)
+  {
+    seconds = g_date_time_to_unix(date_time);
+    tm = localtime(&seconds);
+    strftime(adjTime, sizeof(adjTime), "%H:%M:%S", tm);
+    setTime = adjTime;
+    g_date_time_unref(date_time);
+  }
+#else
   int hour, min, sec;
   char * setTime = pczString ? strchr(pczString, 'T') : NULL;
-  char adjTime[16];
 
   if (setTime && sscanf(setTime, "T%2u:%2u:%2u", &hour, &min, &sec) == 3)
     {
@@ -323,6 +429,7 @@ setTimeIfDifferent(gchar ** pcStorage, const gchar * pczString)
     }
   else
    setTime = NULL;
+#endif
 
   return setStringIfDifferent(pcStorage, setTime, setTime ? strlen(setTime) : 0);
 }
@@ -547,14 +654,23 @@ parseResponse(const char * pResponse, GList ** pList, ForecastInfo ** pForecast,
               char * icon = CHAR_P(xmlGetProp(pNode, XMLCHAR_P("icon")));
               char * number = CHAR_P(xmlGetProp(pNode, XMLCHAR_P("number")));
               char * pcImageURL = NULL;
+              char * pcBigImageURL = NULL;
               gsize vlen = (value)?strlen(value):0;
 
               if (icon)
+              {
                 pcImageURL = g_strdup_printf("http://openweathermap.org/img/w/%s.png", icon);
+                pcBigImageURL = g_strdup_printf("http://openweathermap.org/img/wn/%s@4x.png", icon);
+              }
               setImageIfDifferent(&pEntry->pcImageURL_,
                                   &pEntry->pImage_,
+                                  &pEntry->fAspectRatio,
                                   pcImageURL,
-                                  strlen(pcImageURL));
+                                  strlen(pcImageURL),
+                                  &pEntry->pcBigImageURL_,
+                                  &pEntry->pBigImage_,
+                                  pcBigImageURL,
+                                  strlen(pcBigImageURL));
 
               if (number && *number && atoi(number) < 800) /* not clear */
                 {
@@ -570,6 +686,7 @@ parseResponse(const char * pResponse, GList ** pList, ForecastInfo ** pForecast,
               xmlFree(icon);
               xmlFree(number);
               g_free(pcImageURL);
+              g_free(pcBigImageURL);
             }
           else if (xmlStrEqual(pNode->name, CONSTXMLCHAR_P("lastupdate"))) // value="2019-02-16T18:00:00"
             {
@@ -592,13 +709,16 @@ parseResponse(const char * pResponse, GList ** pList, ForecastInfo ** pForecast,
  * pairs: first is ISO code, second is code on site
  */
 static const char *localeTranslations[] = {
-    "cs", "cz", /* Checz */
+    "cs", "cz", /* Czech */
+    "es", "sp", /* Spanish */
     "ko", "kr", /* Korean */
     "lv", "la", /* Latvian */
+    "pt_BR", "pt_br", /* Brazilian Portuguese */
+    "sq", "al", /* Albanian */
     "sv", "se", /* Swedish */
     "uk", "ua", /* Ukrainian */
-    "zh_CN", "zh_cn",
-    "zh_TW", "zh_tw",
+    "zh_CN", "zh_cn", /* Chinese, Simplified */
+    "zh_TW", "zh_tw", /* Chinese, Traditional */
     NULL
 };
 

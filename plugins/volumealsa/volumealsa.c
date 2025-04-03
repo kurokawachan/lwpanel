@@ -11,6 +11,7 @@
  *               2014 Peter <ombalaxitabou@users.sf.net>
  *               2014-2016 Andriy Grytsenko <andrej@rep.kiev.ua>
  *               2020 TheZxcv <the.uint64.t@gmail.com>
+ *               2020-2023 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -611,7 +612,7 @@ static void volumealsa_update_current_icon(VolumeALSAPlugin * vol, gboolean mute
     lxpanel_image_change_icon(vol->tray_icon, vol->icon_panel, vol->icon_fallback);
 
     /* Display current level in tooltip. */
-    char * tooltip = g_strdup_printf("%s %d", _("Volume control"), level);
+    char * tooltip = g_strdup_printf(_("Volume: %d%%"), level);
     gtk_widget_set_tooltip_text(vol->plugin, tooltip);
     g_free(tooltip);
 }
@@ -796,6 +797,17 @@ static void volumealsa_popup_scale_scrolled(GtkScale * scale, GdkEventScroll * e
     /* Dispatch on scroll direction to update the value. */
     if ((evt->direction == GDK_SCROLL_UP) || (evt->direction == GDK_SCROLL_LEFT))
         val += 2;
+#if GTK_CHECK_VERSION(3, 4, 0)
+    else if (evt->direction == GDK_SCROLL_SMOOTH)
+    {
+        gdouble delta_x, delta_y;
+        gdk_event_get_scroll_deltas((GdkEvent *) evt, &delta_x, &delta_y);
+        if ((delta_y < 0) || (delta_x < 0))
+            val += 2;
+        else if ((delta_y > 0) || (delta_x > 0))
+            val -= 2;
+    }
+#endif
     else
         val -= 2;
 
@@ -897,7 +909,6 @@ static void volumealsa_build_popup_window(GtkWidget *p)
 
     /* Create a frame as the child of the viewport. */
     GtkWidget * frame = gtk_frame_new(_("Volume"));
-    gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
     gtk_container_add(GTK_CONTAINER(viewport), frame);
 
     /* Create a vertical box as the child of the frame. */
@@ -980,6 +991,9 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
     vol->tray_icon = lxpanel_image_new_for_icon(panel, "audio-volume-muted-panel",
                                                 -1, ICONS_MUTE);
     gtk_container_add(GTK_CONTAINER(p), vol->tray_icon);
+#if GTK_CHECK_VERSION(3, 4, 0)
+    gtk_widget_add_events(p, GDK_SCROLL_MASK);
+#endif
 
     /* Initialize window to appear when icon clicked. */
     volumealsa_build_popup_window(p);
@@ -1314,7 +1328,8 @@ static gboolean mute_key_changed(GtkWidget *btn, char *click, VolumeALSAPlugin *
 
 #if THING_THAT_NEVER_HAPPEN
 /* Just to have these translated */
-N_("Line"), N_("LineOut"), N_("Front"), N_("Surround"), N_("Center"), N_("Speaker+LO");
+N_("Line"), N_("LineOut"), N_("Front"), N_("Surround"), N_("Center"), N_("Speaker+LO"),
+N_("Speaker"), N_("Beep");
 #endif
 
 /* Callback when the configuration dialog is to be shown. */
@@ -1444,22 +1459,28 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
     if (!config_setting_lookup_string(vol->settings, "SliderButton", &tmp_str))
         tmp_str = "1";
     volume_button = panel_config_click_button_new(_("Click for Volume Slider"), tmp_str);
+    gtk_widget_set_tooltip_text(volume_button, _("Click to select, then press a mouse button"));
     g_signal_connect(volume_button, "changed", G_CALLBACK(volume_button_changed), vol);
     if (!config_setting_lookup_string(vol->settings, "MuteButton", &tmp_str))
         tmp_str = "2";
     mute_button = panel_config_click_button_new(_("Click for Toggle Mute"), tmp_str);
+    gtk_widget_set_tooltip_text(mute_button, _("Click to select, then press a mouse button"));
     g_signal_connect(mute_button, "changed", G_CALLBACK(mute_button_changed), vol);
     if (!config_setting_lookup_string(vol->settings, "MixerButton", &tmp_str))
         tmp_str = NULL;
     mixer_button = panel_config_click_button_new(_("Click for Open Mixer"), tmp_str);
+    gtk_widget_set_tooltip_text(mixer_button, _("Click to select, then press a mouse button"));
     g_signal_connect(mixer_button, "changed", G_CALLBACK(mixer_button_changed), vol);
 
     /* setup hotkeys */
     up_key = panel_config_hotkey_button_new(_("Hotkey for Volume Up"), vol->hotkey_up);
+    gtk_widget_set_tooltip_text(up_key, _("Click to select, then press a key"));
     g_signal_connect(up_key, "changed", G_CALLBACK(up_key_changed), vol);
     down_key = panel_config_hotkey_button_new(_("Hotkey for Volume Down"), vol->hotkey_down);
+    gtk_widget_set_tooltip_text(down_key, _("Click to select, then press a key"));
     g_signal_connect(down_key, "changed", G_CALLBACK(down_key_changed), vol);
     mute_key = panel_config_hotkey_button_new(_("Hotkey for Volume Mute"), vol->hotkey_mute);
+    gtk_widget_set_tooltip_text(mute_key, _("Click to select, then press a key"));
     g_signal_connect(mute_key, "changed", G_CALLBACK(mute_key_changed), vol);
 
     /* setup mixer selector */

@@ -530,6 +530,7 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">•</property>
+                                <property name="width_chars">6</property>
                                 <property name="invisible_char_set">True</property>
                                 <property name="primary_icon_activatable">False</property>
                                 <property name="secondary_icon_activatable">False</property>
@@ -875,7 +876,7 @@
                                 <property name="spacing">10</property>
                                 <child>
                                   <object class="GtkCheckButton" id="use_font_size">
-                                    <property name="label" translatable="yes">Size</property>
+                                    <property name="label" translatable="yes" context="Font">Size</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>

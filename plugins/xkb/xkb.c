@@ -3,6 +3,7 @@
  *               2009-2010 Marty Jack <martyj19@comcast.net>
  *               2012-2013 Giuseppe Penone <giuspen@gmail.com>
  *               2017 Max Kirillov <max@max630.net>
+ *               2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -33,6 +34,7 @@
 #include <string.h>
 
 #include <X11/XKBlib.h>
+#include <X11/Xatom.h>
 
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -86,6 +88,12 @@ int xkb_get_group_count(XkbPlugin * xkb)
   return xkb->group_count;
 }
 
+/* Get the model name. */
+const char * xkb_get_model_name(XkbPlugin * xkb)
+{
+    return xkb->model_name;
+}
+
 /* Get the current group name. */
 const char * xkb_get_current_group_name(XkbPlugin * xkb)
 {
@@ -98,17 +106,65 @@ const char * xkb_get_symbol_name_by_res_no(XkbPlugin * xkb, int n)
     return xkb->symbol_names[n];
 }
 
-/* Get the current symbol name. */
-const char * xkb_get_current_symbol_name(XkbPlugin * xkb)
+const char * xkb_get_variant_name_by_res_no(XkbPlugin * xkb, int n)
 {
-    return xkb_get_symbol_name_by_res_no(xkb, xkb->current_group_xkb_no);
+    return xkb->variant_names[n];
+}
+
+static gchar *add_variant (XkbPlugin *xkb, const char *name)
+{
+    int i, count = 0;
+
+    for (i = 0; i < XkbNumKbdGroups; i++)
+        if (strcmp(xkb->symbol_names[i], xkb->symbol_names[xkb->current_group_xkb_no]) == 0)
+            count++;
+
+    if (count > 1 && *xkb->variant_names[xkb->current_group_xkb_no])
+        return g_strdup_printf("%s(%s)", name, xkb->variant_names[xkb->current_group_xkb_no]);
+    else
+        return g_strdup(name);
+}
+
+/* Get the current symbol name. */
+gchar * xkb_get_current_symbol_name(XkbPlugin * xkb, gboolean layout)
+{
+    const char *name = xkb_get_symbol_name_by_res_no(xkb, xkb->current_group_xkb_no);
+
+    if (layout)
+        return g_strdup(name);
+    else
+        return add_variant(xkb, name);
 }
 
 /* Get the current symbol name converted to lowercase. */
-const char * xkb_get_current_symbol_name_lowercase(XkbPlugin * xkb)
+gchar * xkb_get_current_symbol_name_lowercase(XkbPlugin * xkb, gboolean layout)
 {
-    const char * tmp = xkb_get_current_symbol_name(xkb);
-    return ((tmp != NULL) ? g_utf8_strdown(tmp, -1) : NULL);
+    gchar *curr, *name;
+
+    curr = xkb_get_current_symbol_name(xkb, TRUE);
+    name = g_utf8_strdown(curr, -1);
+    g_free(curr);
+
+    if (layout)
+        return name;
+    else
+    {
+      gchar *name_v = add_variant(xkb, name);
+      g_free(name);
+      return name_v;
+    }
+}
+
+/* Get the current variant name. */
+const char * xkb_get_current_variant_name(XkbPlugin * xkb)
+{
+    return xkb->variant_names[xkb->current_group_xkb_no];
+}
+
+/* Get the option names. */
+const char * xkb_get_option_names(XkbPlugin * xkb)
+{
+    return xkb->option_names;
 }
 
 /* Refresh current group number from Xkb state. */
@@ -119,17 +175,6 @@ static void refresh_group_xkb(XkbPlugin * xkb)
     XkbStateRec xkb_state;
     XkbGetState(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()), XkbUseCoreKbd, &xkb_state);
     xkb->current_group_xkb_no = xkb_state.group & (XkbNumKbdGroups - 1);
-}
-
-static int exists_by_prefix(char * const *arr, int length, const char *sample, int prefix_length)
-{
-    int i;
-    for (i = 0; i < length; i++)
-    {
-        if (strncmp(arr[i], sample, prefix_length) == 0 && arr[i][prefix_length] == '\0')
-            return 1;
-    }
-    return 0;
 }
 
 /* Initialize the keyboard description initially or after a NewKeyboard event. */
@@ -150,7 +195,7 @@ static int initialize_keyboard_description(XkbPlugin * xkb)
         else
         {
             /* Get the group name of each keyboard layout.  Infer the group count from the highest available. */
-            Atom * group_source = xkb_desc->names->groups;
+            Atom atom, *group_source = xkb_desc->names->groups;
             int i;
             for (i = 0; i < XkbNumKbdGroups; i += 1)
             {
@@ -165,79 +210,103 @@ static int initialize_keyboard_description(XkbPlugin * xkb)
                 }
             }
 
-            /* Reinitialize the symbol name storage. */
+            /* Reinitialize the symbol and variant name storages. */
             for (i = 0; i < XkbNumKbdGroups; i += 1)
             {
                 g_free(xkb->symbol_names[i]);
                 xkb->symbol_names[i] = NULL;
+                g_free(xkb->variant_names[i]);
+                xkb->variant_names[i] = NULL;
             }
 
-            /* Get the symbol name of all keyboard layouts.
-             * This is a plus-sign separated string. */
-            if (xkb_desc->names->symbols != None)
+            /* Get the symbol names of all keyboard layouts. */
+            atom = XInternAtom(xdisplay, "_XKB_RULES_NAMES", True);
+            if (atom != None)
             {
-                char * symbol_string = XGetAtomName(xdisplay, xkb_desc->names->symbols);
-                if (symbol_string != NULL)
+                Atom actual_type;
+                int actual_format, substr = 1;
+                unsigned long nitems, bytes_after, pos = 0;
+                unsigned char *prop;
+
+                if (XGetWindowProperty(xdisplay, DefaultRootWindow(xdisplay),
+                    atom, 0, (~0L), False, XA_STRING,
+                    &actual_type, &actual_format, &nitems, &bytes_after,
+                    &prop) == Success)
                 {
-                    char * p = symbol_string;
-                    char * q = p;
-                    int symbol_group_number = 0;
-                    for ( ; symbol_group_number < XkbNumKbdGroups; p += 1)
+                    if (prop)
                     {
-                        char c = *p;
-                        if ((c == '\0') || (c == '+'))
-                        {
-                            /* End of a symbol.  Ignore the symbols "pc" and "inet" and "group". */
-                            *p = '\0';
-                            if ((strcmp(q, "pc") != 0) && (strcmp(q, "inet") != 0) && (strcmp(q, "group") != 0))
-                            {
-                                xkb->symbol_names[symbol_group_number] = g_ascii_strup(q, -1);
-                                symbol_group_number += 1;
-                            }
-                            if (c == '\0')
-                                break;
-                            q = p + 1;
-                        }
-                        else if ((c == ':') && (p[1] >= '1') && (p[1] < ('1' + XkbNumKbdGroups)))
-                        {
-                            char *lparen;
-                            /* Construction ":n" at the end of a symbol.  The digit is a one-based index of the symbol.
-                             * If not present, we will default to "next index". */
-                            *p = '\0';
-                            symbol_group_number = p[1] - '1';
-                            xkb->symbol_names[symbol_group_number] = g_ascii_strup(q, -1);
-                            lparen = strchr(xkb->symbol_names[symbol_group_number], '(');
-                            if (lparen)
-                            {
-                                int prefix_length = lparen - xkb->symbol_names[symbol_group_number];
-                                if (!exists_by_prefix(xkb->symbol_names, symbol_group_number, xkb->symbol_names[symbol_group_number], prefix_length))
-                                    *lparen = '\0';
-                            }
-                            symbol_group_number += 1;
-                            p += 2;
-                            if (*p == '\0')
-                                break;
-                            q = p + 1;
-                        }
-                        else if ((*p >= 'A') && (*p <= 'Z'))
-                            *p |= 'a' - 'A';
-                        else if (((*p < 'a') || (*p > 'z')) && *p != '(' && *p != ')')
-                            *p = '\0';
-                    }
+                        gboolean n_symbols, n_variants;
 
-                    /* Crosscheck the group count determined from the "ctrls" structure,
-                     * that determined from the "groups" vector, and that determined from the "symbols" string.
-                     * The "ctrls" structure is considered less reliable because it has been observed to be incorrect. */
-                    if ((xkb->group_count != symbol_group_number)
-                    || (xkb->group_count != xkb_desc->ctrls->num_groups))
-                    {
-                        //g_warning("Group count mismatch, ctrls = %d, groups = %d, symbols = %d\n", xkb_desc->ctrls->num_groups, xkb->group_count, symbol_group_number);
+                        while (pos < nitems)
+                        {
+                            /* model name */
+                            if (substr == 2)
+                            {
+                                g_free(xkb->model_name);
+                                xkb->model_name = g_strdup(prop + pos);
+                            }
 
-                        /* Maximize the "groups" and "symbols" value. */
-                        if (xkb->group_count < symbol_group_number)
-                            xkb->group_count = symbol_group_number;
+                            /* symbol names aka layouts */
+                            if (substr == 3)
+                            {
+                                gchar **symbols;
+
+                                n_symbols = (strchr(prop + pos, ',') != NULL);
+                                symbols = g_strsplit(prop + pos, ",", XkbNumKbdGroups + 1);
+
+                                for (i = 0; i < XkbNumKbdGroups; i++)
+                                {
+                                    if (symbols[i])
+                                        xkb->symbol_names[i] = g_ascii_strup(symbols[i], -1);
+                                    else
+                                        break;
+                                }
+
+                                g_strfreev(symbols);
+                            }
+
+                            /* variant names */
+                            if (substr == 4)
+                            {
+                                gchar **variants;
+
+                                n_variants = (strchr(prop + pos, ',') != NULL);
+                                variants = g_strsplit(prop + pos, ",", XkbNumKbdGroups + 1);
+
+                                for (i = 0; i < XkbNumKbdGroups; i++)
+                                {
+                                    if (variants[i])
+                                        xkb->variant_names[i] = g_strdup(variants[i]);
+                                    else
+                                        break;
+                                }
+
+                                g_strfreev(variants);
+                            }
+
+                            /* option names */
+                            if (substr == 5)
+                            {
+                                g_free(xkb->option_names);
+                                xkb->option_names = g_strdup(prop + pos);
+                            }
+
+                            pos += strlen(prop + pos) + 1;
+                            substr++;
+                        }
+
+                        /* check for a valid variant list */
+                        if (n_symbols && !n_variants || !n_symbols && n_variants)
+                        {
+                            for (i = 0; i < XkbNumKbdGroups; i++)
+                            {
+                                g_free(xkb->variant_names[i]);
+                                xkb->variant_names[i] = NULL;
+                            }
+                        }
+
+                        XFree(prop);
                     }
-                    XFree(symbol_string);
                 }
             }
         }
@@ -252,7 +321,13 @@ static int initialize_keyboard_description(XkbPlugin * xkb)
             xkb->group_names[i] = g_strdup("Unknown");
         if (xkb->symbol_names[i] == NULL)
             xkb->symbol_names[i] = g_strdup("None");
+        if (xkb->variant_names[i] == NULL)
+            xkb->variant_names[i] = g_strdup("");
     }
+    if (!xkb->model_name)
+        xkb->model_name = g_strdup("pc105");
+    if (!xkb->option_names)
+        xkb->option_names = g_strdup("grp:shift_caps_toggle");
 
     /* Create or recreate hash table */
     if (xkb->p_hash_table_group != NULL)
@@ -344,17 +419,17 @@ void xkb_mechanism_destructor(XkbPlugin * xkb)
     int i;
     for (i = 0; i < XkbNumKbdGroups; i++)
     {
-        if (xkb->group_names[i] != NULL)
-        {
-            g_free(xkb->group_names[i]);
-            xkb->group_names[i] = NULL;
-        }
-        if (xkb->symbol_names[i] != NULL)
-        {
-            g_free(xkb->symbol_names[i]);
-            xkb->symbol_names[i] = NULL;
-        }
+        g_free(xkb->group_names[i]);
+        xkb->group_names[i] = NULL;
+        g_free(xkb->symbol_names[i]);
+        xkb->symbol_names[i] = NULL;
+        g_free(xkb->variant_names[i]);
+        xkb->variant_names[i] = NULL;
     }
+    g_free(xkb->model_name);
+    xkb->model_name = NULL;
+    g_free(xkb->option_names);
+    xkb->option_names = NULL;
 
     /* Destroy the hash table. */
     g_hash_table_destroy(xkb->p_hash_table_group);

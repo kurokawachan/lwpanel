@@ -3,7 +3,7 @@
 
 Global {
     edge=bottom
-    allign=left
+    align=left
     margin=0
     widthtype=percent
     width=100
@@ -15,8 +15,6 @@ Global {
     setpartialstrut=1
     usefontcolor=0
     fontcolor=#ffffff
-    usefontsize=0
-    fontsize=10    
     background=0
     backgroundfile=@prefix@/share/lxpanel/images/background.png
 }
@@ -53,6 +51,7 @@ Plugin {
         ShowIconified=1
         ShowMapped=1
         ShowAllDesks=0
+        ShowSquareBrackets=1
         UseMouseWheel=1
         UseUrgencyHint=1
         FlatButton=0

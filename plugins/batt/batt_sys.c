@@ -6,6 +6,7 @@
  *                2015 Stanislav Kozina, Ersin <xersin@users.sf.net>
  *                2016-2017 Andriy Grytsenko <andrej@rep.kiev.ua>
  *                2019 Stuart D. Gathman <stuart@gathman.org>
+ *                2025 Ingo Brückl
  *
  * 	Parts shameless stolen and glibified from acpi package
  * 	Copyright (C) 2001  Grahame Bowland <grahame@angrygoats.net>
@@ -255,9 +256,9 @@ battery* battery_update(battery *b)
     }
 #endif
 
-    if (b->charge_now != -1 && b->charge_full != -1)
+    if (b->charge_now != -1 && b->charge_full > 0)
         promille = (b->charge_now * 1000) / b->charge_full;
-    else if (b->energy_full != -1 && b->energy_now != -1)
+    else if (b->energy_full > 0 && b->energy_now != -1)
         /* no charge data, let try energy instead */
         promille = (b->energy_now * 1000) / b->energy_full;
     else {
@@ -393,9 +394,7 @@ gboolean battery_is_charging( battery *b )
 {
     if (!b->state)
         return TRUE; // Same as "Unkown"
-    return ( strcasecmp( b->state, "Unknown" ) == 0
-            || strcasecmp( b->state, "Full" ) == 0
-            || strcasecmp( b->state, "Charging" ) == 0
+    return ( strcasecmp(b->state, "Discharging") != 0
             || b->current_now == 0 ); /* bug sf.net, #720 */
 }
 
