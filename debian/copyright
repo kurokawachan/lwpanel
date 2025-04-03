@@ -27,6 +27,7 @@ Copyright: Hong Jen Yee (PCMan)  <pcman.tw@gmail.com>
            Max Kirillov <max@max630.net>
            Stuart D. Gathman <stuart@gathman.org>
            TheZxcv <the.uint64.t@gmail.com>
+           2020-2025 Ingo Brückl <ib@oddnet.de>
 License: GPL-2+
 
 Files: src/bg.* src/ev.*
@@ -65,7 +66,7 @@ Comment: Window commands plugin icon from http://www.oxygen-icons.org/
 License: LGPL-2
 
 Files: debian/*
-Copyright: 2008-2013 Andrew Lee (李健秋) <ajqlee@debian.org>
+Copyright: 2008-2025 Andrew Lee (李健秋) <ajqlee@debian.org>
            2012      Daniel Baumann <daniel@debian.org>
            2014-2021 Andriy Grytsenko <andrej@rep.kiev.ua>
            2023      ChangZhuo Chen (陳昌倬) <czchen@debian.org>,
