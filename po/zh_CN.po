@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lxpanel 0.3.8.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 01:38+0200\n"
+"POT-Creation-Date: 2025-03-30 13:47+0200\n"
 "PO-Revision-Date: 2016-10-25 09:35+0800\n"
 "Last-Translator: Yinghua Wang <wantinghard@gmail.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
-"Language: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,49 +21,49 @@ msgstr ""
 "X-Pootle-Path: /zh_CN/lxpanel/po/zh_CN.po\n"
 "X-POOTLE-MTIME: 1417570650.000000\n"
 
-#: ../src/configurator.c:148
+#: ../src/configurator.c:149
 msgid ""
 "Space reservation is not available for this panel because there is another "
 "monitor beyond this edge and reservation would cover it if enabled."
 msgstr "无法为此面板预留空间，因为屏幕这一侧有另一个显示器，预留空间会遮挡它。"
 
-#: ../src/configurator.c:632
+#: ../src/configurator.c:635
 msgid "Currently loaded plugins"
 msgstr "当前加载的插件"
 
-#: ../src/configurator.c:641
+#: ../src/configurator.c:644
 msgid "Stretch"
 msgstr "拉伸"
 
-#: ../src/configurator.c:779
+#: ../src/configurator.c:782
 msgid "Add plugin to panel"
 msgstr "向面板添加插件"
 
-#: ../src/configurator.c:807
+#: ../src/configurator.c:810
 msgid "Available plugins"
 msgstr "可用插件"
 
-#: ../src/configurator.c:1427
+#: ../src/configurator.c:1430
 msgid "Logout command is not set"
 msgstr "注销命令尚未设置"
 
-#: ../src/configurator.c:1495
+#: ../src/configurator.c:1498
 msgid "Select a directory"
 msgstr "选择目录"
 
-#: ../src/configurator.c:1495 ../src/configurator.c:1607
+#: ../src/configurator.c:1498 ../src/configurator.c:1610
 msgid "Select a file"
 msgstr "选择文件"
 
-#: ../src/configurator.c:1640
+#: ../src/configurator.c:1643
 msgid "_Browse"
 msgstr "浏览(_B)"
 
-#: ../src/panel.c:1292
+#: ../src/panel.c:1350
 msgid "There is no room for another panel. All the edges are taken."
 msgstr "没有空间再放面板了。所有边都占用了。"
 
-#: ../src/panel.c:1318
+#: ../src/panel.c:1376
 msgid ""
 "Really delete this panel?\n"
 "<b>Warning: This can not be recovered.</b>"
@@ -71,92 +71,91 @@ msgstr ""
 "真的要删除这个面板吗？\n"
 "<b>警告：这个动作无法复原。</b>"
 
-#: ../src/panel.c:1320
+#: ../src/panel.c:1378
 msgid "Confirm"
 msgstr "确认"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../src/panel.c:1355
+#: ../src/panel.c:1414
 msgid "translator-credits"
 msgstr ""
 "Wylmer Wang <wantinghard@gmail.com>\n"
 "ideal <05281253@bjtu.edu.cn>"
 
-#: ../src/panel.c:1360
+#: ../src/panel.c:1419
 msgid "LXPanel"
 msgstr "LXPanel"
 
-#: ../src/panel.c:1378
-msgid "Copyright (C) 2008-2021"
-msgstr "版权所有 (C) 2008-2021"
+#: ../src/panel.c:1437
+msgid "Copyright (C) 2008-2025"
+msgstr "版权所有 (C) 2008-2025"
 
-#: ../src/panel.c:1379
+#: ../src/panel.c:1438
 msgid "Desktop panel for LXDE project"
 msgstr "LXDE 项目的桌面面板"
 
-#: ../src/panel.c:1421
+#: ../src/panel.c:1480
 #, c-format
 msgid "\"%s\" Settings"
 msgstr "“%s”设置"
 
-#: ../src/panel.c:1442
+#: ../src/panel.c:1501
 msgid "Add / Remove Panel Items"
 msgstr "添加/删除面板项"
 
-#: ../src/panel.c:1450
+#: ../src/panel.c:1509
 #, c-format
 msgid "Remove \"%s\" From Panel"
 msgstr "从面板中删除“%s”"
 
-#: ../src/panel.c:1462
+#: ../src/panel.c:1521
 msgid "Panel Settings"
 msgstr "面板设置"
 
-#: ../src/panel.c:1468
+#: ../src/panel.c:1527
 msgid "Create New Panel"
 msgstr "创建新面板"
 
-#: ../src/panel.c:1474
+#: ../src/panel.c:1533
 msgid "Delete This Panel"
 msgstr "删除此面板"
 
-#: ../src/panel.c:1485
+#: ../src/panel.c:1544
 msgid "About"
 msgstr "关于"
 
-#: ../src/panel.c:1492
+#: ../src/panel.c:1551
 msgid "Panel"
 msgstr "面板"
 
-#: ../src/panel.c:1710 ../src/panel.c:1718 ../data/ui/panel-pref.glade.h:22
+#: ../src/panel.c:1769 ../src/panel.c:1777 ../data/ui/panel-pref.glade.h:22
 msgid "Height:"
 msgstr "高度："
 
-#: ../src/panel.c:1711 ../src/panel.c:1717 ../data/ui/panel-pref.glade.h:21
+#: ../src/panel.c:1770 ../src/panel.c:1776 ../data/ui/panel-pref.glade.h:21
 msgid "Width:"
 msgstr "宽度："
 
-#: ../src/panel.c:1712 ../data/ui/panel-pref.glade.h:13
+#: ../src/panel.c:1771 ../data/ui/panel-pref.glade.h:13
 msgid "Left"
 msgstr "左"
 
-#: ../src/panel.c:1713 ../data/ui/panel-pref.glade.h:14
+#: ../src/panel.c:1772 ../data/ui/panel-pref.glade.h:14
 msgid "Right"
 msgstr "右"
 
-#: ../src/panel.c:1719 ../data/ui/panel-pref.glade.h:12
+#: ../src/panel.c:1778 ../data/ui/panel-pref.glade.h:12
 msgid "Top"
 msgstr "上"
 
-#: ../src/panel.c:1720 ../data/ui/panel-pref.glade.h:11
+#: ../src/panel.c:1779 ../data/ui/panel-pref.glade.h:11
 msgid "Bottom"
 msgstr "下"
 
-#: ../src/plugin.c:348
+#: ../src/plugin.c:347
 msgid "No file manager is configured."
 msgstr "没有配置文件管理器。"
 
-#. { "configure", N_("Preferences"), configure },
 #: ../src/gtk-run.c:385 ../src/main.c:69 ../plugins/menu.c:718
 msgid "Run"
 msgstr "运行"
@@ -174,7 +173,7 @@ msgid "Logout"
 msgstr "注销"
 
 #: ../src/main.c:323
-#, c-format, fuzzy
+#, fuzzy, c-format
 msgid "lxpanel %s - lightweight GTK+ panel for UNIX desktops\n"
 msgstr "lxpanel %s - UNIX 桌面的轻量级 GTK2+ 面板\n"
 
@@ -193,8 +192,6 @@ msgstr " --help      -- 显示此帮助并退出\n"
 msgid " --version   -- print version and exit\n"
 msgstr " --version   -- 显示版本信息并退出\n"
 
-#. g_print(_(" --log <number> -- set log level 0-5. 0 - none 5 - chatty\n"));
-#. g_print(_(" --configure -- launch configuration utility\n"));
 #: ../src/main.c:329
 #, c-format
 msgid " --profile name -- use specified profile\n"
@@ -215,7 +212,6 @@ msgstr " -p  -- 和 --profile 作用相同\n"
 msgid " -v  -- same as --version\n"
 msgstr " -v  -- 和 --version 作用相同\n"
 
-#. g_print(_(" -C  -- same as --configure\n"));
 #: ../src/main.c:335
 #, c-format
 msgid ""
@@ -250,12 +246,11 @@ msgid "Key combination '%s' cannot be used as a global hotkey, sorry."
 msgstr "对不起，组合键“%s”不能作为全局热键。"
 
 #: ../src/input-button.c:231 ../src/input-button.c:415
-#: ../plugins/netstatus/netstatus-iface.c:191
+#: ../plugins/netstatus/netstatus-iface.c:192
 #: ../plugins/netstatus/netstatus-util.c:167
 msgid "Error"
 msgstr "错误"
 
-#. GtkRadioButton "None"
 #: ../src/input-button.c:329 ../data/ui/panel-pref.glade.h:5
 msgid "None"
 msgstr "无"
@@ -273,8 +268,10 @@ msgstr "不能将“%s”分配为全局热键：已经绑定。"
 msgid "Spacer"
 msgstr "间距"
 
-#: ../src/space.c:396 ../data/ui/panel-pref.glade.h:32
-#: ../plugins/batt/batt.c:714
+#: ../src/space.c:396 ../plugins/batt/batt.c:740
+#, fuzzy
+#| msgid "Size"
+msgctxt "Width"
 msgid "Size"
 msgstr "大小"
 
@@ -282,11 +279,10 @@ msgstr "大小"
 msgid "Allocate space"
 msgstr "分配空间"
 
-#: ../data/ui/launchtaskbar.glade.h:1 ../plugins/launchtaskbar.c:2482
+#: ../data/ui/launchtaskbar.glade.h:1 ../plugins/launchtaskbar.c:2502
 msgid "Application Launch and Task Bar"
 msgstr "应用启动和任务栏"
 
-#. Launchtaskbar mode: launchbar, taskbar, or combined
 #: ../data/ui/launchtaskbar.glade.h:3
 msgid "<b>Mode:</b>"
 msgstr "<b>模式：</b>"
@@ -312,54 +308,58 @@ msgid "Flat buttons"
 msgstr "平面按钮"
 
 #: ../data/ui/launchtaskbar.glade.h:9
+msgid "Show square brackets around the names of minimized windows"
+msgstr ""
+
+#: ../data/ui/launchtaskbar.glade.h:10
 msgid "Show windows from all desktops"
 msgstr "显示来自全部桌面的窗口"
 
-#: ../data/ui/launchtaskbar.glade.h:10
+#: ../data/ui/launchtaskbar.glade.h:11
 msgid "Only show windows on the same monitor as the task bar"
 msgstr "只显示任务栏所在显示器上的窗口"
 
-#: ../data/ui/launchtaskbar.glade.h:11
+#: ../data/ui/launchtaskbar.glade.h:12
 msgid "Use mouse wheel"
 msgstr "使用鼠标滚轮"
 
-#: ../data/ui/launchtaskbar.glade.h:12
+#: ../data/ui/launchtaskbar.glade.h:13
 msgid "Flash when there is any window requiring attention"
 msgstr "当有窗口要求用户注意时，闪烁面板"
 
-#: ../data/ui/launchtaskbar.glade.h:13
+#: ../data/ui/launchtaskbar.glade.h:14
 msgid "Combine multiple application windows into a single button"
 msgstr "将应用程序的多个窗口组合到单个按钮中"
 
-#: ../data/ui/launchtaskbar.glade.h:14
+#: ../data/ui/launchtaskbar.glade.h:15
 msgid "Disable enlargement for small task icons"
 msgstr "禁止扩大小任务图标"
 
-#: ../data/ui/launchtaskbar.glade.h:15
+#: ../data/ui/launchtaskbar.glade.h:16
 msgid "Show task icons smaller than rest of panel icons"
 msgstr ""
 
-#: ../data/ui/launchtaskbar.glade.h:16
+#: ../data/ui/launchtaskbar.glade.h:17
 msgid "Maximum width of task button"
 msgstr "任务按钮的最大宽度"
 
-#: ../data/ui/launchtaskbar.glade.h:17
+#: ../data/ui/launchtaskbar.glade.h:18
 msgid "Spacing"
 msgstr "间距"
 
-#: ../data/ui/launchtaskbar.glade.h:18
+#: ../data/ui/launchtaskbar.glade.h:19
 msgid "<b>Taskbar</b>"
 msgstr "<b>任务栏</b>"
 
-#: ../data/ui/launchtaskbar.glade.h:19
+#: ../data/ui/launchtaskbar.glade.h:20
 msgid "Only Application Launch Bar"
 msgstr "仅应用快速启动栏"
 
-#: ../data/ui/launchtaskbar.glade.h:20
+#: ../data/ui/launchtaskbar.glade.h:21
 msgid "Only Task Bar (Window List)"
 msgstr "仅任务栏 (窗口列表)"
 
-#: ../data/ui/launchtaskbar.glade.h:21
+#: ../data/ui/launchtaskbar.glade.h:22
 msgid "Integrated Application Launch Bar and Task Bar"
 msgstr "集成的应用快速启动栏和任务栏"
 
@@ -482,7 +482,7 @@ msgstr "面板首选项"
 msgid "Edge:"
 msgstr "边缘："
 
-#: ../data/ui/panel-pref.glade.h:16 ../plugins/volumealsa/volumealsa.c:1313
+#: ../data/ui/panel-pref.glade.h:16 ../plugins/volumealsa/volumealsa.c:1331
 msgid "Center"
 msgstr "居中"
 
@@ -522,7 +522,7 @@ msgstr "统主题"
 msgid "Solid color (with opacity)"
 msgstr "颜色填充(带透明度)"
 
-#: ../data/ui/panel-pref.glade.h:28 ../plugins/xkb/xkb-plugin.c:1455
+#: ../data/ui/panel-pref.glade.h:28 ../plugins/xkb/xkb-plugin.c:1502
 msgid "Image"
 msgstr "图标"
 
@@ -537,6 +537,13 @@ msgstr "<b>背景</b>"
 #: ../data/ui/panel-pref.glade.h:31
 msgid "Custom color"
 msgstr "自定义色彩"
+
+#: ../data/ui/panel-pref.glade.h:32
+#, fuzzy
+#| msgid "Size"
+msgctxt "Font"
+msgid "Size"
+msgstr "大小"
 
 #: ../data/ui/panel-pref.glade.h:33
 msgid "<b>Font</b>"
@@ -610,7 +617,7 @@ msgstr "高级"
 msgid "CPU Usage Monitor"
 msgstr "CPU 监视器"
 
-#: ../plugins/cpu/cpu.c:311 ../plugins/monitors/monitors.c:734
+#: ../plugins/cpu/cpu.c:311 ../plugins/monitors/monitors.c:746
 msgid "Display CPU usage"
 msgstr "显示 CPU 使用情况"
 
@@ -630,57 +637,53 @@ msgstr "显示桌面名称"
 msgid "Display workspace number, by cmeury@users.sf.net"
 msgstr "显示工作区编号，由 cmeury@users.sf.net 撰写"
 
-#: ../plugins/launchtaskbar.c:1831 ../plugins/launchtaskbar.c:2452
+#: ../plugins/launchtaskbar.c:1849 ../plugins/launchtaskbar.c:2472
 msgid "Application Launch Bar"
 msgstr "快速启动栏"
 
-#: ../plugins/launchtaskbar.c:1834 ../plugins/launchtaskbar.c:2462
+#: ../plugins/launchtaskbar.c:1852 ../plugins/launchtaskbar.c:2482
 msgid "Task Bar (Window List)"
 msgstr "任务面板 (窗口清单)"
 
-#: ../plugins/launchtaskbar.c:1985
+#: ../plugins/launchtaskbar.c:2003
 msgid "A_dd to Launcher"
 msgstr "添加到启动器(_D)"
 
-#: ../plugins/launchtaskbar.c:1987
+#: ../plugins/launchtaskbar.c:2005
 msgid "Rem_ove from Launcher"
 msgstr "从启动器中移除(_O)"
 
-#: ../plugins/launchtaskbar.c:1989
+#: ../plugins/launchtaskbar.c:2007
 msgid "_New Instance"
 msgstr "新建实例(_N)"
 
-#: ../plugins/launchtaskbar.c:2453
+#: ../plugins/launchtaskbar.c:2473
 msgid "Bar with buttons to launch application"
 msgstr "用以快速启动应用程序的工具栏"
 
-#: ../plugins/launchtaskbar.c:2463
+#: ../plugins/launchtaskbar.c:2483
 #, fuzzy
 msgid ""
 "Taskbar shows all opened windows and allows to iconify them, shade or get "
 "focus"
 msgstr "面板显示所有开启的窗口，并让能窗口最小化、折叠、或取得焦点"
 
-#: ../plugins/launchtaskbar.c:2483
+#: ../plugins/launchtaskbar.c:2503
 msgid "Bar with buttons to launch application and/or show all opened windows"
 msgstr "带按钮的工具栏，用来启动应用程序和/或显示所有打开的窗口"
 
-#. Add Raise menu item.
 #: ../plugins/task-button.c:352
 msgid "_Raise"
 msgstr "提升(_R)"
 
-#. Add Restore menu item.
 #: ../plugins/task-button.c:357
 msgid "R_estore"
 msgstr "还原(_E)"
 
-#. Add Maximize menu item.
 #: ../plugins/task-button.c:362
 msgid "Ma_ximize"
 msgstr "最大化(_X)"
 
-#. Add Iconify menu item.
 #: ../plugins/task-button.c:367
 msgid "Ico_nify"
 msgstr "最小化(_N)"
@@ -695,13 +698,10 @@ msgstr "工作区 _%d"
 msgid "Workspace %d"
 msgstr "工作区 %d"
 
-#. Add "move to all workspaces" item.  This causes the window to be visible no matter what desktop is active.
 #: ../plugins/task-button.c:410
 msgid "_All workspaces"
 msgstr "全部工作区(_A)"
 
-#. FIXME: add "Current workspace" item, active if not on a current
-#. Add Move to Workspace menu item as a submenu.
 #: ../plugins/task-button.c:418
 msgid "_Move to Workspace"
 msgstr "移动到工作区(_M)"
@@ -775,15 +775,15 @@ msgstr "---分隔线---"
 msgid "Add a separator to the panel"
 msgstr "在面板上增加分隔线"
 
-#: ../plugins/pager.c:141
+#: ../plugins/pager.c:177
 msgid "Sorry, there was no window manager configuration program found."
 msgstr "抱歉，没有找到窗口管理器配置程序。"
 
-#: ../plugins/pager.c:193 ../plugins/pager.c:209
+#: ../plugins/pager.c:229 ../plugins/pager.c:245
 msgid "Desktop Pager"
 msgstr "切换桌面"
 
-#: ../plugins/pager.c:194 ../plugins/pager.c:210
+#: ../plugins/pager.c:230 ../plugins/pager.c:246
 msgid "Simple pager plugin"
 msgstr "简易的桌面切换插件"
 
@@ -795,115 +795,112 @@ msgstr "系统托盘"
 msgid "System tray"
 msgstr "系统托盘"
 
-#: ../plugins/xkb/xkb-plugin.c:409
+#: ../plugins/xkb/xkb-plugin.c:437
 msgid "New session is required for this option to take effect"
 msgstr "此选项在新会话中才会生效"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:590
+#: ../plugins/xkb/xkb-plugin.c:618
 msgid "Select Keyboard Model"
 msgstr "选择键盘型号"
 
-#: ../plugins/xkb/xkb-plugin.c:614 ../plugins/xkb/xkb-plugin.c:743
-#: ../plugins/xkb/xkb-plugin.c:921
+#: ../plugins/xkb/xkb-plugin.c:642 ../plugins/xkb/xkb-plugin.c:786
+#: ../plugins/xkb/xkb-plugin.c:965
 msgid "Description"
 msgstr "描述"
 
-#: ../plugins/xkb/xkb-plugin.c:619 ../plugins/xkb/xkb-plugin.c:750
+#: ../plugins/xkb/xkb-plugin.c:647 ../plugins/xkb/xkb-plugin.c:793
 msgid "Id"
 msgstr "Id"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:714
+#: ../plugins/xkb/xkb-plugin.c:757
 msgid "Select Layout Change Type"
 msgstr "选择布局更改类型"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:887
+#: ../plugins/xkb/xkb-plugin.c:931
 msgid "Add Keyboard Layout"
 msgstr "添加键盘布局"
 
-#: ../plugins/xkb/xkb-plugin.c:911 ../plugins/xkb/xkb-plugin.c:1302
+#: ../plugins/xkb/xkb-plugin.c:955 ../plugins/xkb/xkb-plugin.c:1346
 msgid "Flag"
 msgstr "标志"
 
-#: ../plugins/xkb/xkb-plugin.c:916 ../plugins/xkb/xkb-plugin.c:1306
+#: ../plugins/xkb/xkb-plugin.c:960 ../plugins/xkb/xkb-plugin.c:1350
 msgid "Layout"
 msgstr "布局"
 
-#: ../plugins/xkb/xkb-plugin.c:1212 ../plugins/xkb/xkb-plugin.c:1544
+#: ../plugins/xkb/xkb-plugin.c:1256 ../plugins/xkb/xkb-plugin.c:1591
 msgid "Keyboard Layout Handler"
 msgstr "键盘布局调控器"
 
-#: ../plugins/xkb/xkb-plugin.c:1235
+#: ../plugins/xkb/xkb-plugin.c:1279
 msgid "Keyboard Model"
 msgstr "键盘型号"
 
-#: ../plugins/xkb/xkb-plugin.c:1256
+#: ../plugins/xkb/xkb-plugin.c:1300
 msgid "Keyboard Layouts"
 msgstr "键盘布局"
 
-#: ../plugins/xkb/xkb-plugin.c:1310
+#: ../plugins/xkb/xkb-plugin.c:1354
 msgid "Variant"
 msgstr "变体"
 
-#: ../plugins/xkb/xkb-plugin.c:1319
-msgid "Change Layout Option"
+#: ../plugins/xkb/xkb-plugin.c:1363
+msgid "Keyboard Layout Options"
 msgstr "更改布局选项"
 
-#: ../plugins/xkb/xkb-plugin.c:1339
+#: ../plugins/xkb/xkb-plugin.c:1384
 msgid "Advanced setxkbmap Options"
 msgstr "高级 setxkbmap 选项"
 
-#: ../plugins/xkb/xkb-plugin.c:1360
+#: ../plugins/xkb/xkb-plugin.c:1405
 msgid "Do _not reset existing options"
 msgstr "不重置已有的选项(_N)"
 
-#: ../plugins/xkb/xkb-plugin.c:1365
+#: ../plugins/xkb/xkb-plugin.c:1410
 msgid "Keep _system layouts"
 msgstr "保持系统布局(_S)"
 
-#: ../plugins/xkb/xkb-plugin.c:1374
+#: ../plugins/xkb/xkb-plugin.c:1419
 msgid "Per Window Settings"
 msgstr "按窗口设置"
 
-#: ../plugins/xkb/xkb-plugin.c:1386
+#: ../plugins/xkb/xkb-plugin.c:1431
 msgid "_Remember layout for each window"
 msgstr "记住各窗口的布局(_R)"
 
-#: ../plugins/xkb/xkb-plugin.c:1395
+#: ../plugins/xkb/xkb-plugin.c:1440
 msgid "Show Layout as"
 msgstr "将布局显示为"
 
-#: ../plugins/xkb/xkb-plugin.c:1456
+#: ../plugins/xkb/xkb-plugin.c:1503
 msgid "Custom Image"
 msgstr "自定义图像"
 
-#: ../plugins/xkb/xkb-plugin.c:1457
+#: ../plugins/xkb/xkb-plugin.c:1504
 msgid "Text"
 msgstr "文本"
 
-#: ../plugins/xkb/xkb-plugin.c:1483
+#: ../plugins/xkb/xkb-plugin.c:1530
 msgid "Panel Icon Size"
 msgstr "面板图标大小"
 
-#: ../plugins/xkb/xkb-plugin.c:1545
+#: ../plugins/xkb/xkb-plugin.c:1592
 msgid "Handle keyboard layouts"
 msgstr "调控键盘布局"
 
-#: ../plugins/wincmd.c:207
+#: ../plugins/wincmd.c:216
 msgid "Left click to iconify all windows.  Middle click to shade them."
 msgstr "按左键最小化所有窗口。  中键卷起所有窗口。"
 
-#: ../plugins/wincmd.c:245 ../plugins/wincmd.c:255
+#: ../plugins/wincmd.c:254 ../plugins/wincmd.c:264
 msgid "Minimize All Windows"
 msgstr "最小化所有窗口"
 
-#: ../plugins/wincmd.c:247
+#: ../plugins/wincmd.c:256
 msgid "Alternately iconify/shade and raise"
 msgstr "交替最小化/卷起和提升"
 
-#: ../plugins/wincmd.c:256
+#: ../plugins/wincmd.c:265
 msgid ""
 "Sends commands to all desktop windows.\n"
 "Supported commands are 1) iconify and 2) shade"
@@ -931,50 +928,57 @@ msgstr "标签"
 msgid "Browse directory tree via menu (Author = PCMan)"
 msgstr "使用菜单浏览目录 (作者：PCMan)"
 
-#: ../plugins/thermal/thermal.c:563 ../plugins/thermal/thermal.c:581
+#: ../plugins/thermal/thermal.c:565 ../plugins/thermal/thermal.c:583
 msgid "Temperature Monitor"
 msgstr "温度监视器"
 
-#: ../plugins/thermal/thermal.c:565
+#: ../plugins/thermal/thermal.c:567
 msgid "Normal color"
 msgstr "正常颜色"
 
-#: ../plugins/thermal/thermal.c:566
+#: ../plugins/thermal/thermal.c:568
 msgid "Warning1 color"
 msgstr "警告1 颜色"
 
-#: ../plugins/thermal/thermal.c:567
+#: ../plugins/thermal/thermal.c:569
 msgid "Warning2 color"
 msgstr "警告2 颜色"
 
-#: ../plugins/thermal/thermal.c:568
+#: ../plugins/thermal/thermal.c:570
 msgid "Automatic sensor location"
 msgstr "自动定位传感器"
 
-#. FIXME: if off, disable next one
-#: ../plugins/thermal/thermal.c:569
+#: ../plugins/thermal/thermal.c:571
 msgid "Sensor"
 msgstr "传感器"
 
-#. FIXME: create a list to select instead
-#: ../plugins/thermal/thermal.c:570
+#: ../plugins/thermal/thermal.c:572
 msgid "Automatic temperature levels"
 msgstr "自动确定温度级别"
 
-#. FIXME: if off, disable two below
-#: ../plugins/thermal/thermal.c:571
+#: ../plugins/thermal/thermal.c:573
 msgid "Warning1 temperature"
 msgstr "警告1 温度"
 
-#: ../plugins/thermal/thermal.c:572
+#: ../plugins/thermal/thermal.c:574
 msgid "Warning2 temperature"
 msgstr "警告2 温度"
 
-#: ../plugins/thermal/thermal.c:582
+#: ../plugins/thermal/thermal.c:584
 msgid "Display system temperature"
 msgstr "显示系统温度"
 
-#: ../plugins/cpufreq/cpufreq.c:325
+#: ../plugins/cpufreq/cpufreq.c:283
+#, fuzzy
+#| msgid "CPUFreq frontend"
+msgid "CPUFreq not supported"
+msgstr "CPUFreq 前端"
+
+#: ../plugins/cpufreq/cpufreq.c:292
+msgid "   Frequency"
+msgstr ""
+
+#: ../plugins/cpufreq/cpufreq.c:356
 #, c-format
 msgid ""
 "Frequency: %d MHz\n"
@@ -983,128 +987,149 @@ msgstr ""
 "频率：%d MHz\n"
 "调速器：%s"
 
-#: ../plugins/cpufreq/cpufreq.c:401
+#: ../plugins/cpufreq/cpufreq.c:432
 msgid "CPUFreq frontend"
 msgstr "CPUFreq 前端"
 
-#: ../plugins/cpufreq/cpufreq.c:402
+#: ../plugins/cpufreq/cpufreq.c:433
 #, fuzzy
 msgid "Display CPU frequency and allow one to change governors and frequency"
 msgstr "显示 CPU 频率，并可以更改调速器和频率"
 
-#: ../plugins/volumealsa/volumealsa.c:245
+#: ../plugins/volumealsa/volumealsa.c:247
 msgid "ALSA (or pulseaudio) had a problem. Please check the lxpanel logs."
 msgstr "ALSA (或 pulseaudio)出了问题。请查看 lxpanel 日志。"
 
-#. Display current level in tooltip.
-#: ../plugins/volumealsa/volumealsa.c:613
-#: ../plugins/volumealsa/volumealsa.c:973
-msgid "Volume control"
-msgstr "音量控制"
+#: ../plugins/volumealsa/volumealsa.c:615
+#, fuzzy, c-format
+#| msgid "Volume"
+msgid "Volume: %d%%"
+msgstr "音量"
 
-#: ../plugins/volumealsa/volumealsa.c:701
+#: ../plugins/volumealsa/volumealsa.c:703
 msgid ""
 "Error, you need to install an application to configure the sound "
 "(pavucontrol, alsamixer ...)"
 msgstr "错误，您需要安装配置声音的应用程序(如 pavucontrol、alsamixer...)"
 
-#. Create a frame as the child of the viewport.
-#: ../plugins/volumealsa/volumealsa.c:895
+#: ../plugins/volumealsa/volumealsa.c:911
 msgid "Volume"
 msgstr "音量"
 
-#. Create a check button as the child of the vertical box.
-#: ../plugins/volumealsa/volumealsa.c:914
+#: ../plugins/volumealsa/volumealsa.c:929
 msgid "Mute"
 msgstr "静音"
 
-#. Just to have these translated
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:988
+msgid "Volume control"
+msgstr "音量控制"
+
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Line"
 msgstr "线路"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "LineOut"
 msgstr "输出线"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Front"
 msgstr "前"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Surround"
 msgstr "环绕"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Speaker+LO"
 msgstr "音箱+输出线"
 
-#: ../plugins/volumealsa/volumealsa.c:1352
+#: ../plugins/volumealsa/volumealsa.c:1332
+#, fuzzy
+#| msgid "Speaker+LO"
+msgid "Speaker"
+msgstr "音箱+输出线"
+
+#: ../plugins/volumealsa/volumealsa.c:1332
+msgid "Beep"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1371
 msgid "default"
 msgstr "默认"
 
-#. desc, index
-#: ../plugins/volumealsa/volumealsa.c:1412
+#: ../plugins/volumealsa/volumealsa.c:1431
 msgid "Master"
 msgstr "主"
 
-#: ../plugins/volumealsa/volumealsa.c:1416
+#: ../plugins/volumealsa/volumealsa.c:1435
 msgid "PCM"
 msgstr "PCM"
 
-#: ../plugins/volumealsa/volumealsa.c:1420
+#: ../plugins/volumealsa/volumealsa.c:1439
 msgid "Headphone"
 msgstr "耳机"
 
-#: ../plugins/volumealsa/volumealsa.c:1442
+#: ../plugins/volumealsa/volumealsa.c:1461
 msgid "Click for Volume Slider"
 msgstr "点击调出音量条"
 
-#: ../plugins/volumealsa/volumealsa.c:1446
+#: ../plugins/volumealsa/volumealsa.c:1462
+#: ../plugins/volumealsa/volumealsa.c:1467
+#: ../plugins/volumealsa/volumealsa.c:1472
+msgid "Click to select, then press a mouse button"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1466
 msgid "Click for Toggle Mute"
 msgstr "点击切换静音"
 
-#: ../plugins/volumealsa/volumealsa.c:1450
+#: ../plugins/volumealsa/volumealsa.c:1471
 msgid "Click for Open Mixer"
 msgstr "点击调出混音器"
 
-#. setup hotkeys
-#: ../plugins/volumealsa/volumealsa.c:1454
+#: ../plugins/volumealsa/volumealsa.c:1476
 msgid "Hotkey for Volume Up"
 msgstr "增加音量的热键"
 
-#: ../plugins/volumealsa/volumealsa.c:1456
+#: ../plugins/volumealsa/volumealsa.c:1477
+#: ../plugins/volumealsa/volumealsa.c:1480
+#: ../plugins/volumealsa/volumealsa.c:1483
+msgid "Click to select, then press a key"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1479
 msgid "Hotkey for Volume Down"
 msgstr "降低音量的热键"
 
-#: ../plugins/volumealsa/volumealsa.c:1458
+#: ../plugins/volumealsa/volumealsa.c:1482
 msgid "Hotkey for Volume Mute"
 msgstr "静音的热键"
 
-#: ../plugins/volumealsa/volumealsa.c:1514
-#: ../plugins/volumealsa/volumealsa.c:1553
-#: ../plugins/volumealsa/volumealsa.c:1574
+#: ../plugins/volumealsa/volumealsa.c:1539
+#: ../plugins/volumealsa/volumealsa.c:1578
+#: ../plugins/volumealsa/volumealsa.c:1599
 msgid "Volume Control"
 msgstr "音量控制"
 
-#: ../plugins/volumealsa/volumealsa.c:1516
+#: ../plugins/volumealsa/volumealsa.c:1541
 msgid "Audio Card"
 msgstr "声卡"
 
-#: ../plugins/volumealsa/volumealsa.c:1519
+#: ../plugins/volumealsa/volumealsa.c:1544
 msgid "Channel to Operate"
 msgstr "要操作的声道"
 
-#: ../plugins/volumealsa/volumealsa.c:1527
+#: ../plugins/volumealsa/volumealsa.c:1552
 msgid "Command to Open Mixer"
 msgstr "打开混音器的命令"
 
-#: ../plugins/volumealsa/volumealsa.c:1542
+#: ../plugins/volumealsa/volumealsa.c:1567
 msgid "Launch Mixer"
 msgstr "启动混音器"
 
-#: ../plugins/volumealsa/volumealsa.c:1554
-#: ../plugins/volumealsa/volumealsa.c:1575
+#: ../plugins/volumealsa/volumealsa.c:1579
+#: ../plugins/volumealsa/volumealsa.c:1600
 msgid "Display and control volume"
 msgstr "显示和控制音量"
 
@@ -1116,12 +1141,10 @@ msgstr "<隐藏的无线存取点>"
 msgid "Wireless Networks not found in range"
 msgstr "范围内找不到无线网络"
 
-#. Repair
 #: ../plugins/netstat/netstat.c:256
 msgid "Repair"
 msgstr "修复"
 
-#. interface down
 #: ../plugins/netstat/netstat.c:261
 msgid "Disable"
 msgstr "停用"
@@ -1177,7 +1200,7 @@ msgstr "字节"
 msgid "packets"
 msgstr "数据包"
 
-#: ../plugins/netstat/netstat.c:368 ../plugins/netstatus/netstatus-iface.c:173
+#: ../plugins/netstat/netstat.c:368 ../plugins/netstatus/netstatus-iface.c:174
 msgid "Wireless"
 msgstr "无线网络"
 
@@ -1197,7 +1220,6 @@ msgstr "管理网络"
 msgid "Monitor and Manage networks"
 msgstr "监视和管理网络"
 
-#. create dialog
 #: ../plugins/netstat/passwd_gui.c:90
 msgid "Setting Encryption Key"
 msgstr "设置加密密钥"
@@ -1214,43 +1236,43 @@ msgstr ""
 msgid "Encryption Key:"
 msgstr "加密密钥："
 
-#: ../plugins/netstatus/netstatus.c:154 ../plugins/netstatus/netstatus.c:166
+#: ../plugins/netstatus/netstatus.c:155 ../plugins/netstatus/netstatus.c:167
 msgid "Network Status Monitor"
 msgstr "网络状态监视器"
 
-#: ../plugins/netstatus/netstatus.c:156
+#: ../plugins/netstatus/netstatus.c:157
 msgid "Interface to monitor"
 msgstr "要监控的接口"
 
-#: ../plugins/netstatus/netstatus.c:157
+#: ../plugins/netstatus/netstatus.c:158
 msgid "Config tool"
 msgstr "设置工具"
 
-#: ../plugins/netstatus/netstatus.c:167
+#: ../plugins/netstatus/netstatus.c:168
 msgid "Monitor network status"
 msgstr "监视网络状态"
 
-#: ../plugins/netstatus/netstatus-dialog.c:52
-#: ../plugins/netstatus/netstatus-dialog.c:316
+#: ../plugins/netstatus/netstatus-dialog.c:53
+#: ../plugins/netstatus/netstatus-dialog.c:317
 msgid "Unknown"
 msgstr "未知"
 
-#: ../plugins/netstatus/netstatus-dialog.c:117
+#: ../plugins/netstatus/netstatus-dialog.c:118
 msgid "Connection Properties"
 msgstr "连接属性"
 
-#: ../plugins/netstatus/netstatus-dialog.c:123
+#: ../plugins/netstatus/netstatus-dialog.c:124
 #, c-format
 msgid "Connection Properties: %s"
 msgstr "连接属性 %s"
 
-#: ../plugins/netstatus/netstatus-dialog.c:136
+#: ../plugins/netstatus/netstatus-dialog.c:137
 #, c-format
 msgid "%lu packet"
 msgid_plural "%lu packets"
 msgstr[0] "%lu 个数据包"
 
-#: ../plugins/netstatus/netstatus-dialog.c:400
+#: ../plugins/netstatus/netstatus-dialog.c:401
 #, c-format
 msgid ""
 "There was an error displaying help:\n"
@@ -1259,48 +1281,48 @@ msgstr ""
 "显示说明时发生错误：\n"
 "%s"
 
-#: ../plugins/netstatus/netstatus-icon.c:381
+#: ../plugins/netstatus/netstatus-icon.c:382
 #, c-format
 msgid "Network Connection: %s"
 msgstr "网络连接：%s"
 
-#: ../plugins/netstatus/netstatus-icon.c:386
+#: ../plugins/netstatus/netstatus-icon.c:387
 msgid "Network Connection"
 msgstr "网络连接"
 
-#: ../plugins/netstatus/netstatus-icon.c:847
+#: ../plugins/netstatus/netstatus-icon.c:849
 msgid "Interface"
 msgstr "接口"
 
-#: ../plugins/netstatus/netstatus-icon.c:848
+#: ../plugins/netstatus/netstatus-icon.c:850
 msgid "The current interface the icon is monitoring."
 msgstr "目前正在监控的接口"
 
-#: ../plugins/netstatus/netstatus-icon.c:855
+#: ../plugins/netstatus/netstatus-icon.c:857
 msgid "Orientation"
 msgstr "方向"
 
-#: ../plugins/netstatus/netstatus-icon.c:856
+#: ../plugins/netstatus/netstatus-icon.c:858
 msgid "The orientation of the tray."
 msgstr "系统列的方向。"
 
-#: ../plugins/netstatus/netstatus-icon.c:864
+#: ../plugins/netstatus/netstatus-icon.c:866
 msgid "Tooltips Enabled"
 msgstr "显示工具提示"
 
-#: ../plugins/netstatus/netstatus-icon.c:865
+#: ../plugins/netstatus/netstatus-icon.c:867
 msgid "Whether or not the icon's tooltips are enabled."
 msgstr "是否使用图标的工具提示。"
 
-#: ../plugins/netstatus/netstatus-icon.c:872
+#: ../plugins/netstatus/netstatus-icon.c:874
 msgid "Show Signal"
 msgstr "显示信号"
 
-#: ../plugins/netstatus/netstatus-icon.c:873
+#: ../plugins/netstatus/netstatus-icon.c:875
 msgid "Whether or not the signal strength should be displayed."
 msgstr "是否显示信号强度"
 
-#: ../plugins/netstatus/netstatus-icon.c:982
+#: ../plugins/netstatus/netstatus-icon.c:985
 #, c-format
 msgid ""
 "Please contact your system administrator to resolve the following problem:\n"
@@ -1311,170 +1333,172 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../plugins/netstatus/netstatus-iface.c:148
+#: ../plugins/netstatus/netstatus-iface.c:149
 msgid "Name"
 msgstr "名称"
 
-#: ../plugins/netstatus/netstatus-iface.c:149
+#: ../plugins/netstatus/netstatus-iface.c:150
 msgid "The interface name"
 msgstr "接口名称"
 
-#: ../plugins/netstatus/netstatus-iface.c:156
-#: ../plugins/weather/weatherwidget.c:2137
+#: ../plugins/netstatus/netstatus-iface.c:157
+#, fuzzy
+#| msgid "State"
+msgctxt "Network"
 msgid "State"
 msgstr "状态"
 
-#: ../plugins/netstatus/netstatus-iface.c:157
+#: ../plugins/netstatus/netstatus-iface.c:158
 msgid "The interface state"
 msgstr "接口状态"
 
-#: ../plugins/netstatus/netstatus-iface.c:165
+#: ../plugins/netstatus/netstatus-iface.c:166
 msgid "Stats"
 msgstr "状态"
 
-#: ../plugins/netstatus/netstatus-iface.c:166
+#: ../plugins/netstatus/netstatus-iface.c:167
 msgid "The interface packets/bytes statistics"
 msgstr "网络接口数据包/字节数统计"
 
-#: ../plugins/netstatus/netstatus-iface.c:174
+#: ../plugins/netstatus/netstatus-iface.c:175
 msgid "Whether the interface is a wireless interface"
 msgstr "是否为无线网络接口"
 
-#: ../plugins/netstatus/netstatus-iface.c:181
+#: ../plugins/netstatus/netstatus-iface.c:182
 msgid "Signal"
 msgstr "信号"
 
-#: ../plugins/netstatus/netstatus-iface.c:182
+#: ../plugins/netstatus/netstatus-iface.c:183
 msgid "Wireless signal strength percentage"
 msgstr "无线信号强度百分比"
 
-#: ../plugins/netstatus/netstatus-iface.c:192
+#: ../plugins/netstatus/netstatus-iface.c:193
 msgid "The current error condition"
 msgstr "当前的错误状态"
 
-#: ../plugins/netstatus/netstatus-iface.c:440
-#: ../plugins/netstatus/netstatus-iface.c:1205
+#: ../plugins/netstatus/netstatus-iface.c:441
+#: ../plugins/netstatus/netstatus-iface.c:1200
 #, c-format
 msgid "Unable to open socket: %s"
 msgstr "无法打开套接字：%s"
 
-#: ../plugins/netstatus/netstatus-iface.c:502
-#: ../plugins/netstatus/netstatus-iface.c:1231
+#: ../plugins/netstatus/netstatus-iface.c:503
+#: ../plugins/netstatus/netstatus-iface.c:1226
 #, c-format
 msgid "SIOCGIFFLAGS error: %s"
 msgstr "SIOCGIFFLAGS 错误：%s"
 
-#: ../plugins/netstatus/netstatus-iface.c:879
+#: ../plugins/netstatus/netstatus-iface.c:880
 msgid "AMPR NET/ROM"
 msgstr "AMPR NET/ROM"
 
-#: ../plugins/netstatus/netstatus-iface.c:882
+#: ../plugins/netstatus/netstatus-iface.c:883
 msgid "Ethernet"
 msgstr "以太网"
 
-#: ../plugins/netstatus/netstatus-iface.c:888
+#: ../plugins/netstatus/netstatus-iface.c:889
 msgid "AMPR AX.25"
 msgstr "AMPR AX.25"
 
-#: ../plugins/netstatus/netstatus-iface.c:897
-#: ../plugins/netstatus/netstatus-iface.c:1017
+#: ../plugins/netstatus/netstatus-iface.c:898
+#: ../plugins/netstatus/netstatus-iface.c:1018
 msgid "16/4 Mbps Token Ring"
 msgstr "16/4 Mbps 令牌环网"
 
-#: ../plugins/netstatus/netstatus-iface.c:900
+#: ../plugins/netstatus/netstatus-iface.c:901
 msgid "ARCnet"
 msgstr "ARCnet"
 
-#: ../plugins/netstatus/netstatus-iface.c:906
+#: ../plugins/netstatus/netstatus-iface.c:907
 msgid "Frame Relay DLCI"
 msgstr "帧中继 DLCI"
 
-#: ../plugins/netstatus/netstatus-iface.c:912
+#: ../plugins/netstatus/netstatus-iface.c:913
 msgid "Metricom Starmode IP"
 msgstr "Metricom Starmode IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:915
+#: ../plugins/netstatus/netstatus-iface.c:916
 msgid "Serial Line IP"
 msgstr "串行线 IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:918
+#: ../plugins/netstatus/netstatus-iface.c:919
 msgid "VJ Serial Line IP"
 msgstr "VJ 串行线 IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:921
+#: ../plugins/netstatus/netstatus-iface.c:922
 msgid "6-bit Serial Line IP"
 msgstr "6 位串行线 IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:924
+#: ../plugins/netstatus/netstatus-iface.c:925
 msgid "VJ 6-bit Serial Line IP"
 msgstr "VJ 6 位串行线 IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:930
+#: ../plugins/netstatus/netstatus-iface.c:931
 msgid "Adaptive Serial Line IP"
 msgstr "自适应串行线 IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:933
+#: ../plugins/netstatus/netstatus-iface.c:934
 msgid "AMPR ROSE"
 msgstr "AMPR ROSE"
 
-#: ../plugins/netstatus/netstatus-iface.c:936
+#: ../plugins/netstatus/netstatus-iface.c:937
 msgid "Generic X.25"
 msgstr "通用 X.25"
 
-#: ../plugins/netstatus/netstatus-iface.c:939
+#: ../plugins/netstatus/netstatus-iface.c:940
 msgid "Point-to-Point Protocol"
 msgstr "点对点协议"
 
-#: ../plugins/netstatus/netstatus-iface.c:945
+#: ../plugins/netstatus/netstatus-iface.c:946
 msgid "(Cisco)-HDLC"
 msgstr "(思科)-HDLC"
 
-#: ../plugins/netstatus/netstatus-iface.c:948
+#: ../plugins/netstatus/netstatus-iface.c:949
 msgid "LAPB"
 msgstr "LAPB"
 
-#: ../plugins/netstatus/netstatus-iface.c:957
+#: ../plugins/netstatus/netstatus-iface.c:958
 msgid "IPIP Tunnel"
 msgstr "IPIP 隧道"
 
-#: ../plugins/netstatus/netstatus-iface.c:963
+#: ../plugins/netstatus/netstatus-iface.c:964
 msgid "Frame Relay Access Device"
 msgstr "帧中继访问设备"
 
-#: ../plugins/netstatus/netstatus-iface.c:969
+#: ../plugins/netstatus/netstatus-iface.c:970
 msgid "Local Loopback"
 msgstr "本地环回"
 
-#: ../plugins/netstatus/netstatus-iface.c:975
+#: ../plugins/netstatus/netstatus-iface.c:976
 msgid "Fiber Distributed Data Interface"
 msgstr "光纤分布式数据接口"
 
-#: ../plugins/netstatus/netstatus-iface.c:981
+#: ../plugins/netstatus/netstatus-iface.c:982
 msgid "IPv6-in-IPv4"
 msgstr "IPv6-in-IPv4"
 
-#: ../plugins/netstatus/netstatus-iface.c:993
+#: ../plugins/netstatus/netstatus-iface.c:994
 msgid "HIPPI"
 msgstr "HIPPI"
 
-#: ../plugins/netstatus/netstatus-iface.c:996
+#: ../plugins/netstatus/netstatus-iface.c:997
 msgid "Ash"
 msgstr "Ash"
 
-#: ../plugins/netstatus/netstatus-iface.c:999
+#: ../plugins/netstatus/netstatus-iface.c:1000
 msgid "Econet"
 msgstr "Econet"
 
-#: ../plugins/netstatus/netstatus-iface.c:1002
+#: ../plugins/netstatus/netstatus-iface.c:1003
 msgid "IrLAP"
 msgstr "IrLAP"
 
-#: ../plugins/netstatus/netstatus-iface.c:1163
+#: ../plugins/netstatus/netstatus-iface.c:1158
 #, c-format
 msgid "SIOCGIFCONF error: %s"
 msgstr "SIOCGIFCONF 错误：%s"
 
-#: ../plugins/netstatus/netstatus-iface.c:1256
+#: ../plugins/netstatus/netstatus-iface.c:1251
 #, c-format
 msgid "No network devices found"
 msgstr "没有找到网络设备"
@@ -1504,7 +1528,9 @@ msgstr "无法从“%s”中解析接口名称"
 msgid ""
 "Could not parse interface statistics from '%s'. prx_idx = %d; ptx_idx = %d; "
 "brx_idx = %d; btx_idx = %d;"
-msgstr "无法从“%s”中解析接口统计。prx_idx = %d；ptx_idx = %d；brx_idx = %d；btx_idx = %d；"
+msgstr ""
+"无法从“%s”中解析接口统计。prx_idx = %d；ptx_idx = %d；brx_idx = %d；btx_idx "
+"= %d；"
 
 #: ../plugins/netstatus/netstatus-sysdeps.c:312
 msgid "Could not parse /proc/net/wireless. No data."
@@ -1558,22 +1584,40 @@ msgstr "接收"
 msgid "Sending/Receiving"
 msgstr "发送/接受"
 
-#: ../plugins/batt/batt.c:156
+#: ../plugins/batt/batt.c:159
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged, %d:%02d until full"
+msgid "Battery: %d%% charged, %d:%02d until full"
+msgstr "电池 %d：电量 %d%%，充满还需 %d:%02d"
+
+#: ../plugins/batt/batt.c:163
 #, c-format
 msgid "Battery %d: %d%% charged, %d:%02d until full"
 msgstr "电池 %d：电量 %d%%，充满还需 %d:%02d"
 
-#: ../plugins/batt/batt.c:170
+#: ../plugins/batt/batt.c:178
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged, %d:%02d left"
+msgid "Battery: %d%% charged, %d:%02d left"
+msgstr "电池 %d：电量 %d%%，可用时间 %d:%02d"
+
+#: ../plugins/batt/batt.c:182
 #, c-format
 msgid "Battery %d: %d%% charged, %d:%02d left"
 msgstr "电池 %d：电量 %d%%，可用时间 %d:%02d"
 
-#: ../plugins/batt/batt.c:177
+#: ../plugins/batt/batt.c:190
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged"
+msgid "Battery: %d%% charged"
+msgstr "电池 %d：电量 %d%%"
+
+#: ../plugins/batt/batt.c:194
 #, c-format
 msgid "Battery %d: %d%% charged"
 msgstr "电池 %d：电量 %d%%"
 
-#: ../plugins/batt/batt.c:187
+#: ../plugins/batt/batt.c:204
 #, c-format
 msgid ""
 "\n"
@@ -1582,7 +1626,7 @@ msgstr ""
 "\n"
 "%s满电设计值：\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:189
+#: ../plugins/batt/batt.c:206
 #, c-format
 msgid ""
 "\n"
@@ -1591,7 +1635,7 @@ msgstr ""
 "\n"
 "%s满电：\t\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:191
+#: ../plugins/batt/batt.c:208
 #, c-format
 msgid ""
 "\n"
@@ -1600,7 +1644,7 @@ msgstr ""
 "\n"
 "%s当前电量：\t\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:193
+#: ../plugins/batt/batt.c:210
 #, c-format
 msgid ""
 "\n"
@@ -1609,7 +1653,7 @@ msgstr ""
 "\n"
 "%s当前功率：\t\t\t%5d mW"
 
-#: ../plugins/batt/batt.c:196
+#: ../plugins/batt/batt.c:213
 #, c-format
 msgid ""
 "\n"
@@ -1618,7 +1662,7 @@ msgstr ""
 "\n"
 "%s充满电设计值：\t%5d mAh"
 
-#: ../plugins/batt/batt.c:198
+#: ../plugins/batt/batt.c:215
 #, c-format
 msgid ""
 "\n"
@@ -1627,7 +1671,7 @@ msgstr ""
 "\n"
 "%s充满：\t\t\t%5d mAh"
 
-#: ../plugins/batt/batt.c:200
+#: ../plugins/batt/batt.c:217
 #, c-format
 msgid ""
 "\n"
@@ -1636,7 +1680,7 @@ msgstr ""
 "\n"
 "%s当前充电：\t\t\t%5d mAh"
 
-#: ../plugins/batt/batt.c:202
+#: ../plugins/batt/batt.c:219
 #, c-format
 msgid ""
 "\n"
@@ -1645,72 +1689,79 @@ msgstr ""
 "\n"
 "%s当前电流：\t\t\t%5d mA"
 
-#: ../plugins/batt/batt.c:205
-#, c-format
+#: ../plugins/batt/batt.c:222
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "%sCurrent Voltage:\t\t%.3lf V"
 msgid ""
 "\n"
-"%sCurrent Voltage:\t\t%.3lf V"
+"%sVoltage now:\t\t%.3lf V"
 msgstr ""
 "\n"
 "%s当前电压：\t\t%.3lf V"
 
-#: ../plugins/batt/batt.c:243
+#: ../plugins/batt/batt.c:259
 msgid "No batteries found"
 msgstr "没有电池"
 
-#: ../plugins/batt/batt.c:546 ../plugins/batt/batt.c:679
+#: ../plugins/batt/batt.c:571 ../plugins/batt/batt.c:704
 msgid "Battery low"
 msgstr "电池电量低"
 
-#: ../plugins/batt/batt.c:702 ../plugins/batt/batt.c:726
+#: ../plugins/batt/batt.c:728 ../plugins/batt/batt.c:753
 msgid "Battery Monitor"
 msgstr "电池电量显示"
 
-#: ../plugins/batt/batt.c:704
+#: ../plugins/batt/batt.c:730
 msgid "Hide if there is no battery"
 msgstr "没有电池时隐藏"
 
-#: ../plugins/batt/batt.c:705
+#: ../plugins/batt/batt.c:731
 msgid "Alarm command"
 msgstr "发出警告时要运行的命令"
 
-#: ../plugins/batt/batt.c:706
+#: ../plugins/batt/batt.c:732
 msgid "Alarm time (minutes left)"
 msgstr "电池剩余时间低于此数值时警告 (分钟)"
 
-#: ../plugins/batt/batt.c:707
+#: ../plugins/batt/batt.c:733
 msgid "Background color"
 msgstr "背景颜色"
 
-#: ../plugins/batt/batt.c:708
+#: ../plugins/batt/batt.c:734
 msgid "Charging color 1"
 msgstr "充电显示颜色 1"
 
-#: ../plugins/batt/batt.c:709
+#: ../plugins/batt/batt.c:735
 msgid "Charging color 2"
 msgstr "充电显示颜色 2"
 
-#: ../plugins/batt/batt.c:710
+#: ../plugins/batt/batt.c:736
 msgid "Discharging color 1"
 msgstr "放电显示颜色 1"
 
-#: ../plugins/batt/batt.c:711
+#: ../plugins/batt/batt.c:737
 msgid "Discharging color 2"
 msgstr "放电显示颜色 2"
 
-#: ../plugins/batt/batt.c:712
+#: ../plugins/batt/batt.c:738
 msgid "Border width"
 msgstr "边框宽度"
 
-#: ../plugins/batt/batt.c:716
+#: ../plugins/batt/batt.c:742
 msgid "Show Extended Information"
 msgstr "显示更多信息"
 
-#: ../plugins/batt/batt.c:717
+#: ../plugins/batt/batt.c:743
 msgid "Number of battery to monitor"
 msgstr "要监控的电池序号"
 
-#: ../plugins/batt/batt.c:727
+#: ../plugins/batt/batt.c:744
+msgid "Don't show number of battery"
+msgstr ""
+
+#: ../plugins/batt/batt.c:754
 msgid "Display battery status using ACPI"
 msgstr "通过 ACPI 显示电池状态"
 
@@ -1734,7 +1785,6 @@ msgstr "显示 ScrollLock"
 msgid "Indicators for CapsLock, NumLock, and ScrollLock keys"
 msgstr "显示 CapsLock、NumLock、及 ScrollLock 键的状态"
 
-#. A label to allow for click through
 #: ../plugins/indicator/indicator.c:694
 msgid "No Indicators"
 msgstr "无指示器"
@@ -1771,53 +1821,57 @@ msgstr "声音菜单"
 msgid "Add indicator applets to the panel"
 msgstr "将指示器小程序添加到面板"
 
-#: ../plugins/monitors/monitors.c:285
+#: ../plugins/monitors/monitors.c:290
 #, c-format
 msgid "CPU usage: %.2f%%"
 msgstr "CPU 使用：%.2f%%"
 
-#: ../plugins/monitors/monitors.c:386
+#: ../plugins/monitors/monitors.c:393
 #, c-format
 msgid "RAM usage: %.1fMB (%.2f%%)"
 msgstr "内存使用：%.1fMB (%.2f%%)"
 
-#: ../plugins/monitors/monitors.c:732 ../plugins/monitors/monitors.c:821
+#: ../plugins/monitors/monitors.c:744 ../plugins/monitors/monitors.c:835
 msgid "Resource monitors"
 msgstr "资源监视器"
 
-#: ../plugins/monitors/monitors.c:735
+#: ../plugins/monitors/monitors.c:747
 msgid "CPU color"
 msgstr "CPU 颜色"
 
-#: ../plugins/monitors/monitors.c:736
+#: ../plugins/monitors/monitors.c:748
 msgid "Display RAM usage"
 msgstr "显示内存使用情况"
 
-#: ../plugins/monitors/monitors.c:737
+#: ../plugins/monitors/monitors.c:749
 msgid "RAM color"
 msgstr "内存颜色"
 
-#: ../plugins/monitors/monitors.c:738
+#: ../plugins/monitors/monitors.c:750
+msgid "Show memory used by cache as free"
+msgstr ""
+
+#: ../plugins/monitors/monitors.c:751
 msgid "Action when clicked (default: lxtask)"
 msgstr "单击时的动作(默认：lxtask)"
 
-#: ../plugins/monitors/monitors.c:822
+#: ../plugins/monitors/monitors.c:836
 msgid "Display monitors (CPU, RAM)"
 msgstr "显示监视器(CPU，内存)"
 
-#: ../plugins/weather/weatherwidget.c:52
+#: ../plugins/weather/weatherwidget.c:53
 msgid "[N/A]"
 msgstr "[不可用]"
 
-#: ../plugins/weather/weatherwidget.c:806
+#: ../plugins/weather/weatherwidget.c:807
 msgid "Enter New Location"
 msgstr "输入新位置"
 
-#: ../plugins/weather/weatherwidget.c:820
+#: ../plugins/weather/weatherwidget.c:821
 msgid "_New Location:"
 msgstr "新位置(_N)："
 
-#: ../plugins/weather/weatherwidget.c:831
+#: ../plugins/weather/weatherwidget.c:832
 msgid ""
 "Enter the:\n"
 "- city, or\n"
@@ -1831,176 +1885,181 @@ msgstr ""
 "- 邮政编码\n"
 "来获取天气预报。"
 
-#: ../plugins/weather/weatherwidget.c:868
-#: ../plugins/weather/weatherwidget.c:1001
+#: ../plugins/weather/weatherwidget.c:869
+#: ../plugins/weather/weatherwidget.c:1002
 msgid "You must specify a location."
 msgstr "您必须指定一个位置。"
 
-#: ../plugins/weather/weatherwidget.c:915
+#: ../plugins/weather/weatherwidget.c:916
 #, c-format
 msgid "Location '%s' not found!"
 msgstr "找不到“%s”这个地方！"
 
-#: ../plugins/weather/weatherwidget.c:1074
+#: ../plugins/weather/weatherwidget.c:1075
 msgid "Preferences"
 msgstr "首选项"
 
-#: ../plugins/weather/weatherwidget.c:1080
+#: ../plugins/weather/weatherwidget.c:1081
 msgid "Refresh"
 msgstr "刷新"
 
-#: ../plugins/weather/weatherwidget.c:1086
+#: ../plugins/weather/weatherwidget.c:1087
 msgid "Quit"
 msgstr "退出"
 
-#: ../plugins/weather/weatherwidget.c:1253
+#: ../plugins/weather/weatherwidget.c:1254
 msgid "Weather Preferences"
 msgstr "天气首选项"
 
-#: ../plugins/weather/weatherwidget.c:1267
+#: ../plugins/weather/weatherwidget.c:1268
 msgid "Current Location"
 msgstr "当前位置"
 
-#: ../plugins/weather/weatherwidget.c:1271
-#: ../plugins/weather/weatherwidget.c:1573
+#: ../plugins/weather/weatherwidget.c:1272
+#: ../plugins/weather/weatherwidget.c:1574
 msgid "None configured"
 msgstr "未配置"
 
-#: ../plugins/weather/weatherwidget.c:1273
-#: ../plugins/weather/weatherwidget.c:1570
+#: ../plugins/weather/weatherwidget.c:1274
+#: ../plugins/weather/weatherwidget.c:1571
 msgid "_Set"
 msgstr "设置(_S)"
 
-#: ../plugins/weather/weatherwidget.c:1294
+#: ../plugins/weather/weatherwidget.c:1295
 msgid "Display"
 msgstr "显示"
 
-#: ../plugins/weather/weatherwidget.c:1298
+#: ../plugins/weather/weatherwidget.c:1299
 msgid "Name:"
 msgstr "名称："
 
-#: ../plugins/weather/weatherwidget.c:1302
+#: ../plugins/weather/weatherwidget.c:1303
 msgid "Units:"
 msgstr "单位："
 
-#: ../plugins/weather/weatherwidget.c:1306
+#: ../plugins/weather/weatherwidget.c:1307
 msgid "_Metric (°C)"
 msgstr "公制(_M)(°C)"
 
-#: ../plugins/weather/weatherwidget.c:1308
+#: ../plugins/weather/weatherwidget.c:1309
 msgid "_English (°F)"
 msgstr "英制(_E)(°F)"
 
-#: ../plugins/weather/weatherwidget.c:1343
+#: ../plugins/weather/weatherwidget.c:1344
 msgid "Forecast"
 msgstr "预报"
 
-#: ../plugins/weather/weatherwidget.c:1347
+#: ../plugins/weather/weatherwidget.c:1348
 msgid "Updates:"
 msgstr "更新："
 
-#: ../plugins/weather/weatherwidget.c:1351
+#: ../plugins/weather/weatherwidget.c:1352
 msgid "Ma_nual"
 msgstr "手动(_N)"
 
-#: ../plugins/weather/weatherwidget.c:1355
+#: ../plugins/weather/weatherwidget.c:1356
 msgid "_Automatic, every"
 msgstr "自动，每隔(_A)"
 
-#: ../plugins/weather/weatherwidget.c:1376
+#: ../plugins/weather/weatherwidget.c:1377
 msgid "minutes"
 msgstr "分钟"
 
-#: ../plugins/weather/weatherwidget.c:1385
+#: ../plugins/weather/weatherwidget.c:1386
 msgid "Source:"
 msgstr "源："
 
-#: ../plugins/weather/weatherwidget.c:1521
+#: ../plugins/weather/weatherwidget.c:1522
 msgid "C_hange"
 msgstr "更改(_H)"
 
-#. Both are available
-#: ../plugins/weather/weatherwidget.c:1612
+#: ../plugins/weather/weatherwidget.c:1613
 #, c-format
 msgid "Current Conditions for %s"
 msgstr "%s 的当前状况"
 
-#: ../plugins/weather/weatherwidget.c:1636
+#: ../plugins/weather/weatherwidget.c:1637
 msgid "Location:"
 msgstr "位置："
 
-#: ../plugins/weather/weatherwidget.c:1659
+#: ../plugins/weather/weatherwidget.c:1660
 msgid "Last updated:"
 msgstr "上次更新于："
 
-#: ../plugins/weather/weatherwidget.c:1693
+#: ../plugins/weather/weatherwidget.c:1694
 msgid "Feels like:"
 msgstr "体感："
 
-#: ../plugins/weather/weatherwidget.c:1719
+#: ../plugins/weather/weatherwidget.c:1720
 msgid "Humidity:"
 msgstr "湿度："
 
-#: ../plugins/weather/weatherwidget.c:1746
+#: ../plugins/weather/weatherwidget.c:1747
 msgid "Pressure:"
 msgstr "气压："
 
-#: ../plugins/weather/weatherwidget.c:1773
+#: ../plugins/weather/weatherwidget.c:1774
 msgid "Visibility:"
 msgstr "能见度："
 
-#: ../plugins/weather/weatherwidget.c:1801
+#: ../plugins/weather/weatherwidget.c:1803
 msgid "Wind:"
 msgstr "风："
 
-#: ../plugins/weather/weatherwidget.c:1824
+#: ../plugins/weather/weatherwidget.c:1826
 msgid "Sunrise:"
 msgstr "日出："
 
-#: ../plugins/weather/weatherwidget.c:1847
+#: ../plugins/weather/weatherwidget.c:1849
 msgid "Sunset:"
 msgstr "日落："
 
-#: ../plugins/weather/weatherwidget.c:1955
-#: ../plugins/weather/weatherwidget.c:2306
+#: ../plugins/weather/weatherwidget.c:1958
+#: ../plugins/weather/weatherwidget.c:2309
 #, c-format
 msgid "Forecast for %s unavailable."
 msgstr "没有 %s 的天气预报。"
 
-#: ../plugins/weather/weatherwidget.c:1964
-#: ../plugins/weather/weatherwidget.c:2311
+#: ../plugins/weather/weatherwidget.c:1967
+#: ../plugins/weather/weatherwidget.c:2314
 #, c-format
 msgid "Location not set."
 msgstr "尚未设置位置。"
 
-#: ../plugins/weather/weatherwidget.c:1981
+#: ../plugins/weather/weatherwidget.c:1984
 #, c-format
 msgid "Searching for '%s'..."
 msgstr "正在搜索“%s”..."
 
-#: ../plugins/weather/weatherwidget.c:2107
+#: ../plugins/weather/weatherwidget.c:2110
 #, c-format
 msgid "Location matches for '%s'"
 msgstr "与“%s”匹配的位置"
 
-#: ../plugins/weather/weatherwidget.c:2127
+#: ../plugins/weather/weatherwidget.c:2130
 msgid "City"
 msgstr "城市"
 
-#: ../plugins/weather/weatherwidget.c:2147
+#: ../plugins/weather/weatherwidget.c:2140
+#, fuzzy
+#| msgid "State"
+msgctxt "Politics"
+msgid "State"
+msgstr "状态"
+
+#: ../plugins/weather/weatherwidget.c:2150
 msgid "Country"
 msgstr "国家"
 
-#. make it nice and pretty
-#: ../plugins/weather/weatherwidget.c:2286
+#: ../plugins/weather/weatherwidget.c:2289
 msgid "Currently in "
 msgstr "当前位于 "
 
-#: ../plugins/weather/weatherwidget.c:2292
+#: ../plugins/weather/weatherwidget.c:2295
 msgid "Today: "
 msgstr "今天："
 
-#: ../plugins/weather/weatherwidget.c:2293
+#: ../plugins/weather/weatherwidget.c:2296
 msgid "Tomorrow: "
 msgstr "明天："
 
@@ -2012,87 +2071,87 @@ msgstr "天气插件"
 msgid "Show weather conditions for a location."
 msgstr "显示某个地方的天气状况。"
 
-#: ../plugins/weather/yahooutil.c:51 ../plugins/weather/openweathermap.c:56
+#: ../plugins/weather/yahooutil.c:53 ../plugins/weather/openweathermap.c:57
 msgid "N"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:52 ../plugins/weather/openweathermap.c:57
+#: ../plugins/weather/yahooutil.c:54 ../plugins/weather/openweathermap.c:58
 msgid "NNE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:53 ../plugins/weather/openweathermap.c:58
+#: ../plugins/weather/yahooutil.c:55 ../plugins/weather/openweathermap.c:59
 msgid "NE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:54 ../plugins/weather/openweathermap.c:59
+#: ../plugins/weather/yahooutil.c:56 ../plugins/weather/openweathermap.c:60
 msgid "ENE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:55 ../plugins/weather/openweathermap.c:60
+#: ../plugins/weather/yahooutil.c:57 ../plugins/weather/openweathermap.c:61
 msgid "E"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:56 ../plugins/weather/openweathermap.c:61
+#: ../plugins/weather/yahooutil.c:58 ../plugins/weather/openweathermap.c:62
 msgid "ESE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:57 ../plugins/weather/openweathermap.c:62
+#: ../plugins/weather/yahooutil.c:59 ../plugins/weather/openweathermap.c:63
 msgid "SE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:58 ../plugins/weather/openweathermap.c:63
+#: ../plugins/weather/yahooutil.c:60 ../plugins/weather/openweathermap.c:64
 msgid "SSE"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:59 ../plugins/weather/openweathermap.c:64
+#: ../plugins/weather/yahooutil.c:61 ../plugins/weather/openweathermap.c:65
 msgid "S"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:60 ../plugins/weather/openweathermap.c:65
+#: ../plugins/weather/yahooutil.c:62 ../plugins/weather/openweathermap.c:66
 msgid "SSW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:61 ../plugins/weather/openweathermap.c:66
+#: ../plugins/weather/yahooutil.c:63 ../plugins/weather/openweathermap.c:67
 msgid "SW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:62 ../plugins/weather/openweathermap.c:67
+#: ../plugins/weather/yahooutil.c:64 ../plugins/weather/openweathermap.c:68
 msgid "WSW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:63 ../plugins/weather/openweathermap.c:68
+#: ../plugins/weather/yahooutil.c:65 ../plugins/weather/openweathermap.c:69
 msgid "W"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:64 ../plugins/weather/openweathermap.c:69
+#: ../plugins/weather/yahooutil.c:66 ../plugins/weather/openweathermap.c:70
 msgid "WNW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:65 ../plugins/weather/openweathermap.c:70
+#: ../plugins/weather/yahooutil.c:67 ../plugins/weather/openweathermap.c:71
 msgid "NW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:66 ../plugins/weather/openweathermap.c:71
+#: ../plugins/weather/yahooutil.c:68 ../plugins/weather/openweathermap.c:72
 msgid "NNW"
 msgstr ""
 
-#: ../plugins/weather/yahooutil.c:1086
+#: ../plugins/weather/yahooutil.c:1094
 msgid "Yahoo! Weather"
 msgstr ""
 
-#: ../plugins/weather/openweathermap.c:365
+#: ../plugins/weather/openweathermap.c:472
 msgid "Mph"
 msgstr ""
 
-#: ../plugins/weather/openweathermap.c:365
+#: ../plugins/weather/openweathermap.c:472
 msgid "m/s"
 msgstr ""
 
-#: ../plugins/weather/openweathermap.c:535
+#: ../plugins/weather/openweathermap.c:642
 msgid "m"
 msgstr ""
 
-#: ../plugins/weather/openweathermap.c:932
+#: ../plugins/weather/openweathermap.c:1052
 msgid "OpenWeatherMap"
 msgstr ""
 

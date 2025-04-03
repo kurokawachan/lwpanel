@@ -16,8 +16,8 @@ Build-Depends: debhelper-compat (= 13),
                libkeybinder-3.0-dev,
                libmenu-cache-dev,
                libwnck-3-dev,
-               libxml2-dev,
-Standards-Version: 4.6.2
+               libxml2-dev
+Standards-Version: 4.7.2
 Rules-Requires-Root: no
 Homepage: https://github.com/lxde/lxpanel
 Vcs-Browser: https://salsa.debian.org/lxde-team/lxpanel
@@ -26,16 +26,16 @@ Vcs-Git: https://salsa.debian.org/lxde-team/lxpanel.git
 Package: lxpanel
 Architecture: any
 Multi-Arch: allowed
-Depends: ${misc:Depends},
-         ${shlibs:Depends},
+Depends: libfm-modules,
          lxmenu-data,
          lxpanel-data (= ${source:Version}),
-         libfm-modules
-Recommends: xkb-data,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: libnotify-bin,
             lxterminal | x-terminal-emulator,
+            notification-daemon,
             pavucontrol | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
-            libnotify-bin,
-            notification-daemon
+            xkb-data
 Suggests: firefox-esr | firefox | www-browser
 Description: LXDE panel
  LXPanel is a GUI application for the Lightweight X11 Desktop Environment
@@ -74,9 +74,7 @@ Description: LXDE panel (data files)
 Package: lxpanel-dev
 Architecture: any
 Multi-Arch: no
-Depends: ${misc:Depends},
-         lxpanel (= ${binary:Version}),
-         libfm-gtk3-dev
+Depends: libfm-gtk3-dev, lxpanel (= ${binary:Version}), ${misc:Depends}
 Breaks: lxpanel (<< 0.8.2)
 Replaces: lxpanel (<< 0.8.2)
 Description: LXDE panel (plugins development files)

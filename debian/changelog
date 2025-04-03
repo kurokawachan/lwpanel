@@ -1,3 +1,15 @@
+lxpanel (0.11.0-1) unstable; urgency=medium
+
+  * New upstream version 0.11.0. (Closes: #1052376, #1075243, #855521)
+  * debian/control: bump to Standards-version to 4.7.2, no changes needed.
+  * debian/copyright: update.
+  * Run wrap-and-sort.
+  * debian/copyright: update postal address of the Free Software
+    Foundation (FSF).
+  * debian/patches/01-default-config.patch: refresh.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Thu, 03 Apr 2025 23:47:26 +0200
+
 lxpanel (0.10.1-4) unstable; urgency=medium
 
   * Merge to unstable.

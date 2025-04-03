@@ -7,11 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: lxpanel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-01 01:38+0200\n"
+"POT-Creation-Date: 2025-03-30 13:47+0200\n"
 "PO-Revision-Date: 2020-12-12 22:51+0100\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
-"Language: sk_SK\n"
+"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -21,7 +21,7 @@ msgstr ""
 "X-Pootle-Path: /sk/lxpanel/po/sk.po\n"
 "X-POOTLE-MTIME: 1550955553.433579\n"
 
-#: ../src/configurator.c:148
+#: ../src/configurator.c:149
 msgid ""
 "Space reservation is not available for this panel because there is another "
 "monitor beyond this edge and reservation would cover it if enabled."
@@ -30,44 +30,44 @@ msgstr ""
 "okrajom je ďalšia obrazovka a rezervovanie miesta by ju, ak by bolo "
 "povolené, zakrylo."
 
-#: ../src/configurator.c:632
+#: ../src/configurator.c:635
 msgid "Currently loaded plugins"
 msgstr "Momentálne načítané moduly"
 
-#: ../src/configurator.c:641
+#: ../src/configurator.c:644
 msgid "Stretch"
 msgstr "Natiahnuť"
 
-#: ../src/configurator.c:779
+#: ../src/configurator.c:782
 msgid "Add plugin to panel"
 msgstr "Pridať modul do panela"
 
-#: ../src/configurator.c:807
+#: ../src/configurator.c:810
 msgid "Available plugins"
 msgstr "Dostupné moduly"
 
-#: ../src/configurator.c:1427
+#: ../src/configurator.c:1430
 msgid "Logout command is not set"
 msgstr "Príkaz na odhlásenie nie je nastavený"
 
-#: ../src/configurator.c:1495
+#: ../src/configurator.c:1498
 msgid "Select a directory"
 msgstr "Vyberte adresár"
 
-#: ../src/configurator.c:1495 ../src/configurator.c:1607
+#: ../src/configurator.c:1498 ../src/configurator.c:1610
 msgid "Select a file"
 msgstr "Vyberte súbor"
 
-#: ../src/configurator.c:1640
+#: ../src/configurator.c:1643
 msgid "_Browse"
 msgstr "_Prechádzať"
 
-#: ../src/panel.c:1292
+#: ../src/panel.c:1350
 msgid "There is no room for another panel. All the edges are taken."
 msgstr ""
 "Na vytvorenie nového panela už nie je miesto. Všetky okraje sú už obsadené."
 
-#: ../src/panel.c:1318
+#: ../src/panel.c:1376
 msgid ""
 "Really delete this panel?\n"
 "<b>Warning: This can not be recovered.</b>"
@@ -75,93 +75,92 @@ msgstr ""
 "Skutočne chcete zmazať tento panel?\n"
 "<b>Upozornenie: Túto operáciu nemožno vrátiť.</b>"
 
-#: ../src/panel.c:1320
+#: ../src/panel.c:1378
 msgid "Confirm"
 msgstr "Potvrdiť"
 
 #. TRANSLATORS: Replace this string with your names, one name per line.
-#: ../src/panel.c:1355
+#: ../src/panel.c:1414
 msgid "translator-credits"
 msgstr ""
 "Ivan Masár <helix84@centrum.sk>, 2007, 2009.\n"
 "Miroslav Biňas <mirek@cnl.sk>, 2018, 2019.\n"
 "Jose Riha <jose1711@gmail.com>, 2020."
 
-#: ../src/panel.c:1360
+#: ../src/panel.c:1419
 msgid "LXPanel"
 msgstr "LXPanel"
 
-#: ../src/panel.c:1378
-msgid "Copyright (C) 2008-2021"
-msgstr "Copyright (C) 2008-2021"
+#: ../src/panel.c:1437
+msgid "Copyright (C) 2008-2025"
+msgstr "Copyright (C) 2008-2025"
 
-#: ../src/panel.c:1379
+#: ../src/panel.c:1438
 msgid "Desktop panel for LXDE project"
 msgstr "Panel plochy projektu LXDE"
 
-#: ../src/panel.c:1421
+#: ../src/panel.c:1480
 #, c-format
 msgid "\"%s\" Settings"
 msgstr "Nastavenia „%s“"
 
-#: ../src/panel.c:1442
+#: ../src/panel.c:1501
 msgid "Add / Remove Panel Items"
 msgstr "Pridať / odstrániť položky panela"
 
-#: ../src/panel.c:1450
+#: ../src/panel.c:1509
 #, c-format
 msgid "Remove \"%s\" From Panel"
 msgstr "Odstrániť „%s“ z panela"
 
-#: ../src/panel.c:1462
+#: ../src/panel.c:1521
 msgid "Panel Settings"
 msgstr "Nastavenia panela"
 
-#: ../src/panel.c:1468
+#: ../src/panel.c:1527
 msgid "Create New Panel"
 msgstr "Vytvoriť nový panel"
 
-#: ../src/panel.c:1474
+#: ../src/panel.c:1533
 msgid "Delete This Panel"
 msgstr "Zmazať tento panel"
 
-#: ../src/panel.c:1485
+#: ../src/panel.c:1544
 msgid "About"
 msgstr "O aplikácii"
 
-#: ../src/panel.c:1492
+#: ../src/panel.c:1551
 msgid "Panel"
 msgstr "Panel"
 
-#: ../src/panel.c:1710 ../src/panel.c:1718 ../data/ui/panel-pref.glade.h:22
+#: ../src/panel.c:1769 ../src/panel.c:1777 ../data/ui/panel-pref.glade.h:22
 msgid "Height:"
 msgstr "Výška:"
 
-#: ../src/panel.c:1711 ../src/panel.c:1717 ../data/ui/panel-pref.glade.h:21
+#: ../src/panel.c:1770 ../src/panel.c:1776 ../data/ui/panel-pref.glade.h:21
 msgid "Width:"
 msgstr "Šírka:"
 
-#: ../src/panel.c:1712 ../data/ui/panel-pref.glade.h:13
+#: ../src/panel.c:1771 ../data/ui/panel-pref.glade.h:13
 msgid "Left"
 msgstr "Vľavo"
 
-#: ../src/panel.c:1713 ../data/ui/panel-pref.glade.h:14
+#: ../src/panel.c:1772 ../data/ui/panel-pref.glade.h:14
 msgid "Right"
 msgstr "Vpravo"
 
-#: ../src/panel.c:1719 ../data/ui/panel-pref.glade.h:12
+#: ../src/panel.c:1778 ../data/ui/panel-pref.glade.h:12
 msgid "Top"
 msgstr "Hore"
 
-#: ../src/panel.c:1720 ../data/ui/panel-pref.glade.h:11
+#: ../src/panel.c:1779 ../data/ui/panel-pref.glade.h:11
 msgid "Bottom"
 msgstr "Dolu"
 
-#: ../src/plugin.c:348
+#: ../src/plugin.c:347
 msgid "No file manager is configured."
 msgstr "Nie je nakonfigurovaný žiadny správca súborov."
 
-#. { "configure", N_("Preferences"), configure },
 #: ../src/gtk-run.c:385 ../src/main.c:69 ../plugins/menu.c:718
 msgid "Run"
 msgstr "Spustiť"
@@ -198,8 +197,6 @@ msgstr " --help      -- vypísať tohto pomocníka a skončiť\n"
 msgid " --version   -- print version and exit\n"
 msgstr " --version   -- vypísať verziu a skončiť\n"
 
-#. g_print(_(" --log <number> -- set log level 0-5. 0 - none 5 - chatty\n"));
-#. g_print(_(" --configure -- launch configuration utility\n"));
 #: ../src/main.c:329
 #, c-format
 msgid " --profile name -- use specified profile\n"
@@ -220,7 +217,6 @@ msgstr " -p  -- ekvivalent --profile\n"
 msgid " -v  -- same as --version\n"
 msgstr " -v  -- ekvivalent --version\n"
 
-#. g_print(_(" -C  -- same as --configure\n"));
 #: ../src/main.c:335
 #, c-format
 msgid ""
@@ -257,12 +253,11 @@ msgstr ""
 "skratka."
 
 #: ../src/input-button.c:231 ../src/input-button.c:415
-#: ../plugins/netstatus/netstatus-iface.c:191
+#: ../plugins/netstatus/netstatus-iface.c:192
 #: ../plugins/netstatus/netstatus-util.c:167
 msgid "Error"
 msgstr "Chyba"
 
-#. GtkRadioButton "None"
 #: ../src/input-button.c:329 ../data/ui/panel-pref.glade.h:5
 msgid "None"
 msgstr "Žiadny"
@@ -281,8 +276,10 @@ msgstr ""
 msgid "Spacer"
 msgstr "Rozostup"
 
-#: ../src/space.c:396 ../data/ui/panel-pref.glade.h:32
-#: ../plugins/batt/batt.c:714
+#: ../src/space.c:396 ../plugins/batt/batt.c:740
+#, fuzzy
+#| msgid "Size"
+msgctxt "Width"
 msgid "Size"
 msgstr "Veľkosť"
 
@@ -290,11 +287,10 @@ msgstr "Veľkosť"
 msgid "Allocate space"
 msgstr "Vyhradiť miesto"
 
-#: ../data/ui/launchtaskbar.glade.h:1 ../plugins/launchtaskbar.c:2482
+#: ../data/ui/launchtaskbar.glade.h:1 ../plugins/launchtaskbar.c:2502
 msgid "Application Launch and Task Bar"
 msgstr "Panel úloh a spúšťanie aplikácií"
 
-#. Launchtaskbar mode: launchbar, taskbar, or combined
 #: ../data/ui/launchtaskbar.glade.h:3
 msgid "<b>Mode:</b>"
 msgstr "<b>Režim:</b>"
@@ -320,54 +316,58 @@ msgid "Flat buttons"
 msgstr "Ploché tlačidlá"
 
 #: ../data/ui/launchtaskbar.glade.h:9
+msgid "Show square brackets around the names of minimized windows"
+msgstr ""
+
+#: ../data/ui/launchtaskbar.glade.h:10
 msgid "Show windows from all desktops"
 msgstr "Zobraziť okná zo všetkých plôch"
 
-#: ../data/ui/launchtaskbar.glade.h:10
+#: ../data/ui/launchtaskbar.glade.h:11
 msgid "Only show windows on the same monitor as the task bar"
 msgstr "Okná zobrazovať len na tom istom monitore, na ktorom je panel úloh"
 
-#: ../data/ui/launchtaskbar.glade.h:11
+#: ../data/ui/launchtaskbar.glade.h:12
 msgid "Use mouse wheel"
 msgstr "Používať koliesko myši"
 
-#: ../data/ui/launchtaskbar.glade.h:12
+#: ../data/ui/launchtaskbar.glade.h:13
 msgid "Flash when there is any window requiring attention"
 msgstr "Blikať, keď niektoré okno vyžaduje pozornosť"
 
-#: ../data/ui/launchtaskbar.glade.h:13
+#: ../data/ui/launchtaskbar.glade.h:14
 msgid "Combine multiple application windows into a single button"
 msgstr "Zoskupovať okná viacerých aplikácií do jedného tlačidla"
 
-#: ../data/ui/launchtaskbar.glade.h:14
+#: ../data/ui/launchtaskbar.glade.h:15
 msgid "Disable enlargement for small task icons"
 msgstr "Vypnúť zväčšenie pre malé ikony"
 
-#: ../data/ui/launchtaskbar.glade.h:15
+#: ../data/ui/launchtaskbar.glade.h:16
 msgid "Show task icons smaller than rest of panel icons"
 msgstr "Zobraziť ikony úloh menšie ako zvyšok ikon v paneli"
 
-#: ../data/ui/launchtaskbar.glade.h:16
+#: ../data/ui/launchtaskbar.glade.h:17
 msgid "Maximum width of task button"
 msgstr "Maximálna šírka tlačidla úlohy"
 
-#: ../data/ui/launchtaskbar.glade.h:17
+#: ../data/ui/launchtaskbar.glade.h:18
 msgid "Spacing"
 msgstr "Rozostupy"
 
-#: ../data/ui/launchtaskbar.glade.h:18
+#: ../data/ui/launchtaskbar.glade.h:19
 msgid "<b>Taskbar</b>"
 msgstr "<b>Panel úloh</b>"
 
-#: ../data/ui/launchtaskbar.glade.h:19
+#: ../data/ui/launchtaskbar.glade.h:20
 msgid "Only Application Launch Bar"
 msgstr "Iba panel spúšťania aplikácií"
 
-#: ../data/ui/launchtaskbar.glade.h:20
+#: ../data/ui/launchtaskbar.glade.h:21
 msgid "Only Task Bar (Window List)"
 msgstr "Iba panel úloh (Zoznam okien)"
 
-#: ../data/ui/launchtaskbar.glade.h:21
+#: ../data/ui/launchtaskbar.glade.h:22
 msgid "Integrated Application Launch Bar and Task Bar"
 msgstr "Integrovaný panel spúšťania aplikácií a panel úloh"
 
@@ -490,7 +490,7 @@ msgstr "Nastavenia panelu"
 msgid "Edge:"
 msgstr "Okraj:"
 
-#: ../data/ui/panel-pref.glade.h:16 ../plugins/volumealsa/volumealsa.c:1313
+#: ../data/ui/panel-pref.glade.h:16 ../plugins/volumealsa/volumealsa.c:1331
 msgid "Center"
 msgstr "Stred"
 
@@ -530,7 +530,7 @@ msgstr "Vzhľad systému"
 msgid "Solid color (with opacity)"
 msgstr "Súvislá farba (s krytím)"
 
-#: ../data/ui/panel-pref.glade.h:28 ../plugins/xkb/xkb-plugin.c:1455
+#: ../data/ui/panel-pref.glade.h:28 ../plugins/xkb/xkb-plugin.c:1502
 msgid "Image"
 msgstr "Obrázok"
 
@@ -545,6 +545,13 @@ msgstr "<b>Pozadie</b>"
 #: ../data/ui/panel-pref.glade.h:31
 msgid "Custom color"
 msgstr "Vlastná farba"
+
+#: ../data/ui/panel-pref.glade.h:32
+#, fuzzy
+#| msgid "Size"
+msgctxt "Font"
+msgid "Size"
+msgstr "Veľkosť"
 
 #: ../data/ui/panel-pref.glade.h:33
 msgid "<b>Font</b>"
@@ -618,7 +625,7 @@ msgstr "Pokročilé"
 msgid "CPU Usage Monitor"
 msgstr "Monitor využitia CPU"
 
-#: ../plugins/cpu/cpu.c:311 ../plugins/monitors/monitors.c:734
+#: ../plugins/cpu/cpu.c:311 ../plugins/monitors/monitors.c:746
 msgid "Display CPU usage"
 msgstr "Zobraziť využitie CPU"
 
@@ -638,31 +645,31 @@ msgstr "Zobraziť názvy plôch"
 msgid "Display workspace number, by cmeury@users.sf.net"
 msgstr "Zobrazenie čísla plochy, cmeury@users.sf.net"
 
-#: ../plugins/launchtaskbar.c:1831 ../plugins/launchtaskbar.c:2452
+#: ../plugins/launchtaskbar.c:1849 ../plugins/launchtaskbar.c:2472
 msgid "Application Launch Bar"
 msgstr "Spúšťací panel"
 
-#: ../plugins/launchtaskbar.c:1834 ../plugins/launchtaskbar.c:2462
+#: ../plugins/launchtaskbar.c:1852 ../plugins/launchtaskbar.c:2482
 msgid "Task Bar (Window List)"
 msgstr "Panel úloh (Zoznam okien)"
 
-#: ../plugins/launchtaskbar.c:1985
+#: ../plugins/launchtaskbar.c:2003
 msgid "A_dd to Launcher"
 msgstr "Pri_dať do spúšťača"
 
-#: ../plugins/launchtaskbar.c:1987
+#: ../plugins/launchtaskbar.c:2005
 msgid "Rem_ove from Launcher"
 msgstr "_Odstrániť zo spúšťača"
 
-#: ../plugins/launchtaskbar.c:1989
+#: ../plugins/launchtaskbar.c:2007
 msgid "_New Instance"
 msgstr "_Nová inštancia"
 
-#: ../plugins/launchtaskbar.c:2453
+#: ../plugins/launchtaskbar.c:2473
 msgid "Bar with buttons to launch application"
 msgstr "Panel s tlačidlami pre spúšťanie aplikácií"
 
-#: ../plugins/launchtaskbar.c:2463
+#: ../plugins/launchtaskbar.c:2483
 msgid ""
 "Taskbar shows all opened windows and allows to iconify them, shade or get "
 "focus"
@@ -670,28 +677,24 @@ msgstr ""
 "Panel úloh zobrazuje všetky otvorené okná a umožňuje ich ikonifikovať, "
 "zatieniť alebo aktivovať"
 
-#: ../plugins/launchtaskbar.c:2483
+#: ../plugins/launchtaskbar.c:2503
 msgid "Bar with buttons to launch application and/or show all opened windows"
 msgstr ""
-"Panel s tlačidlami pre spúšťanie aplikácií a/alebo zobrazenie všetkých otvorených "
-"okien"
+"Panel s tlačidlami pre spúšťanie aplikácií a/alebo zobrazenie všetkých "
+"otvorených okien"
 
-#. Add Raise menu item.
 #: ../plugins/task-button.c:352
 msgid "_Raise"
 msgstr "_Zdvihnúť"
 
-#. Add Restore menu item.
 #: ../plugins/task-button.c:357
 msgid "R_estore"
 msgstr "_Obnoviť"
 
-#. Add Maximize menu item.
 #: ../plugins/task-button.c:362
 msgid "Ma_ximize"
 msgstr "Ma_ximalizovať"
 
-#. Add Iconify menu item.
 #: ../plugins/task-button.c:367
 msgid "Ico_nify"
 msgstr "Iko_nifikovať"
@@ -706,13 +709,10 @@ msgstr "Pracovná plocha _%d"
 msgid "Workspace %d"
 msgstr "Pracovná plocha %d"
 
-#. Add "move to all workspaces" item.  This causes the window to be visible no matter what desktop is active.
 #: ../plugins/task-button.c:410
 msgid "_All workspaces"
 msgstr "Všetky pr_acovné plochy"
 
-#. FIXME: add "Current workspace" item, active if not on a current
-#. Add Move to Workspace menu item as a submenu.
 #: ../plugins/task-button.c:418
 msgid "_Move to Workspace"
 msgstr "_Presunúť na plochu"
@@ -786,15 +786,15 @@ msgstr "Oddeľovač"
 msgid "Add a separator to the panel"
 msgstr "Pridať oddeľovač do panela"
 
-#: ../plugins/pager.c:141
+#: ../plugins/pager.c:177
 msgid "Sorry, there was no window manager configuration program found."
 msgstr "Ľutujem, nebol nájdený žiadny program na nastavenie správcu okien."
 
-#: ../plugins/pager.c:193 ../plugins/pager.c:209
+#: ../plugins/pager.c:229 ../plugins/pager.c:245
 msgid "Desktop Pager"
 msgstr "Stránkovač plôch"
 
-#: ../plugins/pager.c:194 ../plugins/pager.c:210
+#: ../plugins/pager.c:230 ../plugins/pager.c:246
 msgid "Simple pager plugin"
 msgstr "Jednoduchý stránkovací modul"
 
@@ -806,117 +806,114 @@ msgstr "Oznamovacia oblasť"
 msgid "System tray"
 msgstr "Oznamovacia oblasť"
 
-#: ../plugins/xkb/xkb-plugin.c:409
+#: ../plugins/xkb/xkb-plugin.c:437
 msgid "New session is required for this option to take effect"
 msgstr "Na to, aby sa prejavila táto voľba je potrebné vytvoriť nové sedenie"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:590
+#: ../plugins/xkb/xkb-plugin.c:618
 msgid "Select Keyboard Model"
 msgstr "Vyberte si model klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:614 ../plugins/xkb/xkb-plugin.c:743
-#: ../plugins/xkb/xkb-plugin.c:921
+#: ../plugins/xkb/xkb-plugin.c:642 ../plugins/xkb/xkb-plugin.c:786
+#: ../plugins/xkb/xkb-plugin.c:965
 msgid "Description"
 msgstr "Opis"
 
-#: ../plugins/xkb/xkb-plugin.c:619 ../plugins/xkb/xkb-plugin.c:750
+#: ../plugins/xkb/xkb-plugin.c:647 ../plugins/xkb/xkb-plugin.c:793
 msgid "Id"
 msgstr "Id"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:714
+#: ../plugins/xkb/xkb-plugin.c:757
 msgid "Select Layout Change Type"
 msgstr "Vybrať typ rozloženia klávesnice"
 
-#. dialog
-#: ../plugins/xkb/xkb-plugin.c:887
+#: ../plugins/xkb/xkb-plugin.c:931
 msgid "Add Keyboard Layout"
 msgstr "Pridať rozloženie klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:911 ../plugins/xkb/xkb-plugin.c:1302
+#: ../plugins/xkb/xkb-plugin.c:955 ../plugins/xkb/xkb-plugin.c:1346
 msgid "Flag"
 msgstr "Vlajka"
 
-#: ../plugins/xkb/xkb-plugin.c:916 ../plugins/xkb/xkb-plugin.c:1306
+#: ../plugins/xkb/xkb-plugin.c:960 ../plugins/xkb/xkb-plugin.c:1350
 msgid "Layout"
 msgstr "Rozloženie"
 
-#: ../plugins/xkb/xkb-plugin.c:1212 ../plugins/xkb/xkb-plugin.c:1544
+#: ../plugins/xkb/xkb-plugin.c:1256 ../plugins/xkb/xkb-plugin.c:1591
 msgid "Keyboard Layout Handler"
 msgstr "Správca rozloženia klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:1235
+#: ../plugins/xkb/xkb-plugin.c:1279
 msgid "Keyboard Model"
 msgstr "Model klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:1256
+#: ../plugins/xkb/xkb-plugin.c:1300
 msgid "Keyboard Layouts"
 msgstr "Rozloženia klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:1310
+#: ../plugins/xkb/xkb-plugin.c:1354
 msgid "Variant"
 msgstr "Varianta"
 
-#: ../plugins/xkb/xkb-plugin.c:1319
-msgid "Change Layout Option"
+#: ../plugins/xkb/xkb-plugin.c:1363
+msgid "Keyboard Layout Options"
 msgstr "Prepínanie rozloženia klávesnice"
 
-#: ../plugins/xkb/xkb-plugin.c:1339
+#: ../plugins/xkb/xkb-plugin.c:1384
 msgid "Advanced setxkbmap Options"
 msgstr "Pokročilé voľby pre setxkbmap"
 
-#: ../plugins/xkb/xkb-plugin.c:1360
+#: ../plugins/xkb/xkb-plugin.c:1405
 msgid "Do _not reset existing options"
 msgstr "_Neresetovať existujúce voľby"
 
-#: ../plugins/xkb/xkb-plugin.c:1365
+#: ../plugins/xkb/xkb-plugin.c:1410
 msgid "Keep _system layouts"
 msgstr "Ponechať _systémové rozloženie"
 
-#: ../plugins/xkb/xkb-plugin.c:1374
+#: ../plugins/xkb/xkb-plugin.c:1419
 msgid "Per Window Settings"
 msgstr "Nastavenie okna"
 
-#: ../plugins/xkb/xkb-plugin.c:1386
+#: ../plugins/xkb/xkb-plugin.c:1431
 msgid "_Remember layout for each window"
 msgstr "_Pamätať si rozloženie pre každú aplikáciu samostatne"
 
-#: ../plugins/xkb/xkb-plugin.c:1395
+#: ../plugins/xkb/xkb-plugin.c:1440
 msgid "Show Layout as"
 msgstr "Zobraziť rozloženie ako"
 
-#: ../plugins/xkb/xkb-plugin.c:1456
+#: ../plugins/xkb/xkb-plugin.c:1503
 msgid "Custom Image"
 msgstr "Vlastný obrázok"
 
-#: ../plugins/xkb/xkb-plugin.c:1457
+#: ../plugins/xkb/xkb-plugin.c:1504
 msgid "Text"
 msgstr "Text"
 
-#: ../plugins/xkb/xkb-plugin.c:1483
+#: ../plugins/xkb/xkb-plugin.c:1530
 msgid "Panel Icon Size"
 msgstr "Veľkosť ikony v paneli"
 
-#: ../plugins/xkb/xkb-plugin.c:1545
+#: ../plugins/xkb/xkb-plugin.c:1592
 msgid "Handle keyboard layouts"
 msgstr "Prepínať medzi rozloženiami klávesníc"
 
-#: ../plugins/wincmd.c:207
+#: ../plugins/wincmd.c:216
 msgid "Left click to iconify all windows.  Middle click to shade them."
 msgstr ""
 "Po kliknutí ľavým tlačidlom zminimalizujete všetky okná. Stredným tlačidlom "
 "ich skryjete."
 
-#: ../plugins/wincmd.c:245 ../plugins/wincmd.c:255
+#: ../plugins/wincmd.c:254 ../plugins/wincmd.c:264
 msgid "Minimize All Windows"
 msgstr "Minimalizovať všetky okná"
 
-#: ../plugins/wincmd.c:247
+#: ../plugins/wincmd.c:256
 msgid "Alternately iconify/shade and raise"
 msgstr "Alternatívna ikonifikácia/tieňovanie a zdvihnutie"
 
-#: ../plugins/wincmd.c:256
+#: ../plugins/wincmd.c:265
 msgid ""
 "Sends commands to all desktop windows.\n"
 "Supported commands are 1) iconify and 2) shade"
@@ -944,50 +941,57 @@ msgstr "Označenie"
 msgid "Browse directory tree via menu (Author = PCMan)"
 msgstr "Prechádzať adresárový strom pomocou ponuky (Autor = PCMan)"
 
-#: ../plugins/thermal/thermal.c:563 ../plugins/thermal/thermal.c:581
+#: ../plugins/thermal/thermal.c:565 ../plugins/thermal/thermal.c:583
 msgid "Temperature Monitor"
 msgstr "Monitor teploty"
 
-#: ../plugins/thermal/thermal.c:565
+#: ../plugins/thermal/thermal.c:567
 msgid "Normal color"
 msgstr "Normálna farba"
 
-#: ../plugins/thermal/thermal.c:566
+#: ../plugins/thermal/thermal.c:568
 msgid "Warning1 color"
 msgstr "Farba upozornenia 1"
 
-#: ../plugins/thermal/thermal.c:567
+#: ../plugins/thermal/thermal.c:569
 msgid "Warning2 color"
 msgstr "Farba upozornenia 2"
 
-#: ../plugins/thermal/thermal.c:568
+#: ../plugins/thermal/thermal.c:570
 msgid "Automatic sensor location"
 msgstr "Automatické umiestnenie snímača"
 
-#. FIXME: if off, disable next one
-#: ../plugins/thermal/thermal.c:569
+#: ../plugins/thermal/thermal.c:571
 msgid "Sensor"
 msgstr "Snímač"
 
-#. FIXME: create a list to select instead
-#: ../plugins/thermal/thermal.c:570
+#: ../plugins/thermal/thermal.c:572
 msgid "Automatic temperature levels"
 msgstr "Automatické teplotné hladiny"
 
-#. FIXME: if off, disable two below
-#: ../plugins/thermal/thermal.c:571
+#: ../plugins/thermal/thermal.c:573
 msgid "Warning1 temperature"
 msgstr "Teplota Upozornenia1"
 
-#: ../plugins/thermal/thermal.c:572
+#: ../plugins/thermal/thermal.c:574
 msgid "Warning2 temperature"
 msgstr "Teplota Upozornenia2"
 
-#: ../plugins/thermal/thermal.c:582
+#: ../plugins/thermal/thermal.c:584
 msgid "Display system temperature"
 msgstr "Zobrazovanie teploty systému"
 
-#: ../plugins/cpufreq/cpufreq.c:325
+#: ../plugins/cpufreq/cpufreq.c:283
+#, fuzzy
+#| msgid "CPUFreq frontend"
+msgid "CPUFreq not supported"
+msgstr "Používateľské rozhranie pre CPUFreq"
+
+#: ../plugins/cpufreq/cpufreq.c:292
+msgid "   Frequency"
+msgstr ""
+
+#: ../plugins/cpufreq/cpufreq.c:356
 #, c-format
 msgid ""
 "Frequency: %d MHz\n"
@@ -996,27 +1000,27 @@ msgstr ""
 "Frekvencia: %d MHz\n"
 "Regulátor: %s"
 
-#: ../plugins/cpufreq/cpufreq.c:401
+#: ../plugins/cpufreq/cpufreq.c:432
 msgid "CPUFreq frontend"
 msgstr "Používateľské rozhranie pre CPUFreq"
 
-#: ../plugins/cpufreq/cpufreq.c:402
+#: ../plugins/cpufreq/cpufreq.c:433
 msgid "Display CPU frequency and allow one to change governors and frequency"
 msgstr "Zobraziť frekvenciu CPU a povoliť zmenu regulátorov a frekvencie"
 
-#: ../plugins/volumealsa/volumealsa.c:245
+#: ../plugins/volumealsa/volumealsa.c:247
 msgid "ALSA (or pulseaudio) had a problem. Please check the lxpanel logs."
 msgstr ""
 "ALSA (alebo pulseaudio) mal problém. Skontrolujte prosím logy aplikácie "
 "lxpanel."
 
-#. Display current level in tooltip.
-#: ../plugins/volumealsa/volumealsa.c:613
-#: ../plugins/volumealsa/volumealsa.c:973
-msgid "Volume control"
-msgstr "Ovládanie hlasitosti"
+#: ../plugins/volumealsa/volumealsa.c:615
+#, fuzzy, c-format
+#| msgid "Volume"
+msgid "Volume: %d%%"
+msgstr "Hlasitosť"
 
-#: ../plugins/volumealsa/volumealsa.c:701
+#: ../plugins/volumealsa/volumealsa.c:703
 msgid ""
 "Error, you need to install an application to configure the sound "
 "(pavucontrol, alsamixer ...)"
@@ -1024,103 +1028,124 @@ msgstr ""
 "Chyba, pre nastavenie zvuku musíte nainštalovať aplikáciu (pavucontrol, "
 "alsamixer ...)"
 
-#. Create a frame as the child of the viewport.
-#: ../plugins/volumealsa/volumealsa.c:895
+#: ../plugins/volumealsa/volumealsa.c:911
 msgid "Volume"
 msgstr "Hlasitosť"
 
-#. Create a check button as the child of the vertical box.
-#: ../plugins/volumealsa/volumealsa.c:914
+#: ../plugins/volumealsa/volumealsa.c:929
 msgid "Mute"
 msgstr "Stlmiť"
 
-#. Just to have these translated
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:988
+msgid "Volume control"
+msgstr "Ovládanie hlasitosti"
+
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Line"
 msgstr "Vstupná sila zvuku"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "LineOut"
 msgstr "Výstupná sila zvuku"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Front"
 msgstr "Predný"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Surround"
 msgstr "Okolitý"
 
-#: ../plugins/volumealsa/volumealsa.c:1313
+#: ../plugins/volumealsa/volumealsa.c:1331
 msgid "Speaker+LO"
 msgstr "Reproduktor+LO"
 
-#: ../plugins/volumealsa/volumealsa.c:1352
+#: ../plugins/volumealsa/volumealsa.c:1332
+#, fuzzy
+#| msgid "Speaker+LO"
+msgid "Speaker"
+msgstr "Reproduktor+LO"
+
+#: ../plugins/volumealsa/volumealsa.c:1332
+msgid "Beep"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1371
 msgid "default"
 msgstr "predvolená"
 
-#. desc, index
-#: ../plugins/volumealsa/volumealsa.c:1412
+#: ../plugins/volumealsa/volumealsa.c:1431
 msgid "Master"
 msgstr "Hlavný"
 
-#: ../plugins/volumealsa/volumealsa.c:1416
+#: ../plugins/volumealsa/volumealsa.c:1435
 msgid "PCM"
 msgstr "PCM"
 
-#: ../plugins/volumealsa/volumealsa.c:1420
+#: ../plugins/volumealsa/volumealsa.c:1439
 msgid "Headphone"
 msgstr "Slúchadlá"
 
-#: ../plugins/volumealsa/volumealsa.c:1442
+#: ../plugins/volumealsa/volumealsa.c:1461
 msgid "Click for Volume Slider"
 msgstr "Kliknite pre posuvník hlasitosti"
 
-#: ../plugins/volumealsa/volumealsa.c:1446
+#: ../plugins/volumealsa/volumealsa.c:1462
+#: ../plugins/volumealsa/volumealsa.c:1467
+#: ../plugins/volumealsa/volumealsa.c:1472
+msgid "Click to select, then press a mouse button"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1466
 msgid "Click for Toggle Mute"
 msgstr "Kliknite pre prepnutie stlmenia"
 
-#: ../plugins/volumealsa/volumealsa.c:1450
+#: ../plugins/volumealsa/volumealsa.c:1471
 msgid "Click for Open Mixer"
 msgstr "Kliknutie pre spustenie zmiešavača zvuku"
 
-#. setup hotkeys
-#: ../plugins/volumealsa/volumealsa.c:1454
+#: ../plugins/volumealsa/volumealsa.c:1476
 msgid "Hotkey for Volume Up"
 msgstr "Klávesová skratka pre zvýšenie hlasitosti"
 
-#: ../plugins/volumealsa/volumealsa.c:1456
+#: ../plugins/volumealsa/volumealsa.c:1477
+#: ../plugins/volumealsa/volumealsa.c:1480
+#: ../plugins/volumealsa/volumealsa.c:1483
+msgid "Click to select, then press a key"
+msgstr ""
+
+#: ../plugins/volumealsa/volumealsa.c:1479
 msgid "Hotkey for Volume Down"
 msgstr "Klávesová skratka pre stíšenie hlasitosti"
 
-#: ../plugins/volumealsa/volumealsa.c:1458
+#: ../plugins/volumealsa/volumealsa.c:1482
 msgid "Hotkey for Volume Mute"
 msgstr "Klávesová skratka pre stlmenie hlasitosti"
 
-#: ../plugins/volumealsa/volumealsa.c:1514
-#: ../plugins/volumealsa/volumealsa.c:1553
-#: ../plugins/volumealsa/volumealsa.c:1574
+#: ../plugins/volumealsa/volumealsa.c:1539
+#: ../plugins/volumealsa/volumealsa.c:1578
+#: ../plugins/volumealsa/volumealsa.c:1599
 msgid "Volume Control"
 msgstr "Ovládanie hlasitosti"
 
-#: ../plugins/volumealsa/volumealsa.c:1516
+#: ../plugins/volumealsa/volumealsa.c:1541
 msgid "Audio Card"
 msgstr "Zvuková karta"
 
-#: ../plugins/volumealsa/volumealsa.c:1519
+#: ../plugins/volumealsa/volumealsa.c:1544
 msgid "Channel to Operate"
 msgstr "Kanál, ktorý bude obsluhovaný"
 
-#: ../plugins/volumealsa/volumealsa.c:1527
+#: ../plugins/volumealsa/volumealsa.c:1552
 msgid "Command to Open Mixer"
 msgstr "Príkaz na spustenie zmiešavača zvuku"
 
-#: ../plugins/volumealsa/volumealsa.c:1542
+#: ../plugins/volumealsa/volumealsa.c:1567
 msgid "Launch Mixer"
 msgstr "Spustiť zmiešavač zvuku"
 
-#: ../plugins/volumealsa/volumealsa.c:1554
-#: ../plugins/volumealsa/volumealsa.c:1575
+#: ../plugins/volumealsa/volumealsa.c:1579
+#: ../plugins/volumealsa/volumealsa.c:1600
 msgid "Display and control volume"
 msgstr "Zobraziť a ovládať hlasitosť"
 
@@ -1132,12 +1157,10 @@ msgstr "<Skrytý prístupový bod>"
 msgid "Wireless Networks not found in range"
 msgstr "V dosahu neboli nájdené bezdrôtové siete"
 
-#. Repair
 #: ../plugins/netstat/netstat.c:256
 msgid "Repair"
 msgstr "Opraviť"
 
-#. interface down
 #: ../plugins/netstat/netstat.c:261
 msgid "Disable"
 msgstr "Vypnúť"
@@ -1193,7 +1216,7 @@ msgstr "bajtov"
 msgid "packets"
 msgstr "paketov"
 
-#: ../plugins/netstat/netstat.c:368 ../plugins/netstatus/netstatus-iface.c:173
+#: ../plugins/netstat/netstat.c:368 ../plugins/netstatus/netstatus-iface.c:174
 msgid "Wireless"
 msgstr "Bezdrôtové"
 
@@ -1213,7 +1236,6 @@ msgstr "Spravovať siete"
 msgid "Monitor and Manage networks"
 msgstr "Monitorovať a spravovať siete"
 
-#. create dialog
 #: ../plugins/netstat/passwd_gui.c:90
 msgid "Setting Encryption Key"
 msgstr "Nastavenie šifrovacieho kľúča"
@@ -1230,37 +1252,37 @@ msgstr ""
 msgid "Encryption Key:"
 msgstr "Šifrovací kľúč:"
 
-#: ../plugins/netstatus/netstatus.c:154 ../plugins/netstatus/netstatus.c:166
+#: ../plugins/netstatus/netstatus.c:155 ../plugins/netstatus/netstatus.c:167
 msgid "Network Status Monitor"
 msgstr "Monitor stavu siete"
 
-#: ../plugins/netstatus/netstatus.c:156
+#: ../plugins/netstatus/netstatus.c:157
 msgid "Interface to monitor"
 msgstr "Monitorovať rozhranie"
 
-#: ../plugins/netstatus/netstatus.c:157
+#: ../plugins/netstatus/netstatus.c:158
 msgid "Config tool"
 msgstr "Konfiguračný nástroj"
 
-#: ../plugins/netstatus/netstatus.c:167
+#: ../plugins/netstatus/netstatus.c:168
 msgid "Monitor network status"
 msgstr "Monitorovať stav siete"
 
-#: ../plugins/netstatus/netstatus-dialog.c:52
-#: ../plugins/netstatus/netstatus-dialog.c:316
+#: ../plugins/netstatus/netstatus-dialog.c:53
+#: ../plugins/netstatus/netstatus-dialog.c:317
 msgid "Unknown"
 msgstr "Neznáme"
 
-#: ../plugins/netstatus/netstatus-dialog.c:117
+#: ../plugins/netstatus/netstatus-dialog.c:118
 msgid "Connection Properties"
 msgstr "Vlastnosti pripojenia"
 
-#: ../plugins/netstatus/netstatus-dialog.c:123
+#: ../plugins/netstatus/netstatus-dialog.c:124
 #, c-format
 msgid "Connection Properties: %s"
 msgstr "Vlastnosti pripojenia: %s"
 
-#: ../plugins/netstatus/netstatus-dialog.c:136
+#: ../plugins/netstatus/netstatus-dialog.c:137
 #, c-format
 msgid "%lu packet"
 msgid_plural "%lu packets"
@@ -1268,7 +1290,7 @@ msgstr[0] "%lu paket"
 msgstr[1] "%lu pakety"
 msgstr[2] "%lu paketov"
 
-#: ../plugins/netstatus/netstatus-dialog.c:400
+#: ../plugins/netstatus/netstatus-dialog.c:401
 #, c-format
 msgid ""
 "There was an error displaying help:\n"
@@ -1277,48 +1299,48 @@ msgstr ""
 "Pri zobrazovaní pomocníka nastala chyba:\n"
 "%s"
 
-#: ../plugins/netstatus/netstatus-icon.c:381
+#: ../plugins/netstatus/netstatus-icon.c:382
 #, c-format
 msgid "Network Connection: %s"
 msgstr "Sieťové pripojenie: %s"
 
-#: ../plugins/netstatus/netstatus-icon.c:386
+#: ../plugins/netstatus/netstatus-icon.c:387
 msgid "Network Connection"
 msgstr "Sieťové pripojenie"
 
-#: ../plugins/netstatus/netstatus-icon.c:847
+#: ../plugins/netstatus/netstatus-icon.c:849
 msgid "Interface"
 msgstr "Rozhranie"
 
-#: ../plugins/netstatus/netstatus-icon.c:848
+#: ../plugins/netstatus/netstatus-icon.c:850
 msgid "The current interface the icon is monitoring."
 msgstr "Aktuálne rozhranie, ktoré táto ikona monitoruje."
 
-#: ../plugins/netstatus/netstatus-icon.c:855
+#: ../plugins/netstatus/netstatus-icon.c:857
 msgid "Orientation"
 msgstr "Orientácia"
 
-#: ../plugins/netstatus/netstatus-icon.c:856
+#: ../plugins/netstatus/netstatus-icon.c:858
 msgid "The orientation of the tray."
 msgstr "Orientácia oznamovacej oblasti."
 
-#: ../plugins/netstatus/netstatus-icon.c:864
+#: ../plugins/netstatus/netstatus-icon.c:866
 msgid "Tooltips Enabled"
 msgstr "Bublinové tipy zapnuté"
 
-#: ../plugins/netstatus/netstatus-icon.c:865
+#: ../plugins/netstatus/netstatus-icon.c:867
 msgid "Whether or not the icon's tooltips are enabled."
 msgstr "Či sú alebo nie sú zapnuté bublinové tipy."
 
-#: ../plugins/netstatus/netstatus-icon.c:872
+#: ../plugins/netstatus/netstatus-icon.c:874
 msgid "Show Signal"
 msgstr "Zobrazovať signál"
 
-#: ../plugins/netstatus/netstatus-icon.c:873
+#: ../plugins/netstatus/netstatus-icon.c:875
 msgid "Whether or not the signal strength should be displayed."
 msgstr "Či sa má alebo nemá zobrazovať sila signálu."
 
-#: ../plugins/netstatus/netstatus-icon.c:982
+#: ../plugins/netstatus/netstatus-icon.c:985
 #, c-format
 msgid ""
 "Please contact your system administrator to resolve the following problem:\n"
@@ -1330,170 +1352,172 @@ msgstr ""
 "\n"
 "%s"
 
-#: ../plugins/netstatus/netstatus-iface.c:148
+#: ../plugins/netstatus/netstatus-iface.c:149
 msgid "Name"
 msgstr "Názov"
 
-#: ../plugins/netstatus/netstatus-iface.c:149
+#: ../plugins/netstatus/netstatus-iface.c:150
 msgid "The interface name"
 msgstr "Názov rozhrania"
 
-#: ../plugins/netstatus/netstatus-iface.c:156
-#: ../plugins/weather/weatherwidget.c:2137
+#: ../plugins/netstatus/netstatus-iface.c:157
+#, fuzzy
+#| msgid "State"
+msgctxt "Network"
 msgid "State"
 msgstr "Stav"
 
-#: ../plugins/netstatus/netstatus-iface.c:157
+#: ../plugins/netstatus/netstatus-iface.c:158
 msgid "The interface state"
 msgstr "Stav rozhrania"
 
-#: ../plugins/netstatus/netstatus-iface.c:165
+#: ../plugins/netstatus/netstatus-iface.c:166
 msgid "Stats"
 msgstr "Štatistiky"
 
-#: ../plugins/netstatus/netstatus-iface.c:166
+#: ../plugins/netstatus/netstatus-iface.c:167
 msgid "The interface packets/bytes statistics"
 msgstr "Štatistika bajtov/paketov rozhrania"
 
-#: ../plugins/netstatus/netstatus-iface.c:174
+#: ../plugins/netstatus/netstatus-iface.c:175
 msgid "Whether the interface is a wireless interface"
 msgstr "Či je rozhranie bezdrôtové"
 
-#: ../plugins/netstatus/netstatus-iface.c:181
+#: ../plugins/netstatus/netstatus-iface.c:182
 msgid "Signal"
 msgstr "Signál"
 
-#: ../plugins/netstatus/netstatus-iface.c:182
+#: ../plugins/netstatus/netstatus-iface.c:183
 msgid "Wireless signal strength percentage"
 msgstr "Percentá sily bezdrôtového signálu"
 
-#: ../plugins/netstatus/netstatus-iface.c:192
+#: ../plugins/netstatus/netstatus-iface.c:193
 msgid "The current error condition"
 msgstr "Aktuálny chybový stav"
 
-#: ../plugins/netstatus/netstatus-iface.c:440
-#: ../plugins/netstatus/netstatus-iface.c:1205
+#: ../plugins/netstatus/netstatus-iface.c:441
+#: ../plugins/netstatus/netstatus-iface.c:1200
 #, c-format
 msgid "Unable to open socket: %s"
 msgstr "Nie je možné otvoriť socket: %s"
 
-#: ../plugins/netstatus/netstatus-iface.c:502
-#: ../plugins/netstatus/netstatus-iface.c:1231
+#: ../plugins/netstatus/netstatus-iface.c:503
+#: ../plugins/netstatus/netstatus-iface.c:1226
 #, c-format
 msgid "SIOCGIFFLAGS error: %s"
 msgstr "Chyba SIOCGIFFLAGS: %s"
 
-#: ../plugins/netstatus/netstatus-iface.c:879
+#: ../plugins/netstatus/netstatus-iface.c:880
 msgid "AMPR NET/ROM"
 msgstr "AMPR NET/ROM"
 
-#: ../plugins/netstatus/netstatus-iface.c:882
+#: ../plugins/netstatus/netstatus-iface.c:883
 msgid "Ethernet"
 msgstr "Ethernet"
 
-#: ../plugins/netstatus/netstatus-iface.c:888
+#: ../plugins/netstatus/netstatus-iface.c:889
 msgid "AMPR AX.25"
 msgstr "AMPR AX.25"
 
-#: ../plugins/netstatus/netstatus-iface.c:897
-#: ../plugins/netstatus/netstatus-iface.c:1017
+#: ../plugins/netstatus/netstatus-iface.c:898
+#: ../plugins/netstatus/netstatus-iface.c:1018
 msgid "16/4 Mbps Token Ring"
 msgstr "16/4 Mbps Token Ring"
 
-#: ../plugins/netstatus/netstatus-iface.c:900
+#: ../plugins/netstatus/netstatus-iface.c:901
 msgid "ARCnet"
 msgstr "ARCnet"
 
-#: ../plugins/netstatus/netstatus-iface.c:906
+#: ../plugins/netstatus/netstatus-iface.c:907
 msgid "Frame Relay DLCI"
 msgstr "Frame Relay DLCI"
 
-#: ../plugins/netstatus/netstatus-iface.c:912
+#: ../plugins/netstatus/netstatus-iface.c:913
 msgid "Metricom Starmode IP"
 msgstr "Metricom Starmode IP"
 
-#: ../plugins/netstatus/netstatus-iface.c:915
+#: ../plugins/netstatus/netstatus-iface.c:916
 msgid "Serial Line IP"
 msgstr "IP na sériovej linke"
 
-#: ../plugins/netstatus/netstatus-iface.c:918
+#: ../plugins/netstatus/netstatus-iface.c:919
 msgid "VJ Serial Line IP"
 msgstr "IP na VJ sériovej linke"
 
-#: ../plugins/netstatus/netstatus-iface.c:921
+#: ../plugins/netstatus/netstatus-iface.c:922
 msgid "6-bit Serial Line IP"
 msgstr "IP na 6-bitovej sériovej linke"
 
-#: ../plugins/netstatus/netstatus-iface.c:924
+#: ../plugins/netstatus/netstatus-iface.c:925
 msgid "VJ 6-bit Serial Line IP"
 msgstr "IP na VJ 6-bitovej sériovej linke"
 
-#: ../plugins/netstatus/netstatus-iface.c:930
+#: ../plugins/netstatus/netstatus-iface.c:931
 msgid "Adaptive Serial Line IP"
 msgstr "IP na adaptívnej sériovej linke"
 
-#: ../plugins/netstatus/netstatus-iface.c:933
+#: ../plugins/netstatus/netstatus-iface.c:934
 msgid "AMPR ROSE"
 msgstr "AMPR ROSE"
 
-#: ../plugins/netstatus/netstatus-iface.c:936
+#: ../plugins/netstatus/netstatus-iface.c:937
 msgid "Generic X.25"
 msgstr "Všeobecný X.25"
 
-#: ../plugins/netstatus/netstatus-iface.c:939
+#: ../plugins/netstatus/netstatus-iface.c:940
 msgid "Point-to-Point Protocol"
 msgstr "Point-to-Point Protocol"
 
-#: ../plugins/netstatus/netstatus-iface.c:945
+#: ../plugins/netstatus/netstatus-iface.c:946
 msgid "(Cisco)-HDLC"
 msgstr "(Cisco)-HDLC"
 
-#: ../plugins/netstatus/netstatus-iface.c:948
+#: ../plugins/netstatus/netstatus-iface.c:949
 msgid "LAPB"
 msgstr "LAPB"
 
-#: ../plugins/netstatus/netstatus-iface.c:957
+#: ../plugins/netstatus/netstatus-iface.c:958
 msgid "IPIP Tunnel"
 msgstr "IPIP tunel"
 
-#: ../plugins/netstatus/netstatus-iface.c:963
+#: ../plugins/netstatus/netstatus-iface.c:964
 msgid "Frame Relay Access Device"
 msgstr "Prístupové zariadenie Frame Relay"
 
-#: ../plugins/netstatus/netstatus-iface.c:969
+#: ../plugins/netstatus/netstatus-iface.c:970
 msgid "Local Loopback"
 msgstr "Lokálne rozhranie (loopback)"
 
-#: ../plugins/netstatus/netstatus-iface.c:975
+#: ../plugins/netstatus/netstatus-iface.c:976
 msgid "Fiber Distributed Data Interface"
 msgstr "Fiber Distributed Data Interface"
 
-#: ../plugins/netstatus/netstatus-iface.c:981
+#: ../plugins/netstatus/netstatus-iface.c:982
 msgid "IPv6-in-IPv4"
 msgstr "IPv6-in-IPv4"
 
-#: ../plugins/netstatus/netstatus-iface.c:993
+#: ../plugins/netstatus/netstatus-iface.c:994
 msgid "HIPPI"
 msgstr "HIPPI"
 
-#: ../plugins/netstatus/netstatus-iface.c:996
+#: ../plugins/netstatus/netstatus-iface.c:997
 msgid "Ash"
 msgstr "Ash"
 
-#: ../plugins/netstatus/netstatus-iface.c:999
+#: ../plugins/netstatus/netstatus-iface.c:1000
 msgid "Econet"
 msgstr "Econet"
 
-#: ../plugins/netstatus/netstatus-iface.c:1002
+#: ../plugins/netstatus/netstatus-iface.c:1003
 msgid "IrLAP"
 msgstr "IrLAP"
 
-#: ../plugins/netstatus/netstatus-iface.c:1163
+#: ../plugins/netstatus/netstatus-iface.c:1158
 #, c-format
 msgid "SIOCGIFCONF error: %s"
 msgstr "Chyba SIOCGIFCONF: %s"
 
-#: ../plugins/netstatus/netstatus-iface.c:1256
+#: ../plugins/netstatus/netstatus-iface.c:1251
 #, c-format
 msgid "No network devices found"
 msgstr "Neboli nájdené žiadne sieťové zariadenia"
@@ -1581,22 +1605,40 @@ msgstr "Prijíma"
 msgid "Sending/Receiving"
 msgstr "Odosiela/prijíma"
 
-#: ../plugins/batt/batt.c:156
+#: ../plugins/batt/batt.c:159
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged, %d:%02d until full"
+msgid "Battery: %d%% charged, %d:%02d until full"
+msgstr "Batéria %d: nabitá na %d %%, %d:%02d do plného nabitia"
+
+#: ../plugins/batt/batt.c:163
 #, c-format
 msgid "Battery %d: %d%% charged, %d:%02d until full"
 msgstr "Batéria %d: nabitá na %d %%, %d:%02d do plného nabitia"
 
-#: ../plugins/batt/batt.c:170
+#: ../plugins/batt/batt.c:178
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged, %d:%02d left"
+msgid "Battery: %d%% charged, %d:%02d left"
+msgstr "Batéria %d: nabitá na %d %%, %d: zostáva %02d"
+
+#: ../plugins/batt/batt.c:182
 #, c-format
 msgid "Battery %d: %d%% charged, %d:%02d left"
 msgstr "Batéria %d: nabitá na %d %%, %d: zostáva %02d"
 
-#: ../plugins/batt/batt.c:177
+#: ../plugins/batt/batt.c:190
+#, fuzzy, c-format
+#| msgid "Battery %d: %d%% charged"
+msgid "Battery: %d%% charged"
+msgstr "Batéria %d: nabitá na %d %%"
+
+#: ../plugins/batt/batt.c:194
 #, c-format
 msgid "Battery %d: %d%% charged"
 msgstr "Batéria %d: nabitá na %d %%"
 
-#: ../plugins/batt/batt.c:187
+#: ../plugins/batt/batt.c:204
 #, c-format
 msgid ""
 "\n"
@@ -1605,7 +1647,7 @@ msgstr ""
 "\n"
 "%sEnergia plná, návrh:\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:189
+#: ../plugins/batt/batt.c:206
 #, c-format
 msgid ""
 "\n"
@@ -1614,7 +1656,7 @@ msgstr ""
 "\n"
 "%sEnergia plná:\t\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:191
+#: ../plugins/batt/batt.c:208
 #, c-format
 msgid ""
 "\n"
@@ -1623,7 +1665,7 @@ msgstr ""
 "\n"
 "%sEnergia teraz:\t\t\t%5d mWh"
 
-#: ../plugins/batt/batt.c:193
+#: ../plugins/batt/batt.c:210
 #, c-format
 msgid ""
 "\n"
@@ -1632,7 +1674,7 @@ msgstr ""
 "\n"
 "%sVýkon teraz:\t\t\t%5d mW"
 
-#: ../plugins/batt/batt.c:196
+#: ../plugins/batt/batt.c:213
 #, c-format
 msgid ""
 "\n"
@@ -1641,7 +1683,7 @@ msgstr ""
 "\n"
 "%sPlne nabité, návrh:\t%5d mAh"
 
-#: ../plugins/batt/batt.c:198
+#: ../plugins/batt/batt.c:215
 #, c-format
 msgid ""
 "\n"
@@ -1650,7 +1692,7 @@ msgstr ""
 "\n"
 "%sPlne nabité:\t\t\t%5d mAh"
 
-#: ../plugins/batt/batt.c:200
+#: ../plugins/batt/batt.c:217
 #, c-format
 msgid ""
 "\n"
@@ -1659,7 +1701,7 @@ msgstr ""
 "\n"
 "%sNabitie teraz:\t\t\t%5d mAh"
 
-#: ../plugins/batt/batt.c:202
+#: ../plugins/batt/batt.c:219
 #, c-format
 msgid ""
 "\n"
@@ -1668,72 +1710,79 @@ msgstr ""
 "\n"
 "%sPrúd teraz:\t\t\t%5d mA"
 
-#: ../plugins/batt/batt.c:205
-#, c-format
+#: ../plugins/batt/batt.c:222
+#, fuzzy, c-format
+#| msgid ""
+#| "\n"
+#| "%sCurrent Voltage:\t\t%.3lf V"
 msgid ""
 "\n"
-"%sCurrent Voltage:\t\t%.3lf V"
+"%sVoltage now:\t\t%.3lf V"
 msgstr ""
 "\n"
 "%sAktuálne napätie:\t\t%.3lf V"
 
-#: ../plugins/batt/batt.c:243
+#: ../plugins/batt/batt.c:259
 msgid "No batteries found"
 msgstr "Neboli nájdené batérie"
 
-#: ../plugins/batt/batt.c:546 ../plugins/batt/batt.c:679
+#: ../plugins/batt/batt.c:571 ../plugins/batt/batt.c:704
 msgid "Battery low"
 msgstr "Slabá batéria"
 
-#: ../plugins/batt/batt.c:702 ../plugins/batt/batt.c:726
+#: ../plugins/batt/batt.c:728 ../plugins/batt/batt.c:753
 msgid "Battery Monitor"
 msgstr "Monitor batérie"
 
-#: ../plugins/batt/batt.c:704
+#: ../plugins/batt/batt.c:730
 msgid "Hide if there is no battery"
 msgstr "Skryť ak neexistujú batérie"
 
-#: ../plugins/batt/batt.c:705
+#: ../plugins/batt/batt.c:731
 msgid "Alarm command"
 msgstr "Príkaz budíka"
 
-#: ../plugins/batt/batt.c:706
+#: ../plugins/batt/batt.c:732
 msgid "Alarm time (minutes left)"
 msgstr "Čas budíka (zostáva minút)"
 
-#: ../plugins/batt/batt.c:707
+#: ../plugins/batt/batt.c:733
 msgid "Background color"
 msgstr "Farba pozadia"
 
-#: ../plugins/batt/batt.c:708
+#: ../plugins/batt/batt.c:734
 msgid "Charging color 1"
 msgstr "Farba nabíjania 1"
 
-#: ../plugins/batt/batt.c:709
+#: ../plugins/batt/batt.c:735
 msgid "Charging color 2"
 msgstr "Farba nabíjania 2"
 
-#: ../plugins/batt/batt.c:710
+#: ../plugins/batt/batt.c:736
 msgid "Discharging color 1"
 msgstr "Farba vybíjania 1"
 
-#: ../plugins/batt/batt.c:711
+#: ../plugins/batt/batt.c:737
 msgid "Discharging color 2"
 msgstr "Farba vybíjania 2"
 
-#: ../plugins/batt/batt.c:712
+#: ../plugins/batt/batt.c:738
 msgid "Border width"
 msgstr "Šírka okraja"
 
-#: ../plugins/batt/batt.c:716
+#: ../plugins/batt/batt.c:742
 msgid "Show Extended Information"
 msgstr "Zobraziť rozširujúce informácie"
 
-#: ../plugins/batt/batt.c:717
+#: ../plugins/batt/batt.c:743
 msgid "Number of battery to monitor"
 msgstr "Počet batérií na monitorovanie"
 
-#: ../plugins/batt/batt.c:727
+#: ../plugins/batt/batt.c:744
+msgid "Don't show number of battery"
+msgstr ""
+
+#: ../plugins/batt/batt.c:754
 msgid "Display battery status using ACPI"
 msgstr "Zobrazovať stav batérie pomocou ACPI"
 
@@ -1757,7 +1806,6 @@ msgstr "Zobrazovať ScrollLock"
 msgid "Indicators for CapsLock, NumLock, and ScrollLock keys"
 msgstr "Indikátory stavu klávesov CapsLock, NumLock a ScrollLock"
 
-#. A label to allow for click through
 #: ../plugins/indicator/indicator.c:694
 msgid "No Indicators"
 msgstr "Žiadny indikátor"
@@ -1794,53 +1842,57 @@ msgstr "Zvuk"
 msgid "Add indicator applets to the panel"
 msgstr "Pridať indikátor appletov na panel"
 
-#: ../plugins/monitors/monitors.c:285
+#: ../plugins/monitors/monitors.c:290
 #, c-format
 msgid "CPU usage: %.2f%%"
 msgstr "Využitie CPU: %.2f%%"
 
-#: ../plugins/monitors/monitors.c:386
+#: ../plugins/monitors/monitors.c:393
 #, c-format
 msgid "RAM usage: %.1fMB (%.2f%%)"
 msgstr "Využitie RAM: %.1fMB (%.2f%%)"
 
-#: ../plugins/monitors/monitors.c:732 ../plugins/monitors/monitors.c:821
+#: ../plugins/monitors/monitors.c:744 ../plugins/monitors/monitors.c:835
 msgid "Resource monitors"
 msgstr "Sledovanie zdrojov"
 
-#: ../plugins/monitors/monitors.c:735
+#: ../plugins/monitors/monitors.c:747
 msgid "CPU color"
 msgstr "Farba CPU"
 
-#: ../plugins/monitors/monitors.c:736
+#: ../plugins/monitors/monitors.c:748
 msgid "Display RAM usage"
 msgstr "Zobraziť využitie RAM"
 
-#: ../plugins/monitors/monitors.c:737
+#: ../plugins/monitors/monitors.c:749
 msgid "RAM color"
 msgstr "Farba RAM"
 
-#: ../plugins/monitors/monitors.c:738
+#: ../plugins/monitors/monitors.c:750
+msgid "Show memory used by cache as free"
+msgstr ""
+
+#: ../plugins/monitors/monitors.c:751
 msgid "Action when clicked (default: lxtask)"
 msgstr "Operácia po kliknutí (predvolená: lxtask)"
 
-#: ../plugins/monitors/monitors.c:822
+#: ../plugins/monitors/monitors.c:836
 msgid "Display monitors (CPU, RAM)"
 msgstr "Zobraziť monitory (CPU, RAM)"
 
-#: ../plugins/weather/weatherwidget.c:52
+#: ../plugins/weather/weatherwidget.c:53
 msgid "[N/A]"
 msgstr "[N/A]"
 
-#: ../plugins/weather/weatherwidget.c:806
+#: ../plugins/weather/weatherwidget.c:807
 msgid "Enter New Location"
 msgstr "Zadajte nové umiestnenie"
 
-#: ../plugins/weather/weatherwidget.c:820
+#: ../plugins/weather/weatherwidget.c:821
 msgid "_New Location:"
 msgstr "_Nové umiestnenie:"
 
-#: ../plugins/weather/weatherwidget.c:831
+#: ../plugins/weather/weatherwidget.c:832
 msgid ""
 "Enter the:\n"
 "- city, or\n"
@@ -1854,176 +1906,181 @@ msgstr ""
 "- poštové smerovacie číslo,\n"
 "pre ktoré sa má zisťovať predpoveď počasia."
 
-#: ../plugins/weather/weatherwidget.c:868
-#: ../plugins/weather/weatherwidget.c:1001
+#: ../plugins/weather/weatherwidget.c:869
+#: ../plugins/weather/weatherwidget.c:1002
 msgid "You must specify a location."
 msgstr "Musíte zadať umiestnenie."
 
-#: ../plugins/weather/weatherwidget.c:915
+#: ../plugins/weather/weatherwidget.c:916
 #, c-format
 msgid "Location '%s' not found!"
 msgstr "Umiestnenie '%s' sa nenašlo!"
 
-#: ../plugins/weather/weatherwidget.c:1074
+#: ../plugins/weather/weatherwidget.c:1075
 msgid "Preferences"
 msgstr "Predvoľby"
 
-#: ../plugins/weather/weatherwidget.c:1080
+#: ../plugins/weather/weatherwidget.c:1081
 msgid "Refresh"
 msgstr "Obnoviť"
 
-#: ../plugins/weather/weatherwidget.c:1086
+#: ../plugins/weather/weatherwidget.c:1087
 msgid "Quit"
 msgstr "Ukončiť"
 
-#: ../plugins/weather/weatherwidget.c:1253
+#: ../plugins/weather/weatherwidget.c:1254
 msgid "Weather Preferences"
 msgstr "Predvoľby počasia"
 
-#: ../plugins/weather/weatherwidget.c:1267
+#: ../plugins/weather/weatherwidget.c:1268
 msgid "Current Location"
 msgstr "Súčasná poloha"
 
-#: ../plugins/weather/weatherwidget.c:1271
-#: ../plugins/weather/weatherwidget.c:1573
+#: ../plugins/weather/weatherwidget.c:1272
+#: ../plugins/weather/weatherwidget.c:1574
 msgid "None configured"
 msgstr "Nič nanastavené"
 
-#: ../plugins/weather/weatherwidget.c:1273
-#: ../plugins/weather/weatherwidget.c:1570
+#: ../plugins/weather/weatherwidget.c:1274
+#: ../plugins/weather/weatherwidget.c:1571
 msgid "_Set"
 msgstr "Na_staviť"
 
-#: ../plugins/weather/weatherwidget.c:1294
+#: ../plugins/weather/weatherwidget.c:1295
 msgid "Display"
 msgstr "Zobrazenie"
 
-#: ../plugins/weather/weatherwidget.c:1298
+#: ../plugins/weather/weatherwidget.c:1299
 msgid "Name:"
 msgstr "Názov:"
 
-#: ../plugins/weather/weatherwidget.c:1302
+#: ../plugins/weather/weatherwidget.c:1303
 msgid "Units:"
 msgstr "Jednotky:"
 
-#: ../plugins/weather/weatherwidget.c:1306
+#: ../plugins/weather/weatherwidget.c:1307
 msgid "_Metric (°C)"
 msgstr "_Metrické (°C)"
 
-#: ../plugins/weather/weatherwidget.c:1308
+#: ../plugins/weather/weatherwidget.c:1309
 msgid "_English (°F)"
 msgstr "_Anglické (°F)"
 
-#: ../plugins/weather/weatherwidget.c:1343
+#: ../plugins/weather/weatherwidget.c:1344
 msgid "Forecast"
 msgstr "Predpoveď"
 
-#: ../plugins/weather/weatherwidget.c:1347
+#: ../plugins/weather/weatherwidget.c:1348
 msgid "Updates:"
 msgstr "Aktualizácie:"
 
-#: ../plugins/weather/weatherwidget.c:1351
+#: ../plugins/weather/weatherwidget.c:1352
 msgid "Ma_nual"
 msgstr "Ma_nuálne"
 
-#: ../plugins/weather/weatherwidget.c:1355
+#: ../plugins/weather/weatherwidget.c:1356
 msgid "_Automatic, every"
 msgstr "_Automatické, každých"
 
-#: ../plugins/weather/weatherwidget.c:1376
+#: ../plugins/weather/weatherwidget.c:1377
 msgid "minutes"
 msgstr "minút"
 
-#: ../plugins/weather/weatherwidget.c:1385
+#: ../plugins/weather/weatherwidget.c:1386
 msgid "Source:"
 msgstr "Zdroj:"
 
-#: ../plugins/weather/weatherwidget.c:1521
+#: ../plugins/weather/weatherwidget.c:1522
 msgid "C_hange"
 msgstr "_Zmeniť"
 
-#. Both are available
-#: ../plugins/weather/weatherwidget.c:1612
+#: ../plugins/weather/weatherwidget.c:1613
 #, c-format
 msgid "Current Conditions for %s"
 msgstr "Aktuálna predpoveď pre %s"
 
-#: ../plugins/weather/weatherwidget.c:1636
+#: ../plugins/weather/weatherwidget.c:1637
 msgid "Location:"
 msgstr "Poloha:"
 
-#: ../plugins/weather/weatherwidget.c:1659
+#: ../plugins/weather/weatherwidget.c:1660
 msgid "Last updated:"
 msgstr "Posledná aktualizácia:"
 
-#: ../plugins/weather/weatherwidget.c:1693
+#: ../plugins/weather/weatherwidget.c:1694
 msgid "Feels like:"
 msgstr "Pocitová teplota:"
 
-#: ../plugins/weather/weatherwidget.c:1719
+#: ../plugins/weather/weatherwidget.c:1720
 msgid "Humidity:"
 msgstr "Vlhkosť:"
 
-#: ../plugins/weather/weatherwidget.c:1746
+#: ../plugins/weather/weatherwidget.c:1747
 msgid "Pressure:"
 msgstr "Tlak:"
 
-#: ../plugins/weather/weatherwidget.c:1773
+#: ../plugins/weather/weatherwidget.c:1774
 msgid "Visibility:"
 msgstr "Viditeľnosť:"
 
-#: ../plugins/weather/weatherwidget.c:1801
+#: ../plugins/weather/weatherwidget.c:1803
 msgid "Wind:"
 msgstr "Vietor:"
 
-#: ../plugins/weather/weatherwidget.c:1824
+#: ../plugins/weather/weatherwidget.c:1826
 msgid "Sunrise:"
 msgstr "Východ slnka:"
 
-#: ../plugins/weather/weatherwidget.c:1847
+#: ../plugins/weather/weatherwidget.c:1849
 msgid "Sunset:"
 msgstr "Západ slnka:"
 
-#: ../plugins/weather/weatherwidget.c:1955
-#: ../plugins/weather/weatherwidget.c:2306
+#: ../plugins/weather/weatherwidget.c:1958
+#: ../plugins/weather/weatherwidget.c:2309
 #, c-format
 msgid "Forecast for %s unavailable."
 msgstr "Predpoveď pre %s nie je dostupná."
 
-#: ../plugins/weather/weatherwidget.c:1964
-#: ../plugins/weather/weatherwidget.c:2311
+#: ../plugins/weather/weatherwidget.c:1967
+#: ../plugins/weather/weatherwidget.c:2314
 #, c-format
 msgid "Location not set."
 msgstr "Umiestnenie nie je zadané."
 
-#: ../plugins/weather/weatherwidget.c:1981
+#: ../plugins/weather/weatherwidget.c:1984
 #, c-format
 msgid "Searching for '%s'..."
 msgstr "Vyhľadáva sa '%s'..."
 
-#: ../plugins/weather/weatherwidget.c:2107
+#: ../plugins/weather/weatherwidget.c:2110
 #, c-format
 msgid "Location matches for '%s'"
 msgstr "Umiestnenie zodpovedá '%s'"
 
-#: ../plugins/weather/weatherwidget.c:2127
+#: ../plugins/weather/weatherwidget.c:2130
 msgid "City"
 msgstr "Mesto"
 
-#: ../plugins/weather/weatherwidget.c:2147
+#: ../plugins/weather/weatherwidget.c:2140
+#, fuzzy
+#| msgid "State"
+msgctxt "Politics"
+msgid "State"
+msgstr "Stav"
+
+#: ../plugins/weather/weatherwidget.c:2150
 msgid "Country"
 msgstr "Krajina"
 
-#. make it nice and pretty
-#: ../plugins/weather/weatherwidget.c:2286
+#: ../plugins/weather/weatherwidget.c:2289
 msgid "Currently in "
 msgstr "Aktuálne v "
 
-#: ../plugins/weather/weatherwidget.c:2292
+#: ../plugins/weather/weatherwidget.c:2295
 msgid "Today: "
 msgstr "Dnes: "
 
-#: ../plugins/weather/weatherwidget.c:2293
+#: ../plugins/weather/weatherwidget.c:2296
 msgid "Tomorrow: "
 msgstr "Zajtra:"
 
@@ -2035,87 +2092,87 @@ msgstr "Predpoveď počasia"
 msgid "Show weather conditions for a location."
 msgstr "Zobrazí predpoveď počasia pre danú lokáciu."
 
-#: ../plugins/weather/yahooutil.c:51 ../plugins/weather/openweathermap.c:56
+#: ../plugins/weather/yahooutil.c:53 ../plugins/weather/openweathermap.c:57
 msgid "N"
 msgstr "S"
 
-#: ../plugins/weather/yahooutil.c:52 ../plugins/weather/openweathermap.c:57
+#: ../plugins/weather/yahooutil.c:54 ../plugins/weather/openweathermap.c:58
 msgid "NNE"
 msgstr "SSV"
 
-#: ../plugins/weather/yahooutil.c:53 ../plugins/weather/openweathermap.c:58
+#: ../plugins/weather/yahooutil.c:55 ../plugins/weather/openweathermap.c:59
 msgid "NE"
 msgstr "SV"
 
-#: ../plugins/weather/yahooutil.c:54 ../plugins/weather/openweathermap.c:59
+#: ../plugins/weather/yahooutil.c:56 ../plugins/weather/openweathermap.c:60
 msgid "ENE"
 msgstr "VSV"
 
-#: ../plugins/weather/yahooutil.c:55 ../plugins/weather/openweathermap.c:60
+#: ../plugins/weather/yahooutil.c:57 ../plugins/weather/openweathermap.c:61
 msgid "E"
 msgstr "V"
 
-#: ../plugins/weather/yahooutil.c:56 ../plugins/weather/openweathermap.c:61
+#: ../plugins/weather/yahooutil.c:58 ../plugins/weather/openweathermap.c:62
 msgid "ESE"
 msgstr "VJV"
 
-#: ../plugins/weather/yahooutil.c:57 ../plugins/weather/openweathermap.c:62
+#: ../plugins/weather/yahooutil.c:59 ../plugins/weather/openweathermap.c:63
 msgid "SE"
 msgstr "JV"
 
-#: ../plugins/weather/yahooutil.c:58 ../plugins/weather/openweathermap.c:63
+#: ../plugins/weather/yahooutil.c:60 ../plugins/weather/openweathermap.c:64
 msgid "SSE"
 msgstr "JJV"
 
-#: ../plugins/weather/yahooutil.c:59 ../plugins/weather/openweathermap.c:64
+#: ../plugins/weather/yahooutil.c:61 ../plugins/weather/openweathermap.c:65
 msgid "S"
 msgstr "J"
 
-#: ../plugins/weather/yahooutil.c:60 ../plugins/weather/openweathermap.c:65
+#: ../plugins/weather/yahooutil.c:62 ../plugins/weather/openweathermap.c:66
 msgid "SSW"
 msgstr "JJZ"
 
-#: ../plugins/weather/yahooutil.c:61 ../plugins/weather/openweathermap.c:66
+#: ../plugins/weather/yahooutil.c:63 ../plugins/weather/openweathermap.c:67
 msgid "SW"
 msgstr "JZ"
 
-#: ../plugins/weather/yahooutil.c:62 ../plugins/weather/openweathermap.c:67
+#: ../plugins/weather/yahooutil.c:64 ../plugins/weather/openweathermap.c:68
 msgid "WSW"
 msgstr "ZJZ"
 
-#: ../plugins/weather/yahooutil.c:63 ../plugins/weather/openweathermap.c:68
+#: ../plugins/weather/yahooutil.c:65 ../plugins/weather/openweathermap.c:69
 msgid "W"
 msgstr "Z"
 
-#: ../plugins/weather/yahooutil.c:64 ../plugins/weather/openweathermap.c:69
+#: ../plugins/weather/yahooutil.c:66 ../plugins/weather/openweathermap.c:70
 msgid "WNW"
 msgstr "ZSZ"
 
-#: ../plugins/weather/yahooutil.c:65 ../plugins/weather/openweathermap.c:70
+#: ../plugins/weather/yahooutil.c:67 ../plugins/weather/openweathermap.c:71
 msgid "NW"
 msgstr "SZ"
 
-#: ../plugins/weather/yahooutil.c:66 ../plugins/weather/openweathermap.c:71
+#: ../plugins/weather/yahooutil.c:68 ../plugins/weather/openweathermap.c:72
 msgid "NNW"
 msgstr "SSZ"
 
-#: ../plugins/weather/yahooutil.c:1086
+#: ../plugins/weather/yahooutil.c:1094
 msgid "Yahoo! Weather"
 msgstr "Yahoo! Weather"
 
-#: ../plugins/weather/openweathermap.c:365
+#: ../plugins/weather/openweathermap.c:472
 msgid "Mph"
 msgstr "míle/h"
 
-#: ../plugins/weather/openweathermap.c:365
+#: ../plugins/weather/openweathermap.c:472
 msgid "m/s"
 msgstr "m/s"
 
-#: ../plugins/weather/openweathermap.c:535
+#: ../plugins/weather/openweathermap.c:642
 msgid "m"
 msgstr "m"
 
-#: ../plugins/weather/openweathermap.c:932
+#: ../plugins/weather/openweathermap.c:1052
 msgid "OpenWeatherMap"
 msgstr "OpenWeatherMap"
 

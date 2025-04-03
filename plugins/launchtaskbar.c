@@ -18,6 +18,7 @@
  *               2014 Andy Balaam <axis3x3@users.sf.net>
  *               2015 Balló György <ballogyor@gmail.com>
  *               2015 Rafał Mużyło <galtgendo@gmail.com>
+ *               2023,2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -1008,6 +1009,8 @@ static void launchtaskbar_constructor_task(LaunchTaskBarPlugin *ltbp)
             ltbp->flags.icons_only = (tmp_int != 0);
         if (config_setting_lookup_int(s, "ShowAllDesks", &tmp_int))
             ltbp->flags.show_all_desks = (tmp_int != 0);
+        if (config_setting_lookup_int(s, "ShowSquareBrackets", &tmp_int))
+            ltbp->flags.show_square_brackets = (tmp_int != 0);
         if (config_setting_lookup_int(s, "SameMonitorOnly", &tmp_int))
             ltbp->flags.same_monitor_only = (tmp_int != 0);
         if (config_setting_lookup_int(s, "DisableUpscale", &tmp_int))
@@ -1048,6 +1051,9 @@ static void launchtaskbar_constructor_task(LaunchTaskBarPlugin *ltbp)
 
         /* Connect a signal to be notified when the window manager changes.  This causes re-evaluation of the "use_net_active" status. */
         g_signal_connect(ltbp->screen, "window-manager-changed", G_CALLBACK(taskbar_window_manager_changed), ltbp);
+#if GTK_CHECK_VERSION(3, 0, 0)
+        taskbar_window_manager_changed(NULL, ltbp);
+#endif
 
         /* Start blinking timeout if configured */
         if (ltbp->flags.use_urgency_hint)
@@ -1104,6 +1110,7 @@ static GtkWidget *_launchtaskbar_constructor(LXPanel *panel, config_setting_t *s
     ltbp->flags.tooltips    = TRUE;
     ltbp->flags.icons_only  = FALSE;
     ltbp->flags.show_all_desks = TRUE;
+    ltbp->flags.show_square_brackets = TRUE;
     ltbp->task_width_max    = TASK_WIDTH_MAX;
     ltbp->spacing           = 1;
     ltbp->flags.use_mouse_wheel = TRUE;
@@ -1524,6 +1531,15 @@ static void on_checkbutton_show_all_desks_toggled(GtkToggleButton *p_togglebutto
     taskbar_apply_configuration(ltbp);
 }
 
+static void on_checkbutton_show_square_brackets_toggled(GtkToggleButton *p_togglebutton, gpointer p_data)
+{
+    LaunchTaskBarPlugin *ltbp = (LaunchTaskBarPlugin *)p_data;
+    ltbp->flags.show_square_brackets = gtk_toggle_button_get_active(p_togglebutton);
+    //g_print("\ntb->flags.show_square_brackets upd\n");
+    config_group_set_int(ltbp->settings, "ShowSquareBrackets", ltbp->flags.show_square_brackets);
+    taskbar_apply_configuration(ltbp);
+}
+
 static void on_checkbutton_same_monitor_only_toggled(GtkToggleButton *p_togglebutton, gpointer p_data)
 {
     LaunchTaskBarPlugin *ltbp = (LaunchTaskBarPlugin *)p_data;
@@ -1680,6 +1696,7 @@ static void on_defined_view_cursor_changed(GtkTreeView *p_treeview, gpointer p_d
             GString *p_gstring = g_string_new("");
             g_string_printf(p_gstring, "<i>%s</i>", fm_file_info_get_disp_name(fi));
             gtk_label_set_markup(GTK_LABEL(lb->p_label_def_app_exec), p_gstring->str);
+            gtk_widget_set_tooltip_text(lb->p_label_def_app_exec, fm_file_info_get_disp_name(fi));
             g_string_free(p_gstring, TRUE/*free also gstring->str*/);
             label_set = TRUE;
         }
@@ -1696,12 +1713,13 @@ static void on_menu_view_cursor_changed(GtkTreeView *p_treeview, gpointer p_data
 
     if (app)
     {
+        const char *app_info = g_app_info_get_description(app);
         GString *p_gstring = g_string_new("");
-        if (g_app_info_get_description(app))
-            g_string_printf(p_gstring, "<i>%s</i>", g_app_info_get_description(app));
-        else
-            g_string_printf(p_gstring, "<i>%s</i>", g_app_info_get_name(app));
+        if (!app_info)
+            app_info = g_app_info_get_name(app);
+        g_string_printf(p_gstring, "<i>%s</i>", app_info);
         gtk_label_set_markup(GTK_LABEL(lb->p_label_menu_app_exec), p_gstring->str);
+        gtk_widget_set_tooltip_text(lb->p_label_menu_app_exec, app_info);
         g_string_free(p_gstring, TRUE/*free also gstring->str*/);
         label_set = TRUE;
     }
@@ -1783,6 +1801,7 @@ static GtkWidget *launchtaskbar_configure(LXPanel *panel, GtkWidget *p)
         SETUP_TOGGLE_BUTTON(checkbutton_icons_only, icons_only);
         SETUP_TOGGLE_BUTTON(checkbutton_flat_buttons, flat_button);
         SETUP_TOGGLE_BUTTON(checkbutton_show_all_desks, show_all_desks);
+        SETUP_TOGGLE_BUTTON(checkbutton_show_square_brackets, show_square_brackets);
         SETUP_TOGGLE_BUTTON(checkbutton_same_monitor_only, same_monitor_only);
         SETUP_TOGGLE_BUTTON(checkbutton_mouse_wheel, use_mouse_wheel);
         SETUP_TOGGLE_BUTTON(checkbutton_urgency_hint, use_urgency_hint);
@@ -2428,7 +2447,9 @@ static void taskbar_window_manager_changed(GdkScreen * screen, LaunchTaskBarPlug
     /* Force re-evaluation of use_net_active. */
     GdkAtom net_active_atom = gdk_x11_xatom_to_atom(a_NET_ACTIVE_WINDOW);
     tb->flags.use_net_active = gdk_x11_screen_supports_net_wm_hint(tb->screen, net_active_atom);
-    taskbar_redraw(tb);
+
+    if (screen)
+        taskbar_redraw(tb);
 }
 
 /* Callback from configuration dialog mechanism to apply the configuration. */

@@ -3,7 +3,7 @@
 
 Global {
     edge=bottom
-    allign=left
+    align=left
     margin=0
     widthtype=percent
     width=100
@@ -15,17 +15,8 @@ Global {
     setpartialstrut=1
     usefontcolor=1
     fontcolor=#ffffff
-    usefontsize=0
-    fontsize=10    
     background=1
     backgroundfile=@prefix@/share/lxpanel/images/background.png
-}
-
-Plugin {
-    type = space
-    Config {
-        Size=2
-    }
 }
 
 Plugin {
@@ -55,7 +46,7 @@ Plugin {
             id=pcmanfm.desktop
         }
         Button {
-            id=gnome-terminal.desktop
+            id=lxterminal.desktop
         }
         Button {
             id=firefox.desktop
@@ -106,6 +97,7 @@ Plugin {
         ShowIconified=1
         ShowMapped=1
         ShowAllDesks=0
+        ShowSquareBrackets=1
         UseMouseWheel=1
         UseUrgencyHint=1
         FlatButton=0
@@ -116,6 +108,15 @@ Plugin {
 
 Plugin {
     type = cpu
+}
+
+Plugin {
+    type = volume
+    Config {
+        VolumeMuteKey=XF86AudioMute
+        VolumeDownKey=XF86AudioLowerVolume
+        VolumeUpKey=XF86AudioRaiseVolume
+    }
 }
 
 Plugin {

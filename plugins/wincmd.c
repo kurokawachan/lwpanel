@@ -7,6 +7,7 @@
  *               2012 Julien Lavergne <julien.lavergne@gmail.com>
  *               2013 Henry Gebhardt <hsggebhardt@gmail.com>
  *               2014-2016 Andriy Grytsenko <andrej@rep.kiev.ua>
+ *               2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -124,7 +125,7 @@ static gboolean wincmd_button_clicked(GtkWidget * widget, GdkEventButton * event
     WinCmdPlugin * wc = lxpanel_plugin_get_data(widget);
 
     /* Left-click to iconify. */
-    if (event->button == 1)
+    if (event->button == 1 && event->type == GDK_BUTTON_PRESS)
     {
         GdkScreen* screen = gtk_widget_get_screen(widget);
         Screen *xscreen = GDK_SCREEN_XSCREEN(screen);
@@ -136,6 +137,14 @@ static gboolean wincmd_button_clicked(GtkWidget * widget, GdkEventButton * event
          * Otherwise, fall back to iconifying windows individually. */
         if (gdk_x11_screen_supports_net_wm_hint(screen, atom))
         {
+            guint32 *state = get_xaproperty(RootWindowOfScreen(xscreen), a_NET_SHOWING_DESKTOP, XA_CARDINAL, NULL);
+
+            if (state)
+            {
+                wc->toggle_state = *state;
+                XFree(state);
+            }
+
             int showing_desktop = ((( ! wc->toggle_preference) || ( ! wc->toggle_state)) ? 1 : 0);
             Xclimsgx(xscreen, RootWindowOfScreen(xscreen),
                     a_NET_SHOWING_DESKTOP, showing_desktop, 0, 0, 0, 0);

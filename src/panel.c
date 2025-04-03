@@ -17,6 +17,7 @@
  *               2015 Rafał Mużyło <galtgendo@gmail.com>
  *               2015 Hanno Zulla <hhz@users.sf.net>
  *               2018 Mamoru TASAKA <mtasaka@fedoraproject.org>
+ *               2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -51,6 +52,10 @@
 #include <gdk/gdkx.h>
 #include <libfm/fm-gtk.h>
 #include <cairo-xlib.h>
+#ifndef WNCK_I_KNOW_THIS_IS_UNSTABLE
+#define WNCK_I_KNOW_THIS_IS_UNSTABLE
+#endif
+#include <libwnck/libwnck.h>
 
 #define __LXPANEL_INTERNALS__
 
@@ -235,6 +240,28 @@ static void lxpanel_style_set(GtkWidget *widget, GtkStyle* prev)
     _panel_queue_update_background(LXPANEL(widget));
 }
 
+static gboolean lxpanel_has_plugin (LXPanel *panel, const char *name)
+{
+    gboolean found = FALSE;
+    GList *plugins = NULL, *plugin;
+
+    if (panel->priv->box)
+        plugins = gtk_container_get_children(GTK_CONTAINER(panel->priv->box));
+
+    for (plugin = plugins; plugin; plugin = plugin->next)
+    {
+        if (g_strcmp0(gtk_widget_get_name(GTK_WIDGET(plugin->data)), name) == 0)
+        {
+            found = TRUE;
+            break;
+        }
+    }
+
+    g_list_free(plugins);
+
+    return found;
+}
+
 static void lxpanel_size_request(GtkWidget *widget, GtkRequisition *req)
 {
     LXPanel *panel = LXPANEL(widget);
@@ -248,9 +275,28 @@ static void lxpanel_size_request(GtkWidget *widget, GtkRequisition *req)
     GTK_WIDGET_CLASS(lxpanel_parent_class)->get_preferred_height(widget, &req->height, &req->height);
 #endif
 
-    if (!p->visible)
+    if (!p->visible
         /* When the panel is in invisible state, the content box also got hidden, thus always
          * report 0 size.  Ask the content box instead for its size. */
+#ifdef WNCK_CHECK_VERSION
+#if WNCK_CHECK_VERSION(40, 0, 0)
+    /* Commit 3456b747b6381f17d48629dd8fdd4d511e739b10 in libwnck and
+       lxpanel sizing being implemented based on GTK+ 2 result in a cropped
+       panel when using the "dynamic width" setting (GitHub issue #86).
+
+       As a workaround for libwnck-3, version >= 40, we do not use the
+       preferred width of the parent class, but instead ask the content box
+       for its size.
+
+       It may be overkill to check if the pager is being used as a plugin,
+       but this is exactly the constellation in which the error occurs.
+
+       This fix should be replaced with a proper GTK 3
+       width-for-height/height-for-width implementation. */
+        || (p->widthtype == WIDTH_REQUEST && lxpanel_has_plugin(panel, "pager"))
+#endif
+#endif
+       )
         gtk_widget_size_request(p->box, req);
 
     rect.width = req->width;
@@ -292,6 +338,12 @@ lxpanel_get_preferred_height (GtkWidget *widget,
       *minimal_height = requisition.height;
   if (natural_height)
       *natural_height = requisition.height;
+}
+
+static GtkSizeRequestMode
+lxpanel_get_request_mode (GtkWidget *widget)
+{
+    return GTK_SIZE_REQUEST_CONSTANT_SIZE;
 }
 #endif
 
@@ -413,6 +465,7 @@ static void lxpanel_class_init(PanelToplevelClass *klass)
 #if GTK_CHECK_VERSION(3, 0, 0)
     widget_class->get_preferred_width = lxpanel_get_preferred_width;
     widget_class->get_preferred_height = lxpanel_get_preferred_height;
+    widget_class->get_request_mode = lxpanel_get_request_mode;
 #else
     widget_class->size_request = lxpanel_size_request;
 #endif
@@ -667,9 +720,14 @@ void _panel_set_wm_strut(LXPanel *panel)
     if (p->setstrut &&
         _panel_edge_can_strut(panel, p->edge, p->monitor, &strut_size))
     {
-        desired_strut[index] = strut_size;
-        desired_strut[4 + index * 2] = strut_lower;
-        desired_strut[5 + index * 2] = strut_upper - 1;
+#if GTK_CHECK_VERSION(3, 10, 0)
+        gint scale_factor = gtk_widget_get_scale_factor(GTK_WIDGET(panel));
+#else
+        gint scale_factor = 1;
+#endif
+        desired_strut[index] = strut_size * scale_factor;
+        desired_strut[4 + index * 2] = strut_lower * scale_factor;
+        desired_strut[5 + index * 2] = strut_upper * scale_factor - 1;
     }
     else
     {
@@ -1349,6 +1407,7 @@ static void panel_popupmenu_about( GtkMenuItem* item, Panel* panel )
         "Andriy Grytsenko <andrej@rep.kiev.ua>",
         "Giuseppe Penone <giuspen@gmail.com>",
         "Piotr Sipika <piotr.sipika@gmail.com>",
+        "Ingo Brückl",
         NULL
     };
     /* TRANSLATORS: Replace this string with your names, one name per line. */
@@ -1375,7 +1434,7 @@ static void panel_popupmenu_about( GtkMenuItem* item, Panel* panel )
                                     gdk_pixbuf_new_from_file(PACKAGE_DATA_DIR "/images/my-computer.png", NULL));
     }
 
-    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about), _("Copyright (C) 2008-2021"));
+    gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about), _("Copyright (C) 2008-2025"));
     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about), _( "Desktop panel for LXDE project"));
     gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about), "This program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
     gtk_about_dialog_set_website(GTK_ABOUT_DIALOG(about), "http://lxde.org/");
@@ -1910,7 +1969,7 @@ panel_parse_global(Panel *p, config_setting_t *cfg)
     if (config_setting_lookup_string(cfg, "align", &str) ||
         /* NOTE: supporting "allign" for backward compatibility */
         config_setting_lookup_string(cfg, "allign", &str))
-        p->align = str2num(allign_pair, str, ALIGN_NONE);
+        p->align = str2num(align_pair, str, ALIGN_NONE);
     config_setting_lookup_int(cfg, "monitor", &p->monitor);
     config_setting_lookup_int(cfg, "margin", &p->margin);
     if (config_setting_lookup_string(cfg, "widthtype", &str))

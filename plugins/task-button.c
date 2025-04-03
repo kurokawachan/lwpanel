@@ -15,6 +15,7 @@
  *               2015 Balló György <ballogyor@gmail.com>
  *               2015 Rafał Mużyło <galtgendo@gmail.com>
  *               2018 Mamoru TASAKA <mtasaka@fedoraproject.org>
+ *               2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -1144,7 +1145,7 @@ static void task_draw_label(TaskButton *tb, gboolean bold_style, gboolean force)
 
     tb->set_bold = bold_style;
     str = g_string_sized_new(32);
-    if (!tb->visible)
+    if (!tb->visible && tb->flags.show_square_brackets)
         g_string_append_c(str, '[');
     if (tb->n_visible > 1)
         g_string_append_printf(str, "(%d) ", tb->n_visible);
@@ -1152,7 +1153,7 @@ static void task_draw_label(TaskButton *tb, gboolean bold_style, gboolean force)
         g_string_append(str, tb->res_class);
     else
         g_string_append(str, tb->last_focused->name);
-    if (!tb->visible)
+    if (!tb->visible && tb->flags.show_square_brackets)
         g_string_append_c(str, ']');
 
     if (force && tb->flags.tooltips)
@@ -1458,7 +1459,7 @@ static void task_button_init(TaskButton *self)
     gtk_widget_set_can_focus(GTK_WIDGET(self), FALSE);
     gtk_widget_set_can_default(GTK_WIDGET(self), FALSE);
     gtk_widget_set_state(GTK_WIDGET(self), GTK_STATE_NORMAL);
-#if GTK_CHECK_VERSION(3, 0, 0)
+#if GTK_CHECK_VERSION(3, 4, 0)
     gtk_widget_add_events(GTK_WIDGET(self), GDK_SCROLL_MASK);
 #endif
 }
@@ -1544,6 +1545,7 @@ void task_button_update_windows_list(TaskButton *button, Window *list, gint n)
         for (l = menu_list; l; l = l->next)
         {
             GtkMenu *menu = GTK_MENU(l->data);
+            gtk_menu_popdown(menu);
             gtk_menu_detach(menu);
         }
         g_list_free(menu_list);
@@ -1750,7 +1752,8 @@ void task_button_update(TaskButton *button, gint desk, gint desks,
     if (button->icon_size != icon_size
         || button->flags.disable_taskbar_upscale != flags.disable_taskbar_upscale)
         changed_icon = TRUE;
-    if (button->flags.flat_button != flags.flat_button)
+    if (button->flags.flat_button != flags.flat_button ||
+        button->flags.show_square_brackets != flags.show_square_brackets)
         changed_label = TRUE;
     if (button->flags.icons_only != flags.icons_only)
     {
