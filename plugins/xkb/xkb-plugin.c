@@ -4,6 +4,7 @@
  *               2012-2013 Giuseppe Penone <giuspen@gmail.com>
  *               2013 Henry Gebhardt <hsggebhardt@gmail.com>
  *               2014-2016 Andriy Grytsenko <andrej@rep.kiev.ua>
+ *               2025 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -118,7 +119,7 @@ void xkb_redraw(XkbPlugin *p_xkb)
     int  size = xkb_get_flag_size(p_xkb);
     if( (p_xkb->display_type == DISP_TYPE_IMAGE) || (p_xkb->display_type == DISP_TYPE_IMAGE_CUST) )
     {
-        char * group_name = (char *)xkb_get_current_symbol_name_lowercase(p_xkb);
+        char *group_name = xkb_get_current_symbol_name_lowercase(p_xkb, FALSE);
         if(group_name != NULL)
         {
             gchar *flag_filepath = NULL;
@@ -162,7 +163,7 @@ void xkb_redraw(XkbPlugin *p_xkb)
     /* Set the label. */
     if( (p_xkb->display_type == DISP_TYPE_TEXT) || ( ! valid_image) )
     {
-        char *group_name = (char *)xkb_get_current_symbol_name(p_xkb);
+        gchar *group_name = xkb_get_current_symbol_name(p_xkb, FALSE);
         if (group_name != NULL)
         {
             lxpanel_draw_label_text(p_xkb->panel, p_xkb->p_label, group_name,
@@ -170,6 +171,7 @@ void xkb_redraw(XkbPlugin *p_xkb)
             gtk_widget_hide(p_xkb->p_image);
             gtk_widget_show(p_xkb->p_label);
             gtk_widget_set_tooltip_text(p_xkb->p_plugin, xkb_get_current_group_name(p_xkb));
+            g_free(group_name);
         }
     }
 }
@@ -196,7 +198,7 @@ static gboolean on_xkb_button_scroll_event(GtkWidget * widget, GdkEventScroll * 
 
     /* Change to next or previous group. */
     xkb_change_group(xkb,
-        (((event->direction == GDK_SCROLL_UP) || (event->direction == GDK_SCROLL_RIGHT)) ? 1 : -1));
+        (((event->direction == GDK_SCROLL_DOWN) || (event->direction == GDK_SCROLL_RIGHT)) ? 1 : -1));
     return TRUE;
 }
 
@@ -275,6 +277,9 @@ static GtkWidget *xkb_constructor(LXPanel *panel, config_setting_t *settings)
     GtkWidget * hbox = gtk_hbox_new(FALSE, 0);
     gtk_container_set_border_width(GTK_CONTAINER(hbox), 3);
     gtk_container_add(GTK_CONTAINER(p), hbox);
+#if GTK_CHECK_VERSION(3, 4, 0)
+    gtk_widget_add_events(p, GDK_SCROLL_MASK);
+#endif
     gtk_widget_show(hbox);
 
     /* Create a label and an image as children of the horizontal box.
@@ -289,6 +294,10 @@ static GtkWidget *xkb_constructor(LXPanel *panel, config_setting_t *settings)
     if( (p_xkb->kbd_model == NULL) || (p_xkb->kbd_layouts == NULL) ||
         (p_xkb->kbd_variants == NULL) || (p_xkb->kbd_change_option == NULL) )
     {
+        int i;
+        GString *layouts = g_string_new("");
+        GString *variants = g_string_new("");
+
         /* This is a first run, read the current layout */
         xkb_mechanism_constructor(p_xkb);
 
@@ -297,12 +306,31 @@ static GtkWidget *xkb_constructor(LXPanel *panel, config_setting_t *settings)
         if(p_xkb->kbd_variants != NULL) g_free(p_xkb->kbd_variants);
         if(p_xkb->kbd_change_option != NULL) g_free(p_xkb->kbd_change_option);
 
-        p_xkb->kbd_model = g_strdup("pc105");
-        gchar *symbol_name_lowercase = (char *)xkb_get_current_symbol_name_lowercase(p_xkb);
-        p_xkb->kbd_layouts = g_strdup(symbol_name_lowercase);
-        g_free(symbol_name_lowercase);
-        p_xkb->kbd_variants = g_strdup(",");
-        p_xkb->kbd_change_option = g_strdup("grp:shift_caps_toggle");
+        for (i = 0; i < xkb_get_group_count(p_xkb); i++)
+        {
+            char *name;
+
+            if (*layouts->str)
+            {
+                g_string_append_c(layouts, ',');
+                g_string_append_c(variants, ',');
+            }
+
+            name = g_utf8_strdown(xkb_get_symbol_name_by_res_no(p_xkb, i), -1);
+            g_string_append(layouts, name);
+            g_free(name);
+
+            g_string_append(variants, xkb_get_variant_name_by_res_no(p_xkb, i));
+        }
+
+        p_xkb->kbd_layouts = layouts->str;
+        p_xkb->kbd_variants = variants->str;
+
+        g_string_free(layouts, FALSE);
+        g_string_free(variants, FALSE);
+
+        p_xkb->kbd_model = g_strdup(xkb_get_model_name(p_xkb));
+        p_xkb->kbd_change_option = g_strdup(xkb_get_option_names(p_xkb));
         config_group_set_string(p_xkb->settings, "Model", p_xkb->kbd_model);
         config_group_set_string(p_xkb->settings, "LayoutsList", p_xkb->kbd_layouts);
         config_group_set_string(p_xkb->settings, "VariantsList", p_xkb->kbd_variants);
@@ -706,6 +734,21 @@ static gboolean  change_opt_tree_model_foreach(GtkTreeModel *p_model,
     return FALSE;
 }
 
+static gchar *options_button (GtkWidget *button)
+{
+    const gchar *label = gtk_button_get_label(GTK_BUTTON(button));
+
+    if (strcmp(label, ",") == 0)
+        gtk_button_set_label(GTK_BUTTON(button), "");
+    else if (strlen(label) > 40)
+    {
+        GtkWidget *label = gtk_bin_get_child(GTK_BIN(button));
+
+        gtk_label_set_ellipsize(GTK_LABEL(label), PANGO_ELLIPSIZE_END);
+        gtk_label_set_max_width_chars(GTK_LABEL(label), 40);
+    }
+}
+
 static void on_button_kbd_change_layout_clicked(GtkButton *p_button, gpointer *p_data)
 {
     XkbPlugin *p_xkb = (XkbPlugin *)p_data;
@@ -817,6 +860,7 @@ static void on_button_kbd_change_layout_clicked(GtkButton *p_button, gpointer *p
         g_string_free(p_xkb->p_gstring_change_opt_partial, TRUE/*free also gstring->str*/);
 
         gtk_button_set_label(GTK_BUTTON(p_xkb->p_button_change_layout), p_xkb->kbd_change_option);
+        options_button(p_xkb->p_button_change_layout);
         xkb_setxkbmap(p_xkb);
         xkb_redraw(p_xkb);
     }
@@ -1182,7 +1226,7 @@ static void xkb_add_layout(XkbPlugin *p_xkb, gchar *layout, gchar*variant)
 static void xkb_settings_fill_layout_tree_model_with_config(XkbPlugin *p_xkb)
 {
     p_xkb->num_layouts = 0;
-    if(strlen(p_xkb->kbd_layouts) && strlen(p_xkb->kbd_variants))
+    if (*p_xkb->kbd_layouts)
     {
         char **layouts = g_strsplit_set(p_xkb->kbd_layouts, ",", 0);
         char **variants = g_strsplit_set(p_xkb->kbd_variants, ",", 0);
@@ -1224,8 +1268,8 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
     GtkWidget * p_vbox_right = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(dlg))),
                       p_hbox_main);
-    gtk_box_pack_start(GTK_BOX(p_hbox_main), p_vbox_left, FALSE, TRUE, 0);
-    gtk_box_pack_start(GTK_BOX(p_hbox_main), p_vbox_right, FALSE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(p_hbox_main), p_vbox_left, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(p_hbox_main), p_vbox_right, FALSE, FALSE, 0);
 
 
     // 'KEYBOARD MODEL' frame
@@ -1260,7 +1304,7 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
     gtk_frame_set_shadow_type(GTK_FRAME(p_xkb->p_frame_kbd_layouts), GTK_SHADOW_NONE);
     gtk_box_pack_start(GTK_BOX(p_vbox_left), p_xkb->p_frame_kbd_layouts, TRUE, TRUE, 2);
     gtk_container_set_border_width(GTK_CONTAINER(p_xkb->p_frame_kbd_layouts), 3);
-    gtk_widget_set_size_request(GTK_WIDGET(p_xkb->p_frame_kbd_layouts), 300, 180);
+    gtk_widget_set_size_request(GTK_WIDGET(p_xkb->p_frame_kbd_layouts), 310, 180);
 
     // frame alignment
     GtkWidget * p_alignment_kbd_layouts = gtk_alignment_new(0.5, 0.5, 1, 1);
@@ -1312,11 +1356,11 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
     xkb_settings_fill_layout_tree_model_with_config(p_xkb);
 
 
-    // 'CHANGE LAYOUT OPTION' frame
+    // 'KEYBOARD LAYOUT OPTIONS' frame
     p_xkb->p_frame_change_layout = gtk_frame_new(NULL);
     gtk_widget_set_sensitive(p_xkb->p_frame_change_layout, !p_xkb->keep_system_layouts);
     GtkWidget * p_label_change_layout = gtk_label_new(NULL);
-    snprintf(markup_str, MAX_MARKUP_LEN, "<b>%s</b>", _("Change Layout Option"));
+    snprintf(markup_str, MAX_MARKUP_LEN, "<b>%s</b>", _("Keyboard Layout Options"));
     gtk_label_set_markup(GTK_LABEL(p_label_change_layout), markup_str);
     gtk_misc_set_padding(GTK_MISC(p_label_change_layout), 1, 0);
     gtk_frame_set_label_widget(GTK_FRAME(p_xkb->p_frame_change_layout), p_label_change_layout);
@@ -1329,6 +1373,7 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
     gtk_container_add(GTK_CONTAINER(p_xkb->p_frame_change_layout), p_alignment_change_layout);
     gtk_alignment_set_padding(GTK_ALIGNMENT(p_alignment_change_layout), 4, 4, 10, 10);
     p_xkb->p_button_change_layout = gtk_button_new_with_label(p_xkb->kbd_change_option);
+    options_button(p_xkb->p_button_change_layout);
     g_signal_connect(p_xkb->p_button_change_layout, "clicked", G_CALLBACK(on_button_kbd_change_layout_clicked), p_xkb);
     gtk_container_add(GTK_CONTAINER(p_alignment_change_layout), p_xkb->p_button_change_layout);
 
@@ -1411,7 +1456,7 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
     // radiobuttons
     GtkWidget * p_image_disp_type_image = gtk_image_new();
     GtkWidget * p_image_disp_type_image_cust = NULL;
-    gchar *symbol_name_lowercase = (char *)xkb_get_current_symbol_name_lowercase(p_xkb);
+    gchar *symbol_name_lowercase = xkb_get_current_symbol_name_lowercase(p_xkb, FALSE);
     gchar *flag_filepath = NULL;
     gchar *flag_filepath_cust = NULL;
     if(strchr(symbol_name_lowercase, '/') != NULL)
@@ -1450,7 +1495,9 @@ static GtkWidget *xkb_configure(LXPanel *panel, GtkWidget *p)
         g_free(flag_filepath_cust);
     g_free(symbol_name_lowercase);
     GtkWidget * p_label_disp_type_text = gtk_label_new(NULL);
-    snprintf(markup_str, MAX_MARKUP_LEN, "<span font='%d' font_weight='heavy'>%s</span>", 16, xkb_get_current_symbol_name(p_xkb));
+    gchar *symbol_name = xkb_get_current_symbol_name(p_xkb, FALSE);
+    snprintf(markup_str, MAX_MARKUP_LEN, "<span font='%d' font_weight='heavy'>%s</span>", 16, symbol_name);
+    g_free(symbol_name);
     gtk_label_set_markup(GTK_LABEL(p_label_disp_type_text), markup_str);
     GtkWidget * p_radiobutton_disp_type_image = gtk_radio_button_new_with_label(NULL, (const gchar *)_("Image"));
     GtkWidget * p_radiobutton_disp_type_image_cust = gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(p_radiobutton_disp_type_image), (const gchar *)_("Custom Image"));

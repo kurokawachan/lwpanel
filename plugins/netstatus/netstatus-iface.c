@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2003 Sun Microsystems, Inc.
  * Copyright (C) 2004 Red Hat Inc.
+ * Copyright (C) 2020 Ingo Brückl
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -153,7 +154,7 @@ netstatus_iface_class_init (NetstatusIfaceClass *klass)
   g_object_class_install_property (gobject_class,
 				   PROP_STATE,
 				   g_param_spec_enum ("state",
-						      _("State"),
+						      C_("Network", "State"),
 						      _("The interface state"),
 						      NETSTATUS_TYPE_STATE,
 						      NETSTATUS_STATE_DISCONNECTED,

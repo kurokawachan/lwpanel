@@ -60,8 +60,11 @@ typedef struct {
     int       base_error_code;
     int       current_group_xkb_no;           /* Current layout */
     int       group_count;                    /* Count of groups as returned by Xkb */
+    char     *model_name;                     /* Model name as returned by Xkb */
     char     *group_names[XkbNumKbdGroups];   /* Group names as returned by Xkb */
     char     *symbol_names[XkbNumKbdGroups];  /* Symbol names as returned by Xkb */
+    char     *variant_names[XkbNumKbdGroups]; /* Variant names as returned by Xkb */
+    char     *option_names;                   /* Option names as returned by Xkb */
     GHashTable *p_hash_table_group;             /* Hash table to correlate window with layout */
     gchar    *kbd_model;
     gchar    *kbd_layouts;
@@ -85,10 +88,14 @@ extern void xkb_setxkbmap(XkbPlugin *p_xkb);
 
 extern int xkb_get_current_group_xkb_no(XkbPlugin * xkb);
 extern int xkb_get_group_count(XkbPlugin * xkb);
+extern const char * xkb_get_model_name(XkbPlugin * xkb);
 extern const char * xkb_get_symbol_name_by_res_no(XkbPlugin * xkb, int group_res_no);
+extern const char * xkb_get_variant_name_by_res_no(XkbPlugin * xkb, int group_res_no);
 extern const char * xkb_get_current_group_name(XkbPlugin * xkb);
-extern const char * xkb_get_current_symbol_name(XkbPlugin * xkb);
-extern const char * xkb_get_current_symbol_name_lowercase(XkbPlugin * xkb);
+extern gchar * xkb_get_current_symbol_name(XkbPlugin * xkb, gboolean layout);
+extern gchar * xkb_get_current_symbol_name_lowercase(XkbPlugin * xkb, gboolean layout);
+extern const char * xkb_get_current_variant_name(XkbPlugin * xkb);
+extern const char * xkb_get_option_names(XkbPlugin * xkb);
 extern void xkb_mechanism_constructor(XkbPlugin * xkb);
 extern void xkb_mechanism_destructor(XkbPlugin * xkb);
 extern int xkb_change_group(XkbPlugin * xkb, int increment);

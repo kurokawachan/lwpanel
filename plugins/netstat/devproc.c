@@ -31,8 +31,9 @@
 #include <arpa/inet.h>
 #include <linux/sockios.h>
 #include <linux/types.h>
-#include <linux/ethtool.h>
-#include <iwlib.h>
+#include <linux/ethtool.h>    /* This includes linux/if_ether.h, which defines struct ethhdr. */
+#define _NETINET_IF_ETHER_H   /* Avoid including musl libc's netinet/if_ether.h (which also */
+#include <iwlib.h>            /* defines struct ethhdr), included by iwlib.h's #include <net/ethernet.h>. */
 #include "nsconfig.h"
 #include "netstat.h"
 #include "statusicon.h"
@@ -250,8 +251,8 @@ int netproc_scandevice(int sockfd, int iwsockfd, FILE *fp, NETDEVLIST_PTR *netde
 
 		/* check interface hw_type */
 		bzero(&ifr, sizeof(ifr));
-		strncpy(ifr.ifr_name, name, strlen(name));
-		ifr.ifr_name[strlen(name)+1] = '\0';
+		strncpy(ifr.ifr_name, name, sizeof(ifr.ifr_name));
+		ifr.ifr_name[sizeof(ifr.ifr_name) - 1] = '\0';
 		if (ioctl(sockfd, SIOCGIFHWADDR, &ifr)<0)
 			continue;
 

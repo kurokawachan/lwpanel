@@ -42,6 +42,8 @@
 #include <stdlib.h>
 #include <locale.h>
 
+#include "gtk-compat.h"
+
 #define XMLCHAR_P(x) (xmlChar *)(x)
 #define CONSTXMLCHAR_P(x) (const xmlChar *)(x)
 #define CONSTCHAR_P(x) (const char *)(x)
@@ -257,6 +259,7 @@ setStringIfDifferent(gchar ** pcStorage,
 static gint
 setImageIfDifferent(gchar ** pcStorage,
                     GdkPixbuf ** pImage,
+                    float *fAspectRatio,
                     const gchar * pczNewURL,
                     const gsize szURLLength)
 {
@@ -309,6 +312,10 @@ setImageIfDifferent(gchar ** pcStorage,
           g_error_free(pError);
           
           err = -1;
+        }
+      else
+        {
+          *fAspectRatio = 1.0;
         }
 
       if (!g_input_stream_close(pInputStream, NULL, &pError))
@@ -479,6 +486,7 @@ processItemNode(gpointer * pEntry, xmlNodePtr pNode)
 
                   setImageIfDifferent(&pInfo->pcImageURL_, 
                                       &pInfo->pImage_,
+                                      &pInfo->fAspectRatio,
                                       pcImageURL, 
                                       strlen(pcImageURL));
                 }

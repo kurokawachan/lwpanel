@@ -2,6 +2,7 @@
  * Copyright (C) 2009-2010 Marty Jack <martyj19@comcast.net>
  *               2009-2010 Hong Jen Yee (PCMan) <pcman.tw@gmail.com>
  *               2014-2016 Andriy Grytsenko <andrej@rep.kiev.ua>
+ *               2024 Ingo Brückl
  *
  * This file is a part of LXPanel project.
  *
@@ -182,23 +183,39 @@ static void panel_icon_grid_size_allocate(GtkWidget *widget,
 
     /* Get the constrained child geometry if the allocated geometry is insufficient.
      * All children are still the same size and share equally in the deficit. */
-    if ((ig->columns != 0) && (ig->rows != 0) && (child_allocation.width > 0))
+    if (ig->orientation == GTK_ORIENTATION_HORIZONTAL && ig->columns != 0 && ig->rows != 0 && child_allocation.width > 0)
     {
         if (ig->constrain_width &&
             (x_delta = (child_allocation.width + ig->spacing) / ig->columns - ig->spacing) < child_width)
             child_width = MAX(2, x_delta);
         /* fill vertical space evenly in horisontal orientation */
-        if (ig->orientation == GTK_ORIENTATION_HORIZONTAL &&
-            (x_delta = (child_allocation.height + ig->spacing) / ig->rows - ig->spacing) > child_height)
+        if ((x_delta = (child_allocation.height + ig->spacing) / ig->rows - ig->spacing) > child_height)
             child_height = MAX(2, x_delta);
+    }
+    if (ig->orientation == GTK_ORIENTATION_VERTICAL && ig->columns != 0 && ig->rows != 0 && child_allocation.height > 0)
+    {
+        if (ig->constrain_width &&
+            (x_delta = (child_allocation.height + ig->spacing) / ig->rows - ig->spacing) < child_height)
+            child_height = MAX(2, x_delta);
+        /* fill horizontal space evenly in vertical orientation */
+        if ((x_delta = (child_allocation.width + ig->spacing) / ig->columns - ig->spacing) > child_width)
+            child_width = MAX(2, x_delta);
     }
 
     /* Initialize parameters to control repositioning each visible child. */
     direction = gtk_widget_get_direction(widget);
-    x = (direction == GTK_TEXT_DIR_RTL) ? allocation->width - x_border : x_border;
+    if (ig->orientation == GTK_ORIENTATION_HORIZONTAL)
+    {
+        x = (direction == GTK_TEXT_DIR_RTL) ? allocation->width - x_border : x_border;
+        next_coord = border;
+    }
+    else
+    {
+        x_border = MAX((gint) border, (child_width - ig->child_width) / 2);
+        next_coord = x_border;
+    }
     y = y_border;
     x_delta = 0;
-    next_coord = border;
 
     /* Reposition each visible child. */
     for (ige = ig->children; ige != NULL; ige = ige->next)
@@ -392,7 +409,7 @@ static void panel_icon_grid_get_preferred_width(GtkWidget *widget,
     }
     panel_icon_grid_size_request(widget, &requisition);
     if (minimal_width)
-        *minimal_width = requisition.width;
+        *minimal_width = ig->constrain_width ? 0 : requisition.width;
     if (natural_width)
         *natural_width = requisition.width;
 }
@@ -409,7 +426,7 @@ static void panel_icon_grid_get_preferred_height(GtkWidget *widget,
     else
         panel_icon_grid_size_request(widget, &requisition);
     if (minimal_height)
-        *minimal_height = requisition.height;
+        *minimal_height = ig->constrain_width ? 0 : requisition.height;
     if (natural_height)
         *natural_height = requisition.height;
 }

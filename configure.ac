@@ -1,5 +1,5 @@
 AC_PREREQ(2.53)
-AC_INIT(lxpanel, 0.10.1, http://lxde.org/)
+AC_INIT(lxpanel, 0.11.0, http://lxde.org/)
 AM_INIT_AUTOMAKE([-Wall foreign subdir-objects no-dist-gzip dist-xz])
 AC_CONFIG_HEADER([config.h])
 AC_CONFIG_MACRO_DIR([m4])
@@ -34,19 +34,25 @@ AC_HELP_STRING([--enable-gtk3],[enable to use gtk-3.0 instead of gtk-2.0]),
 esac],[])
 
 if test "x$enable_gtk3" = "xyes" ; then
+  CFLAGS="$CFLAGS -Wno-deprecated-declarations"
   gtk_module="gtk+-3.0"
-  pkg_modules="$pkg_modules $gtk_module libfm-gtk3 >= 1.2.0 libwnck-3.0"
+  pkg_modules="libfm-gtk3 >= 1.2.0 libwnck-3.0"
   keybinder_module=keybinder-3.0
 else
   gtk_module="gtk+-2.0 >= 2.18.0"
-  pkg_modules="$pkg_modules $gtk_module libfm-gtk >= 1.2.0 libwnck-1.0"
+  pkg_modules="libfm-gtk >= 1.2.0 libwnck-1.0"
   keybinder_module=keybinder
 fi
 
-pkg_modules="$pkg_modules \
-             gio-unix-2.0 \
-             gthread-2.0 \
-             gmodule-2.0"
+_glib_cflags_libs="$GLIB_CFLAGS$GLIB_LIBS"
+PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.22.0])
+
+_gtk_cflags_libs="$GTK_CFLAGS$GTK_LIBS"
+PKG_CHECK_MODULES(GTK, [$gtk_module])
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
+
+pkg_modules="$pkg_modules gio-unix-2.0 gthread-2.0 gmodule-2.0"
 PKG_CHECK_MODULES(PACKAGE, [$pkg_modules])
 AC_SUBST(PACKAGE_CFLAGS)
 AC_SUBST(PACKAGE_LIBS)
@@ -61,7 +67,7 @@ AC_SUBST(KEYBINDER_LIBS)
 ###########################
 AC_ARG_ENABLE([indicator_support],
     AS_HELP_STRING([--enable-indicator-support],
-               [enable plugin loading (default: disable)]),
+               [enable status notifier items (default: disable)]),
                indicator_support=$enableval, indicator_support="no")
 AM_CONDITIONAL(ENABLE_INDICATOR_SUPPORT, test x"$indicator_support" = x"yes")
 
@@ -194,12 +200,13 @@ plugin_volume=
 plugin_cpu=
 plugin_deskno=
 plugin_batt=
-plugin_xkb=
 plugin_kbled=
+plugin_xkb=
 plugin_thermal=
 plugin_cpufreq=
 plugin_monitors=
 plugin_indicator=
+plugin_weather=
 
 AC_MSG_CHECKING([which plugins should be built dynamically])
 AC_ARG_WITH(plugins,
@@ -313,11 +320,27 @@ AC_SUBST(PLUGINS_LIST)
 # nestat
 if test x"$plugin_netstat" != "x";then
 AC_CHECK_HEADER([iwlib.h],,
- AC_MSG_ERROR([netstat plugin requires wireless-tools-devel]))
+ AC_MSG_ERROR([netstat plugin requires libiw development files]))
+fi
+
+# xkb
+if test x"$plugin_xkb" != "x";then
+  if test "x$enable_gtk3" != "xyes"; then
+    if test -z "$_gtk_cflags_libs"; then
+      GTK_CFLAGS=
+      GTK_LIBS=
+    fi
+    PKG_CHECK_MODULES(GTK, [gtk+-2.0 >= 2.20.0])
+  fi
 fi
 
 # weather
 if test x"$plugin_weather" != "x";then
+  if test -z "$_glib_cflags_libs"; then
+    GLIB_CFLAGS=
+    GLIB_LIBS=
+  fi
+PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.26.0])
 PKG_CHECK_MODULES([LIBXML2], [libxml-2.0])
 AC_SUBST(LIBXML2_CFLAGS)
 AC_SUBST(LIBXML2_LIBS)

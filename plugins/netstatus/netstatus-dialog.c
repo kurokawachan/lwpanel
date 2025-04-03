@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2003 Sun Microsystems, Inc.
  * Copyright (C) 2004 Red Hat Inc.
+ * Copyright (C) 2020 Ingo Brückl
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -629,7 +630,6 @@ netstatus_dialog_setup_connection (NetstatusDialogData *data)
   netstatus_icon_set_tooltips_enabled (NETSTATUS_ICON (icon), FALSE);
   netstatus_icon_set_show_signal (NETSTATUS_ICON (icon), FALSE);
   gtk_box_pack_end (GTK_BOX (hbox), icon, FALSE, TRUE, 4);
-  gtk_widget_show (icon);
 
   data->icon = NETSTATUS_ICON (icon);
 
@@ -714,7 +714,7 @@ netstatus_dialog_set_icon (GtkWidget *dialog)
 
   icon_theme = gtk_icon_theme_get_for_screen (gtk_window_get_screen (GTK_WINDOW (dialog)));
 
-  if ((icon_info = gtk_icon_theme_lookup_icon (icon_theme, "gnome-netstatus-tx", 48, 0)))
+  if ((icon_info = gtk_icon_theme_lookup_icon (icon_theme, "network-transmit", 48, 0)))
     {
       gtk_window_set_icon_from_file (GTK_WINDOW (dialog),
 				     gtk_icon_info_get_filename (icon_info),
@@ -872,4 +872,13 @@ const char* netstatus_dialog_get_iface_name( GtkWidget* dialog )
     NetstatusDialogData *data;
     data = g_object_get_data (G_OBJECT (dialog), "netstatus-dialog-data");
     return netstatus_iface_get_name (data->iface);
+}
+
+void netstatus_dialog_present (GtkWidget *dialog)
+{
+    NetstatusDialogData *data;
+
+    data = g_object_get_data(G_OBJECT(dialog), "netstatus-dialog-data");
+    gtk_window_present(GTK_WINDOW(dialog));
+    gtk_widget_show(GTK_WIDGET(data->icon));
 }
