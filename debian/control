@@ -31,11 +31,10 @@ Depends: libfm-modules,
          lxpanel-data (= ${source:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
-Recommends: alsa-utils,
-            libnotify-bin,
+Recommends: libnotify-bin,
             lxterminal | x-terminal-emulator,
             notification-daemon,
-            pavucontrol | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
+            alsa-utils | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
             xkb-data
 Suggests: firefox-esr | firefox | www-browser
 Description: LXDE panel
