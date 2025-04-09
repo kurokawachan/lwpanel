@@ -34,7 +34,7 @@ Depends: libfm-modules,
 Recommends: libnotify-bin,
             lxterminal | x-terminal-emulator,
             notification-daemon,
-            alsa-utils | gnome-alsamixer [linux-any] | aumix-gtk [!linux-any],
+            alsa-utils | aumix-gtk [!linux-any],
             xkb-data
 Suggests: firefox-esr | firefox | www-browser
 Description: LXDE panel
