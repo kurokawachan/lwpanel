@@ -1,3 +1,14 @@
+lxpanel (0.11.1-1) unstable; urgency=medium
+
+  * debian/control: lxpanel recommends on alsa-utils instead of
+    pavucontrol. Thanks Ingo Brückl point this out.
+  * debian/control: drop gnome-alsamixer from recommends.
+  * debian/control: replace aumix-gtk with aumix in recommends.
+  * New upstream version 0.11.1.
+  * Run wrap-and-sort.
+
+ -- Andrew Lee (李健秋) <ajqlee@debian.org>  Wed, 09 Apr 2025 15:53:32 +0200
+
 lxpanel (0.11.0-1) unstable; urgency=medium
 
   * New upstream version 0.11.0. (Closes: #1052376, #1075243, #855521)
