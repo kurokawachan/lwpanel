@@ -1,3 +1,11 @@
+lxpanel (0.11.1-2) unstable; urgency=medium
+
+  * d/control: Remove unnecessary Build-Depends libgdk-pixbuf-xlib-2.0-dev.
+    (Closes: #1121709)
+  * d/watch: Upgrade to version 5.
+
+ -- ChangZhuo Chen (陳昌倬) <czchen@debian.org>  Wed, 03 Dec 2025 08:14:47 +0800
+
 lxpanel (0.11.1-1) unstable; urgency=medium
 
   * debian/control: lxpanel recommends on alsa-utils instead of
