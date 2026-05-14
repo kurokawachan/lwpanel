@@ -5,6 +5,7 @@ Name[zh_TW]=瀏覽器
 GenericName=X Web Browser
 GenericName[pt_BR]=Navegador web gráfico
 GenericName[zh_TW]=網頁瀏覽器
+TryExec=/usr/bin/x-www-browser
 Exec=/usr/bin/x-www-browser %u
 Terminal=false
 Type=Application
