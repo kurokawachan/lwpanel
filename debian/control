@@ -1,6 +1,5 @@
 Source: lxpanel
 Section: x11
-Priority: optional
 Maintainer: Debian LXDE Maintainers <team+lxde@tracker.debian.org>
 Uploaders: Andrew Lee (李健秋) <ajqlee@debian.org>,
            Andriy Grytsenko <andrej@rep.kiev.ua>,
