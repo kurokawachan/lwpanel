@@ -1,3 +1,16 @@
+# This is not LXPanel.
+## This is a hard fork of LXPanel
+
+
+
+
+The goal of this project remains to be a lightweight panel.
+However, it takes a more proactive approach to adopting new designs and may not prioritize backward compatibility.
+
+The content below is from the original LXPanel repository.
+----
+
+```
 LXPanel is a lightweight X11 desktop panel.
 
 To build this program you need some development packages:
@@ -94,3 +107,5 @@ For instance:
       chown root:cpufreq "$i"
       chmod 664 "$i"
   done
+
+```
