@@ -47,6 +47,7 @@ Makefile
 *.la
 *.a
 .[A-Za-z]*
+!.clang-format
 src/lxpanel
 src/lxpanelctl
 src/panel.h
