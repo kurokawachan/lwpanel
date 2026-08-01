@@ -26,7 +26,7 @@ lxpanel.pc
 m4/
 missing
 mkinstalldirs
-po/LINGUAS
+!po/LINGUAS
 po/Makefile.in.in
 po/Makevars.template
 po/POTFILES
@@ -47,7 +47,6 @@ Makefile
 *.la
 *.a
 .[A-Za-z]*
-!.clang-format
 src/lxpanel
 src/lxpanelctl
 src/panel.h
