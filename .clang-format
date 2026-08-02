@@ -10,4 +10,12 @@ ColumnLimit: 0
 AccessModifierOffset: -2
 NamespaceIndentation: All
 FixNamespaceComments: false
+#
+# TODO
+# Sorting includes is breaking the build
+#
+# We might later come back and fix this.
+# For now, however, we are not sorting includes
+#
+SortIncludes: false
 
