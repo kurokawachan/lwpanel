@@ -7,6 +7,23 @@
 The goal of this project remains to be a lightweight panel.
 However, it takes a more proactive approach to adopting new designs and may not prioritize backward compatibility.
 
+
+## ⚠️ Build System Migration Notice
+The project has been migrated from GNU Make GNU Autotools to Meson.
+
+- All original Makefile build logic has been migrated to 'meson.build' file
+- The old Makefile files are deprecated and will not receive updates
+- Build instructions now use Meson(see build section below)
+
+## Meson Build
+
+```
+mkdir build
+meson setup build
+meson compile -C build
+```
+
+
 The content below is from the original LXPanel repository.
 ----
 
