@@ -147,6 +147,10 @@ GTK_LIBS = gtk_module
 # libfm-gtk3
 cc = meson.get_compiler('c')
 lib_fm_gtk3 = dependency('libfm-gtk3', version: '>= 1.2.0')
+# libiw-dev
+iw_dep = cc.find_library('iw', required: true)
+# libc6-dev
+lm_dep = cc.find_library('m', required: true)
 
 pkg_modules = [lib_fm_gtk3, dependency('libwnck-3.0')]
 
@@ -872,12 +876,14 @@ netstat_la = shared_library(
     sources: [netstat_la_SOURCES],
     link_args: [
         # https://github.com/HewlettPackard/wireless-tools/issues/4
-        '-liw',  # TODO not sure why libiw-dev has no pkg-config file
-        '-lm',
-    ],
+        # '-liw',  # TODO not sure why libiw-dev has no pkg-config file
+        # '-lm',
+],
     link_with: [liblxpanel_la],
     dependencies: [
         GTK_LIBS,
+        iw_dep,
+        lm_dep,
     ],
     install: true,
     install_dir: target_install_libdir_project_dir_plugin_dir,
@@ -916,11 +922,12 @@ netstatus_la = shared_library(
     c_args: netstatus_la_CFLAGS,
     link_with: [liblxpanel_la],
     link_args: [
-        '-lm',
-    ],
+        # '-lm',
+],
     dependencies: [
         GTK_LIBS,
         lib_fm_gtk3,
+        lm_dep,
     ],
     install: true,
     install_dir: target_install_libdir_project_dir_plugin_dir,
@@ -983,12 +990,13 @@ volume_la = shared_library(
         liblxpanel_la,
     ],
     link_args: [
-        '-lm',
-    ],
+        # '-lm',
+],
     dependencies: [
         GTK_LIBS,
         dependency('alsa'),  # volume_la_LIBADD = '-lasound'
         lib_fm_gtk3,
+        lm_dep,
     ],
     install: true,
     install_dir: target_install_libdir_project_dir_plugin_dir,
