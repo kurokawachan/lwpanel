@@ -616,6 +616,7 @@ lxpanel = executable(
     install: true,
     # install_dir: '/usr/bin/',
     install_dir: target_install_bindir,
+    install_rpath: target_install_libdir_project_dir,
     install_tag: 'lxpanel',
 )
 
