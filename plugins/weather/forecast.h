@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * See the COPYRIGHT file for more information.
  */
 
@@ -35,55 +35,54 @@ typedef enum
 
 typedef struct
 {
-  gchar * pcDay_;
+  gchar *pcDay_;
   gint iHigh_;
   gint iLow_;
-  gchar * pcConditions_;
-  gchar * pcClouds_;
+  gchar *pcConditions_;
+  gchar *pcClouds_;
 } Forecast;
 
 typedef struct
 {
-  gchar * pcDistance_;
-  gchar * pcPressure_;
-  gchar * pcSpeed_;
-  gchar * pcTemperature_;
+  gchar *pcDistance_;
+  gchar *pcPressure_;
+  gchar *pcSpeed_;
+  gchar *pcTemperature_;
 } ForecastUnits;
 
-typedef struct 
+typedef struct
 {
   ForecastUnits units_;
   PressureState pressureState_;
   Forecast today_;
   Forecast tomorrow_;
   gint iWindChill_;
-  gchar * pcWindDirection_;
+  gchar *pcWindDirection_;
   gint iWindSpeed_;
   gint iHumidity_;
   gdouble dPressure_;
   gdouble dVisibility_;
-  gchar * pcSunrise_;
-  gchar * pcSunset_;
-  gchar * pcTime_;
+  gchar *pcSunrise_;
+  gchar *pcSunset_;
+  gchar *pcTime_;
   gint iTemperature_;
-  gchar * pcConditions_;
-  gchar * pcClouds_;
-  gchar * pcImageURL_;
-  GdkPixbuf * pImage_;
+  gchar *pcConditions_;
+  gchar *pcClouds_;
+  gchar *pcImageURL_;
+  GdkPixbuf *pImage_;
   float fAspectRatio;
-  gchar * pcBigImageURL_;
-  GdkPixbuf * pBigImage_;
+  gchar *pcBigImageURL_;
+  GdkPixbuf *pBigImage_;
 } ForecastInfo;
 
 /**
- * Provides the mechanism to free any data associated with 
+ * Provides the mechanism to free any data associated with
  * the ForecastInfo structure
  *
  * @param pData Entry to free.
  *
  */
-void
-freeForecast(ForecastInfo * pData);
+void freeForecast(ForecastInfo *pData);
 
 /**
  * Prints the contents of the supplied entry to stdout
@@ -91,7 +90,6 @@ freeForecast(ForecastInfo * pData);
  * @param pEntry Entry contents of which to print.
  *
  */
-void
-printForecast(ForecastInfo * pEntry);
+void printForecast(ForecastInfo *pEntry);
 
 #endif

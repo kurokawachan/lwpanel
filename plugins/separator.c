@@ -30,42 +30,42 @@
 /* Plugin constructor. */
 static GtkWidget *separator_constructor(LXPanel *panel, config_setting_t *settings)
 {
-    GtkWidget *instance, *sep;
+  GtkWidget *instance, *sep;
 
-    /* Allocate top level widget and set into Plugin widget pointer. */
-    instance = gtk_event_box_new();
-    gtk_widget_set_has_window(instance, FALSE);
+  /* Allocate top level widget and set into Plugin widget pointer. */
+  instance = gtk_event_box_new();
+  gtk_widget_set_has_window(instance, FALSE);
 
-    /* Allocate separator as a child of top level. */
-    sep = panel_separator_new(panel);
-    gtk_container_add(GTK_CONTAINER(instance), sep);
-    gtk_widget_show(sep);
+  /* Allocate separator as a child of top level. */
+  sep = panel_separator_new(panel);
+  gtk_container_add(GTK_CONTAINER(instance), sep);
+  gtk_widget_show(sep);
 
-    /* Show the widget and return. */
-    return instance;
+  /* Show the widget and return. */
+  return instance;
 }
 
 /* Callback when panel configuration changes. */
 static void separator_reconfigure(LXPanel *panel, GtkWidget *instance)
 {
-    /* Determine if the orientation changed in a way that requires action. */
-    GtkWidget * sep = gtk_bin_get_child(GTK_BIN(instance));
-    if (GTK_IS_VSEPARATOR(sep))
-    {
-        if (panel_get_orientation(panel) == GTK_ORIENTATION_HORIZONTAL)
-            return;
-    }
-    else
-    {
-        if (panel_get_orientation(panel) == GTK_ORIENTATION_VERTICAL)
-            return;
-    }
+  /* Determine if the orientation changed in a way that requires action. */
+  GtkWidget *sep = gtk_bin_get_child(GTK_BIN(instance));
+  if (GTK_IS_VSEPARATOR(sep))
+  {
+    if (panel_get_orientation(panel) == GTK_ORIENTATION_HORIZONTAL)
+      return;
+  }
+  else
+  {
+    if (panel_get_orientation(panel) == GTK_ORIENTATION_VERTICAL)
+      return;
+  }
 
-    /* If the orientation changed, recreate the separator. */
-    gtk_widget_destroy(sep);
-    sep = panel_separator_new(panel);
-    gtk_widget_show(sep);
-    gtk_container_add(GTK_CONTAINER(instance), sep);
+  /* If the orientation changed, recreate the separator. */
+  gtk_widget_destroy(sep);
+  sep = panel_separator_new(panel);
+  gtk_widget_show(sep);
+  gtk_container_add(GTK_CONTAINER(instance), sep);
 }
 
 /* Plugin descriptor. */
@@ -74,5 +74,4 @@ LXPanelPluginInit lxpanel_static_plugin_separator = {
     .description = N_("Add a separator to the panel"),
 
     .new_instance = separator_constructor,
-    .reconfigure = separator_reconfigure
-};
+    .reconfigure = separator_reconfigure};

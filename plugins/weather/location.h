@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * See the COPYRIGHT file for more information.
  */
 
@@ -31,13 +31,13 @@
 #define LOCATIONINFO_GROUP_NAME_LENGTH strlen(LOCATIONINFO_GROUP_NAME)
 
 /* LocationInfo struct definition */
-typedef struct 
+typedef struct
 {
-  gchar * pcAlias_;
-  gchar * pcCity_;
-  gchar * pcState_;
-  gchar * pcCountry_;
-  gchar * pcWOEID_;
+  gchar *pcAlias_;
+  gchar *pcCity_;
+  gchar *pcState_;
+  gchar *pcCountry_;
+  gchar *pcWOEID_;
   gdouble dLatitude_;
   gdouble dLongitude_;
   gchar cUnits_;
@@ -60,17 +60,16 @@ typedef enum
 } LocationInfoField;
 
 /* Defined in the .c file - specifies the array of field names */
-extern const gchar * LocationInfoFieldNames[];
+extern const gchar *LocationInfoFieldNames[];
 
 /**
- * Provides the mechanism to free any data associated with 
+ * Provides the mechanism to free any data associated with
  * the LocationInfo structure
  *
  * @param pData Entry to free.
  *
  */
-void
-freeLocation(LocationInfo * pData);
+void freeLocation(LocationInfo *pData);
 
 /**
  * Prints the contents of the supplied entry to stdout
@@ -78,8 +77,7 @@ freeLocation(LocationInfo * pData);
  * @param pEntry Entry contents of which to print.
  *
  */
-void
-printLocation(LocationInfo * pEntry);
+void printLocation(LocationInfo *pEntry);
 
 /**
  * Sets the alias for the location
@@ -88,8 +86,7 @@ printLocation(LocationInfo * pEntry);
  * @param pData Alias value to use
  *
  */
-void
-setLocationAlias(LocationInfo * pEntry, const gchar * pData);
+void setLocationAlias(LocationInfo *pEntry, const gchar *pData);
 
 /**
  * Copies a location entry.
@@ -101,7 +98,6 @@ setLocationAlias(LocationInfo * pEntry, const gchar * pData);
  *       is made. Both source and destination locations must be released by
  *       the caller.
  */
-void
-copyLocation(LocationInfo ** pDestination, LocationInfo * pSource);
+void copyLocation(LocationInfo **pDestination, LocationInfo *pSource);
 
 #endif

@@ -24,39 +24,39 @@
 #include <string.h>
 #include <glib.h>
 
+#define MAX_BUF_LEN 128
 
-#define MAX_BUF_LEN  128
-
-int  main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
-    FILE *fp;
-    char  buf[MAX_BUF_LEN];
-    char *x11_xkb_dir=NULL;
+  FILE *fp;
+  char buf[MAX_BUF_LEN];
+  char *x11_xkb_dir = NULL;
 
-    /* Open the command for reading. */
-    fp = popen("pkg-config --variable=xkb_base xkeyboard-config", "r");
-    if(fp == NULL)
+  /* Open the command for reading. */
+  fp = popen("pkg-config --variable=xkb_base xkeyboard-config", "r");
+  if (fp == NULL)
+  {
+    printf("Failed to run command\n");
+    return -1;
+  }
+
+  /* Read the output a line at a time - output it. */
+  while (fgets(buf, MAX_BUF_LEN, fp) != NULL)
+  {
+    if (buf[0] && buf[0] == '/')
     {
-        printf("Failed to run command\n");
-        return -1;
+      char *p_char = strchr(buf, '\n');
+      if (p_char != NULL)
+        *p_char = '\0';
+      x11_xkb_dir = g_strdup(buf);
+      break;
     }
+  }
+  /* close */
+  pclose(fp);
 
-    /* Read the output a line at a time - output it. */
-    while(fgets(buf, MAX_BUF_LEN, fp) != NULL)
-    {
-        if(buf[0] && buf[0] == '/')
-        {
-            char *p_char = strchr(buf, '\n');
-            if(p_char != NULL) *p_char = '\0';
-            x11_xkb_dir = g_strdup(buf);
-            break;
-        }
-    }
-    /* close */
-    pclose(fp);
+  printf("Found: '%s'\n", x11_xkb_dir != NULL ? x11_xkb_dir : "none");
+  g_free(x11_xkb_dir);
 
-    printf("Found: '%s'\n", x11_xkb_dir != NULL ? x11_xkb_dir : "none");
-    g_free(x11_xkb_dir);
-
-    return 0;
+  return 0;
 }

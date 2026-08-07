@@ -15,7 +15,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
  * Boston, MA 02110-1301 USA.
  *
  * Used to be: eggtraymanager.h
@@ -31,16 +31,16 @@
 
 G_BEGIN_DECLS
 
-#define NA_TYPE_TRAY_MANAGER			(na_tray_manager_get_type ())
-#define NA_TRAY_MANAGER(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), NA_TYPE_TRAY_MANAGER, NaTrayManager))
-#define NA_TRAY_MANAGER_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), NA_TYPE_TRAY_MANAGER, NaTrayManagerClass))
-#define NA_IS_TRAY_MANAGER(obj)			(G_TYPE_CHECK_INSTANCE_TYPE ((obj), NA_TYPE_TRAY_MANAGER))
-#define NA_IS_TRAY_MANAGER_CLASS(klass)		(G_TYPE_CHECK_CLASS_TYPE ((klass), NA_TYPE_TRAY_MANAGER))
-#define NA_TRAY_MANAGER_GET_CLASS(obj)		(G_TYPE_INSTANCE_GET_CLASS ((obj), NA_TYPE_TRAY_MANAGER, NaTrayManagerClass))
-	
-typedef struct _NaTrayManager	    NaTrayManager;
-typedef struct _NaTrayManagerClass  NaTrayManagerClass;
-typedef struct _NaTrayManagerChild  NaTrayManagerChild;
+#define NA_TYPE_TRAY_MANAGER (na_tray_manager_get_type())
+#define NA_TRAY_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), NA_TYPE_TRAY_MANAGER, NaTrayManager))
+#define NA_TRAY_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), NA_TYPE_TRAY_MANAGER, NaTrayManagerClass))
+#define NA_IS_TRAY_MANAGER(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), NA_TYPE_TRAY_MANAGER))
+#define NA_IS_TRAY_MANAGER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), NA_TYPE_TRAY_MANAGER))
+#define NA_TRAY_MANAGER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS((obj), NA_TYPE_TRAY_MANAGER, NaTrayManagerClass))
+
+typedef struct _NaTrayManager NaTrayManager;
+typedef struct _NaTrayManagerClass NaTrayManagerClass;
+typedef struct _NaTrayManagerChild NaTrayManagerChild;
 
 struct _NaTrayManager
 {
@@ -48,7 +48,7 @@ struct _NaTrayManager
 
 #ifdef GDK_WINDOWING_X11
   GdkAtom selection_atom;
-  Atom    opcode_atom;
+  Atom opcode_atom;
 #endif
 
   GtkWidget *invisible;
@@ -63,38 +63,36 @@ struct _NaTrayManagerClass
 {
   GObjectClass parent_class;
 
-  void (* tray_icon_added)   (NaTrayManager      *manager,
-			      NaTrayManagerChild *child);
-  void (* tray_icon_removed) (NaTrayManager      *manager,
-			      NaTrayManagerChild *child);
+  void (*tray_icon_added)(NaTrayManager *manager,
+                          NaTrayManagerChild *child);
+  void (*tray_icon_removed)(NaTrayManager *manager,
+                            NaTrayManagerChild *child);
 
-  void (* message_sent)      (NaTrayManager      *manager,
-			      NaTrayManagerChild *child,
-			      const gchar        *message,
-			      glong               id,
-			      glong               timeout);
-  
-  void (* message_cancelled) (NaTrayManager      *manager,
-			      NaTrayManagerChild *child,
-			      glong               id);
+  void (*message_sent)(NaTrayManager *manager,
+                       NaTrayManagerChild *child,
+                       const gchar *message,
+                       glong id,
+                       glong timeout);
 
-  void (* lost_selection)    (NaTrayManager      *manager);
+  void (*message_cancelled)(NaTrayManager *manager,
+                            NaTrayManagerChild *child,
+                            glong id);
+
+  void (*lost_selection)(NaTrayManager *manager);
 };
 
-GType           na_tray_manager_get_type        (void);
+GType na_tray_manager_get_type(void);
 
-gboolean        na_tray_manager_check_running   (GdkScreen          *screen);
-NaTrayManager  *na_tray_manager_new             (void);
-gboolean        na_tray_manager_manage_screen   (NaTrayManager      *manager,
-						 GdkScreen          *screen);
-char           *na_tray_manager_get_child_title (NaTrayManager      *manager,
-						 NaTrayManagerChild *child);
-void            na_tray_manager_set_orientation (NaTrayManager      *manager,
-						 GtkOrientation      orientation);
-GtkOrientation  na_tray_manager_get_orientation (NaTrayManager      *manager);
+gboolean na_tray_manager_check_running(GdkScreen *screen);
+NaTrayManager *na_tray_manager_new(void);
+gboolean na_tray_manager_manage_screen(NaTrayManager *manager,
+                                       GdkScreen *screen);
+char *na_tray_manager_get_child_title(NaTrayManager *manager,
+                                      NaTrayManagerChild *child);
+void na_tray_manager_set_orientation(NaTrayManager *manager,
+                                     GtkOrientation orientation);
+GtkOrientation na_tray_manager_get_orientation(NaTrayManager *manager);
 
 G_END_DECLS
 
 #endif /* __NA_TRAY_MANAGER_H__ */
-
-

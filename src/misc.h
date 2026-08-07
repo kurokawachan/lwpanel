@@ -61,9 +61,9 @@ extern Atom a_NET_WM_STATE_STICKY;
 extern Atom a_NET_WM_STATE_HIDDEN;
 extern Atom a_NET_WM_STATE_SHADED;
 
-#define a_NET_WM_STATE_REMOVE        0    /* remove/unset property */
-#define a_NET_WM_STATE_ADD           1    /* add/set property */
-#define a_NET_WM_STATE_TOGGLE        2    /* toggle property  */
+#define a_NET_WM_STATE_REMOVE 0 /* remove/unset property */
+#define a_NET_WM_STATE_ADD 1    /* add/set property */
+#define a_NET_WM_STATE_TOGGLE 2 /* toggle property  */
 
 extern Atom a_NET_WM_WINDOW_TYPE;
 extern Atom a_NET_WM_WINDOW_TYPE_DESKTOP;
@@ -91,45 +91,47 @@ extern Atom a_MANAGER;
 extern Atom a_LXPANEL_CMD; /* for private client message */
 
 /* Decoded value of WM_STATE property. */
-typedef struct {
-    unsigned int modal : 1;
-    unsigned int sticky : 1;
-    unsigned int maximized_vert : 1;
-    unsigned int maximized_horz : 1;
-    unsigned int shaded : 1;
-    unsigned int skip_taskbar : 1;
-    unsigned int skip_pager : 1;
-    unsigned int hidden : 1;
-    unsigned int fullscreen : 1;
-    unsigned int above : 1;
-    unsigned int below : 1;
+typedef struct
+{
+  unsigned int modal : 1;
+  unsigned int sticky : 1;
+  unsigned int maximized_vert : 1;
+  unsigned int maximized_horz : 1;
+  unsigned int shaded : 1;
+  unsigned int skip_taskbar : 1;
+  unsigned int skip_pager : 1;
+  unsigned int hidden : 1;
+  unsigned int fullscreen : 1;
+  unsigned int above : 1;
+  unsigned int below : 1;
 } NetWMState;
 
 /* Decoded value of _NET_WM_WINDOW_TYPE property. */
-typedef struct {
-    unsigned int desktop : 1;
-    unsigned int dock : 1;
-    unsigned int toolbar : 1;
-    unsigned int menu : 1;
-    unsigned int utility : 1;
-    unsigned int splash : 1;
-    unsigned int dialog : 1;
-    unsigned int normal : 1;
+typedef struct
+{
+  unsigned int desktop : 1;
+  unsigned int dock : 1;
+  unsigned int toolbar : 1;
+  unsigned int menu : 1;
+  unsigned int utility : 1;
+  unsigned int splash : 1;
+  unsigned int dialog : 1;
+  unsigned int normal : 1;
 } NetWMWindowType;
 
 void Xclimsgx(Screen *screen, Window win, Atom type, long l0, long l1, long l2, long l3, long l4);
 void Xclimsgwm(Window win, Atom type, Atom arg);
-void *get_xaproperty (Window win, Atom prop, Atom type, int *nitems);
+void *get_xaproperty(Window win, Atom prop, Atom type, int *nitems);
 char *get_textproperty(Window win, Atom prop);
 void *get_utf8_property(Window win, Atom atom);
 char **get_utf8_property_list(Window win, Atom atom, int *count);
 
 void resolve_atoms();
-//Window Select_Window(Display *dpy);
+// Window Select_Window(Display *dpy);
 int get_net_number_of_desktops();
-int get_net_current_desktop ();
+int get_net_current_desktop();
 int get_net_wm_desktop(Window win);
-int get_wm_state (Window win);
+int get_wm_state(Window win);
 void get_net_wm_state(Window win, NetWMState *nws);
 void get_net_wm_window_type(Window win, NetWMWindowType *nwwt);
 GPid get_net_wm_pid(Window win);
@@ -141,8 +143,8 @@ GPid get_net_wm_pid(Window win);
  *
  * Prints X error message to stderr if logging was enabled.
  */
-extern int panel_handle_x_error(Display * d, XErrorEvent * ev);
-extern int panel_handle_x_error_swallow_BadWindow_BadDrawable(Display * d, XErrorEvent * ev);
+extern int panel_handle_x_error(Display *d, XErrorEvent *ev);
+extern int panel_handle_x_error_swallow_BadWindow_BadDrawable(Display *d, XErrorEvent *ev);
 
 /**
  * expand_tilda
@@ -194,8 +196,8 @@ extern GtkWidget *lxpanel_button_new_for_fm_icon(LXPanel *panel, FmIcon *icon, G
  * following panel icon size and use this fixed size, if @size is 0 then
  * do no changes on icons size.
  */
-extern void lxpanel_button_set_icon(GtkWidget* btn, const gchar *name, gint size);
-extern void lxpanel_button_update_icon(GtkWidget* btn, FmIcon *icon, gint size);
+extern void lxpanel_button_set_icon(GtkWidget *btn, const gchar *name, gint size);
+extern void lxpanel_button_update_icon(GtkWidget *btn, FmIcon *icon, gint size);
 
 /**
  * lxpanel_button_set_label

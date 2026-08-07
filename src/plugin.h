@@ -101,29 +101,30 @@ G_BEGIN_DECLS
  * If @gettext_package is not %NULL then it will be used for translation
  * of @name and @description. (Since: 0.9.0)
  */
-typedef struct {
-    /*< public >*/
-    void (*init)(void);         /* optional startup */
-    void (*finalize)(void);     /* optional finalize */
-    char *name;                 /* name to represent in lists */
-    char *description;          /* tooltip text */
-    GtkWidget *(*new_instance)(LXPanel *panel, config_setting_t *settings);
-    GtkWidget *(*config)(LXPanel *panel, GtkWidget *instance);
-    void (*reconfigure)(LXPanel *panel, GtkWidget *instance);
-    gboolean (*button_press_event)(GtkWidget *widget, GdkEventButton *event, LXPanel *panel);
-    void (*show_system_menu)(GtkWidget *widget);
-    gboolean (*update_context_menu)(GtkWidget *plugin, GtkMenu *menu);
-    gboolean (*control)(GtkWidget *plugin, const char *cmd);
-    char *gettext_package;      /* optional: gettext package used to translate name and description */
-    /*< private >*/
-    gpointer _reserved1;
-    gpointer _reserved2;
-    /*< public >*/
-    int one_per_system : 1;     /* True to disable more than one instance */
-    int expand_available : 1;   /* True if "stretch" option is available */
-    int expand_default : 1;     /* True if "stretch" option is default */
-    int superseded : 1;         /* True if plugin was superseded by another */
-} LXPanelPluginInit; /* constant data */
+typedef struct
+{
+  /*< public >*/
+  void (*init)(void);     /* optional startup */
+  void (*finalize)(void); /* optional finalize */
+  char *name;             /* name to represent in lists */
+  char *description;      /* tooltip text */
+  GtkWidget *(*new_instance)(LXPanel *panel, config_setting_t *settings);
+  GtkWidget *(*config)(LXPanel *panel, GtkWidget *instance);
+  void (*reconfigure)(LXPanel *panel, GtkWidget *instance);
+  gboolean (*button_press_event)(GtkWidget *widget, GdkEventButton *event, LXPanel *panel);
+  void (*show_system_menu)(GtkWidget *widget);
+  gboolean (*update_context_menu)(GtkWidget *plugin, GtkMenu *menu);
+  gboolean (*control)(GtkWidget *plugin, const char *cmd);
+  char *gettext_package; /* optional: gettext package used to translate name and description */
+  /*< private >*/
+  gpointer _reserved1;
+  gpointer _reserved2;
+  /*< public >*/
+  int one_per_system : 1;   /* True to disable more than one instance */
+  int expand_available : 1; /* True if "stretch" option is available */
+  int expand_default : 1;   /* True if "stretch" option is default */
+  int superseded : 1;       /* True if plugin was superseded by another */
+} LXPanelPluginInit;        /* constant data */
 
 /*
  * This descriptor instance should be defined in each plugin code as main
@@ -155,7 +156,7 @@ extern GQuark lxpanel_plugin_qdata; /* access to plugin private data */
  *
  * Returns: (transfer none): pointer to the data.
  */
-#define lxpanel_plugin_get_data(_i) g_object_get_qdata(G_OBJECT(_i),lxpanel_plugin_qdata)
+#define lxpanel_plugin_get_data(_i) g_object_get_qdata(G_OBJECT(_i), lxpanel_plugin_qdata)
 
 /**
  * lxpanel_plugin_set_data
@@ -168,7 +169,7 @@ extern GQuark lxpanel_plugin_qdata; /* access to plugin private data */
  * any allocated data. The instance widget at that moment is already not
  * available to use in any way so not rely on it or its children.
  */
-#define lxpanel_plugin_set_data(_i,_data,_destructor) g_object_set_qdata_full(G_OBJECT(_i),lxpanel_plugin_qdata,_data,_destructor)
+#define lxpanel_plugin_set_data(_i, _data, _destructor) g_object_set_qdata_full(G_OBJECT(_i), lxpanel_plugin_qdata, _data, _destructor)
 
 /**
  * lxpanel_register_plugin_type
@@ -191,7 +192,7 @@ extern gboolean lxpanel_register_plugin_type(const char *name, const LXPanelPlug
  *
  * Returns: (transfer full): new menu widget.
  */
-extern GtkMenu* lxpanel_get_plugin_menu(LXPanel* panel, GtkWidget* plugin, gboolean use_sub_menu);
+extern GtkMenu *lxpanel_get_plugin_menu(LXPanel *panel, GtkWidget *plugin, gboolean use_sub_menu);
 
 /**
  * lxpanel_plugin_adjust_popup_position
@@ -201,7 +202,7 @@ extern GtkMenu* lxpanel_get_plugin_menu(LXPanel* panel, GtkWidget* plugin, gbool
  * Adjusts the position of a @popup window to ensure that it is not hidden
  * by the panel and moves @popup near @plugin if possible.
  */
-extern void lxpanel_plugin_adjust_popup_position(GtkWidget * popup, GtkWidget * plugin);
+extern void lxpanel_plugin_adjust_popup_position(GtkWidget *popup, GtkWidget *plugin);
 
 /**
  * lxpanel_plugin_popup_set_position_helper
@@ -215,7 +216,7 @@ extern void lxpanel_plugin_adjust_popup_position(GtkWidget * popup, GtkWidget * 
  * @near accordingly to position of panel @p and returns its coordinates.
  * Can be used in position-calculation callback for popup menus.
  */
-extern void lxpanel_plugin_popup_set_position_helper(LXPanel * p, GtkWidget * near, GtkWidget * popup, gint * px, gint * py);
+extern void lxpanel_plugin_popup_set_position_helper(LXPanel *p, GtkWidget *near, GtkWidget *popup, gint *px, gint *py);
 
 /**
  * plugin_widget_set_background
@@ -225,7 +226,7 @@ extern void lxpanel_plugin_popup_set_position_helper(LXPanel * p, GtkWidget * ne
  * Recursively set the background of @widget and its children. Can be
  * used on a panel background configuration change.
  */
-extern void plugin_widget_set_background(GtkWidget * widget, LXPanel * p);
+extern void plugin_widget_set_background(GtkWidget *widget, LXPanel *p);
 
 /**
  * lxpanel_launch_path
@@ -244,7 +245,7 @@ extern gboolean lxpanel_launch_path(LXPanel *panel, FmPath *path);
  *
  * Calls config() callback and shows configuration window.
  */
-extern void lxpanel_plugin_show_config_dialog(GtkWidget* plugin);
+extern void lxpanel_plugin_show_config_dialog(GtkWidget *plugin);
 
 /**
  * PluginConfType:
@@ -259,15 +260,16 @@ extern void lxpanel_plugin_show_config_dialog(GtkWidget* plugin);
  *
  * Type of variable passed to lxpanel_generic_config_dlg().
  */
-typedef enum {
-    CONF_TYPE_STR,
-    CONF_TYPE_INT,
-    CONF_TYPE_BOOL,
-    CONF_TYPE_FILE,
-    CONF_TYPE_FILE_ENTRY,
-    CONF_TYPE_DIRECTORY_ENTRY,
-    CONF_TYPE_TRIM,
-    CONF_TYPE_EXTERNAL
+typedef enum
+{
+  CONF_TYPE_STR,
+  CONF_TYPE_INT,
+  CONF_TYPE_BOOL,
+  CONF_TYPE_FILE,
+  CONF_TYPE_FILE_ENTRY,
+  CONF_TYPE_DIRECTORY_ENTRY,
+  CONF_TYPE_TRIM,
+  CONF_TYPE_EXTERNAL
 } PluginConfType;
 
 /**

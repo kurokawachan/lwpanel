@@ -27,56 +27,55 @@
 #include "misc.h"
 
 struct statusicon *create_statusicon(LXPanel *panel, GtkWidget *box,
-        const char *filename, const char *tooltips, const char* icon_name)
+                                     const char *filename, const char *tooltips, const char *icon_name)
 {
-    struct statusicon *newicon;
-    newicon = malloc(sizeof(struct statusicon));
+  struct statusicon *newicon;
+  newicon = malloc(sizeof(struct statusicon));
 
-    /* main */
-    newicon->main = gtk_event_box_new();
+  /* main */
+  newicon->main = gtk_event_box_new();
 
-    gtk_widget_set_has_window(newicon->main, FALSE);
-    //gtk_widget_set_size_request(newicon->main, 24, 24);
-    gtk_box_pack_start(GTK_BOX(box), newicon->main, TRUE, TRUE, 0);
+  gtk_widget_set_has_window(newicon->main, FALSE);
+  // gtk_widget_set_size_request(newicon->main, 24, 24);
+  gtk_box_pack_start(GTK_BOX(box), newicon->main, TRUE, TRUE, 0);
 
-    /* icon */
-    newicon->icon = lxpanel_image_new_for_icon(panel, icon_name, -1, filename);
+  /* icon */
+  newicon->icon = lxpanel_image_new_for_icon(panel, icon_name, -1, filename);
 
-    gtk_container_add(GTK_CONTAINER(newicon->main), newicon->icon);
-    gtk_widget_show_all(newicon->main);
+  gtk_container_add(GTK_CONTAINER(newicon->main), newicon->icon);
+  gtk_widget_show_all(newicon->main);
 
-    /* tooltip */
-    gtk_widget_set_tooltip_text(newicon->main, tooltips);
+  /* tooltip */
+  gtk_widget_set_tooltip_text(newicon->main, tooltips);
 
-    return newicon;
+  return newicon;
 }
 
 void statusicon_destroy(struct statusicon *icon)
 {
-    if (icon==NULL)
-        return;
+  if (icon == NULL)
+    return;
 
-    gtk_widget_destroy(GTK_WIDGET(icon->icon));
-    gtk_widget_destroy(GTK_WIDGET(icon->main));
-    g_free(icon);
+  gtk_widget_destroy(GTK_WIDGET(icon->icon));
+  gtk_widget_destroy(GTK_WIDGET(icon->main));
+  g_free(icon);
 }
 
-
-//void set_statusicon_image_from_file(struct statusicon *widget, const char *filename)
+// void set_statusicon_image_from_file(struct statusicon *widget, const char *filename)
 void update_statusicon(struct statusicon *widget, const char *filename, const char *icon_name)
 {
-    lxpanel_image_change_icon(widget->icon, icon_name, filename);
+  lxpanel_image_change_icon(widget->icon, icon_name, filename);
 }
 
 void set_statusicon_tooltips(struct statusicon *widget, const char *tooltips)
 {
-    gtk_widget_set_tooltip_text(widget->main, tooltips);
+  gtk_widget_set_tooltip_text(widget->main, tooltips);
 }
 
 void set_statusicon_visible(struct statusicon *widget, gboolean b)
 {
-    if (b)
-        gtk_widget_show(widget->main);
-    else
-        gtk_widget_hide(widget->main);
+  if (b)
+    gtk_widget_show(widget->main);
+  else
+    gtk_widget_hide(widget->main);
 }

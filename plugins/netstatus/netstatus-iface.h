@@ -32,22 +32,22 @@
 
 G_BEGIN_DECLS
 
-#define NETSTATUS_TYPE_IFACE         (netstatus_iface_get_type ())
-#define NETSTATUS_IFACE(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), NETSTATUS_TYPE_IFACE, NetstatusIface))
-#define NETSTATUS_IFACE_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), NETSTATUS_TYPE_IFACE, NetstatusIfaceClass))
-#define NETSTATUS_IS_IFACE(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), NETSTATUS_TYPE_IFACE))
-#define NETSTATUS_IS_IFACE_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), NETSTATUS_TYPE_IFACE))
-#define NETSTATUS_IFACE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), NETSTATUS_TYPE_IFACE, NetstatusIfaceClass))
+#define NETSTATUS_TYPE_IFACE (netstatus_iface_get_type())
+#define NETSTATUS_IFACE(o) (G_TYPE_CHECK_INSTANCE_CAST((o), NETSTATUS_TYPE_IFACE, NetstatusIface))
+#define NETSTATUS_IFACE_CLASS(k) (G_TYPE_CHECK_CLASS_CAST((k), NETSTATUS_TYPE_IFACE, NetstatusIfaceClass))
+#define NETSTATUS_IS_IFACE(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), NETSTATUS_TYPE_IFACE))
+#define NETSTATUS_IS_IFACE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), NETSTATUS_TYPE_IFACE))
+#define NETSTATUS_IFACE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), NETSTATUS_TYPE_IFACE, NetstatusIfaceClass))
 
-typedef struct _NetstatusIface        NetstatusIface;
-typedef struct _NetstatusIfaceClass   NetstatusIfaceClass;
+typedef struct _NetstatusIface NetstatusIface;
+typedef struct _NetstatusIfaceClass NetstatusIfaceClass;
 typedef struct _NetstatusIfacePrivate NetstatusIfacePrivate;
 
 struct _NetstatusIface
 {
-  GObject                 parent_instance;
+  GObject parent_instance;
 
-  NetstatusIfacePrivate  *priv;
+  NetstatusIfacePrivate *priv;
 };
 
 struct _NetstatusIfaceClass
@@ -55,36 +55,36 @@ struct _NetstatusIfaceClass
   GObjectClass parent_class;
 };
 
-GList *                netstatus_list_interface_names        (GError         **error);
+GList *netstatus_list_interface_names(GError **error);
 
-GType                  netstatus_iface_get_type              (void) G_GNUC_CONST;
+GType netstatus_iface_get_type(void) G_GNUC_CONST;
 
-NetstatusIface *       netstatus_iface_new                   (const char      *name);
+NetstatusIface *netstatus_iface_new(const char *name);
 
-const char *           netstatus_iface_get_name              (NetstatusIface  *iface);
-void                   netstatus_iface_set_name              (NetstatusIface  *iface,
-							      const char      *name);
-NetstatusState         netstatus_iface_get_state             (NetstatusIface  *iface);
-void                   netstatus_iface_get_statistics        (NetstatusIface  *iface,
-							      NetstatusStats  *stats);
-gboolean               netstatus_iface_get_is_wireless       (NetstatusIface  *iface);
-int                    netstatus_iface_get_signal_strength   (NetstatusIface  *iface);
+const char *netstatus_iface_get_name(NetstatusIface *iface);
+void netstatus_iface_set_name(NetstatusIface *iface,
+                              const char *name);
+NetstatusState netstatus_iface_get_state(NetstatusIface *iface);
+void netstatus_iface_get_statistics(NetstatusIface *iface,
+                                    NetstatusStats *stats);
+gboolean netstatus_iface_get_is_wireless(NetstatusIface *iface);
+int netstatus_iface_get_signal_strength(NetstatusIface *iface);
 
-void                   netstatus_iface_set_error             (NetstatusIface  *iface,
-							      const GError    *error);
-const GError *         netstatus_iface_get_error             (NetstatusIface  *iface);
-void                   netstatus_iface_clear_error           (NetstatusIface  *iface,
-							      NetstatusError   code);
+void netstatus_iface_set_error(NetstatusIface *iface,
+                               const GError *error);
+const GError *netstatus_iface_get_error(NetstatusIface *iface);
+void netstatus_iface_clear_error(NetstatusIface *iface,
+                                 NetstatusError code);
 
-gboolean               netstatus_iface_get_inet4_details     (NetstatusIface  *iface,
-							      char           **addr,
-							      char           **dest,
-							      char           **bcast,
-							      char           **mask);
-gboolean               netstatus_iface_get_device_details    (NetstatusIface  *iface,
-							      const char     **hw_name,
-							      char           **hw_addr);
-gboolean               netstatus_iface_get_is_loopback       (NetstatusIface  *iface);
+gboolean netstatus_iface_get_inet4_details(NetstatusIface *iface,
+                                           char **addr,
+                                           char **dest,
+                                           char **bcast,
+                                           char **mask);
+gboolean netstatus_iface_get_device_details(NetstatusIface *iface,
+                                            const char **hw_name,
+                                            char **hw_addr);
+gboolean netstatus_iface_get_is_loopback(NetstatusIface *iface);
 
 G_END_DECLS
 

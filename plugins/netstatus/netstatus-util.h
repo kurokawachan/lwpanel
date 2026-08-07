@@ -28,11 +28,12 @@
 
 G_BEGIN_DECLS
 
-#define NETSTATUS_ERROR        (netstatus_error_quark ())
-#define NETSTATUS_TYPE_G_ERROR (netstatus_g_error_get_type ())
-#define NETSTATUS_TYPE_STATS   (netstatus_stats_get_type ())
+#define NETSTATUS_ERROR (netstatus_error_quark())
+#define NETSTATUS_TYPE_G_ERROR (netstatus_g_error_get_type())
+#define NETSTATUS_TYPE_STATS (netstatus_stats_get_type())
 
-typedef enum {
+typedef enum
+{
   NETSTATUS_STATE_DISCONNECTED = 0,
   NETSTATUS_STATE_IDLE = 1,
   NETSTATUS_STATE_TX = 2,
@@ -42,21 +43,23 @@ typedef enum {
   NETSTATUS_STATE_LAST = 6
 } NetstatusState;
 
-typedef enum {
-  NETSTATUS_ERROR_NONE             = 0,
-  NETSTATUS_ERROR_ICONS            = 1, /* Can't locate the icon files */
-  NETSTATUS_ERROR_SOCKET           = 2, /* Can't open socket */
-  NETSTATUS_ERROR_STATISTICS       = 3, /* Can't find statistics on the interface */
-  NETSTATUS_ERROR_IOCTL_IFFLAGS    = 4, /* SIOCGIFFLAGS failed */
-  NETSTATUS_ERROR_IOCTL_IFCONF     = 5, /* SIOCGIFCONF failed */
-  NETSTATUS_ERROR_NO_INTERFACES    = 6, /* No interfaces found */
-  NETSTATUS_ERROR_WIRELESS_DETAILS = 7  /* Error finding wireless details
-                                         * (not an error if iface isn't wireless)
-					 */
+typedef enum
+{
+  NETSTATUS_ERROR_NONE = 0,
+  NETSTATUS_ERROR_ICONS = 1,           /* Can't locate the icon files */
+  NETSTATUS_ERROR_SOCKET = 2,          /* Can't open socket */
+  NETSTATUS_ERROR_STATISTICS = 3,      /* Can't find statistics on the interface */
+  NETSTATUS_ERROR_IOCTL_IFFLAGS = 4,   /* SIOCGIFFLAGS failed */
+  NETSTATUS_ERROR_IOCTL_IFCONF = 5,    /* SIOCGIFCONF failed */
+  NETSTATUS_ERROR_NO_INTERFACES = 6,   /* No interfaces found */
+  NETSTATUS_ERROR_WIRELESS_DETAILS = 7 /* Error finding wireless details
+                                        * (not an error if iface isn't wireless)
+                                        */
 } NetstatusError;
 
-typedef enum {
-  NETSTATUS_DEBUG_NONE    = 0,
+typedef enum
+{
+  NETSTATUS_DEBUG_NONE = 0,
   NETSTATUS_DEBUG_POLLING = 1 << 0
 } NetstatusDebugFlags;
 
@@ -68,22 +71,22 @@ typedef struct
   gulong out_bytes;
 } NetstatusStats;
 
-GQuark               netstatus_error_quark                (void);
-GType                netstatus_g_error_get_type           (void);
-GType                netstatus_stats_get_type             (void);
-void                 netstatus_adopt_error                (GError         *error,
-							   NetstatusError  code);
+GQuark netstatus_error_quark(void);
+GType netstatus_g_error_get_type(void);
+GType netstatus_stats_get_type(void);
+void netstatus_adopt_error(GError *error,
+                           NetstatusError code);
 
-const char *         netstatus_get_state_string           (NetstatusState  state);
+const char *netstatus_get_state_string(NetstatusState state);
 
-GList               *netstatus_list_insert_unique         (GList          *list,
-							   char           *str);
+GList *netstatus_list_insert_unique(GList *list,
+                                    char *str);
 
-void                 netstatus_connect_signal_while_alive (gpointer        object,
-							   const char     *detailed_signal,
-							   GCallback       func,
-							   gpointer        func_data,
-							   gpointer        alive_object);
+void netstatus_connect_signal_while_alive(gpointer object,
+                                          const char *detailed_signal,
+                                          GCallback func,
+                                          gpointer func_data,
+                                          gpointer alive_object);
 
 #ifdef G_ENABLE_DEBUG
 
@@ -92,25 +95,31 @@ void                 netstatus_connect_signal_while_alive (gpointer        objec
 extern NetstatusDebugFlags _netstatus_debug_flags;
 
 #ifdef G_HAVE_ISO_VARARGS
-#  define dprintf(type, ...) G_STMT_START {                   \
-        if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type)  \
-                fprintf (stderr, __VA_ARGS__);                \
-        } G_STMT_END
+#define dprintf(type, ...)                               \
+  G_STMT_START                                           \
+  {                                                      \
+    if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
+      fprintf(stderr, __VA_ARGS__);                      \
+  }                                                      \
+  G_STMT_END
 #elif defined(G_HAVE_GNUC_VARARGS)
-#  define dprintf(type, args...) G_STMT_START {               \
-        if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type)  \
-                fprintf (stderr, args);                       \
-        } G_STMT_END
+#define dprintf(type, args...)                           \
+  G_STMT_START                                           \
+  {                                                      \
+    if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
+      fprintf(stderr, args);                             \
+  }                                                      \
+  G_STMT_END
 #endif
 
-void netstatus_setup_debug_flags (void);
+void netstatus_setup_debug_flags(void);
 
 #else /* if !defined (G_ENABLE_DEBUG) */
 
 #ifdef G_HAVE_ISO_VARARGS
-#  define dprintf(...)
+#define dprintf(...)
 #elif defined(G_HAVE_GNUC_VARARGS)
-#  define dprintf(args...)
+#define dprintf(args...)
 #endif
 
 #define netstatus_setup_debug_flags()

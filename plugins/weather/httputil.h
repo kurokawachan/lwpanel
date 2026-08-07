@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * See the COPYRIGHT file for more information.
  */
 
@@ -38,6 +38,6 @@
  * @return The return code supplied by CURL
  */
 CURLcode
-getURL(const gchar * pczURL, gchar ** pcData, gint * piDataSize, const gchar ** headers);
+getURL(const gchar *pczURL, gchar **pcData, gint *piDataSize, const gchar **headers);
 
 #endif

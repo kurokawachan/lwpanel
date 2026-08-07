@@ -27,128 +27,141 @@
 
 #include "dbg.h"
 
-
-typedef struct {
-    GtkWidget *mainw;
-    char* config_data;
+typedef struct
+{
+  GtkWidget *mainw;
+  char *config_data;
 } image;
 
 static void
 image_destructor(Plugin *p)
 {
-    image *img = (image *)p->priv;
+  image *img = (image *)p->priv;
 
-    ENTER;
-    gtk_widget_destroy(img->mainw);
-    g_free( img->config_data );
-    g_free(img);
-    RET();
+  ENTER;
+  gtk_widget_destroy(img->mainw);
+  g_free(img->config_data);
+  g_free(img);
+  RET();
 }
 
 static int
 image_constructor(Plugin *p, char **fp)
 {
-    gchar *tooltip, *fname;
-    image *img;
-    GdkPixbuf *gp, *gps;
-    GtkWidget *wid;
-    GError *err = NULL;
-    char *config_start, *config_end;
+  gchar *tooltip, *fname;
+  image *img;
+  GdkPixbuf *gp, *gps;
+  GtkWidget *wid;
+  GError *err = NULL;
+  char *config_start, *config_end;
 
-    line s;
+  line s;
 
-    s.len = 256;
-    ENTER;
-    img = g_new0(image, 1);
-    g_return_val_if_fail(img != NULL, 0);
-    p->priv = img;
-    tooltip = fname = 0;
-    if( fp ) {
-        config_start = *fp;
-        while (lxpanel_get_line(fp, &s) != LINE_BLOCK_END) {
-            if (s.type == LINE_NONE) {
-                ERR( "image: illegal token %s\n", s.str);
-                goto error;
-            }
-            if (s.type == LINE_VAR) {
-                if (!g_ascii_strcasecmp(s.t[0], "image"))
-                    fname = expand_tilda(s.t[1]);
-                else if (!g_ascii_strcasecmp(s.t[0], "tooltip"))
-                    tooltip = g_strdup(s.t[1]);
-                else {
-                    ERR( "image: unknown var %s\n", s.t[0]);
-                    goto error;
-                }
-            } else {
-                ERR( "image: illegal in this context %s\n", s.str);
-                goto error;
-            }
+  s.len = 256;
+  ENTER;
+  img = g_new0(image, 1);
+  g_return_val_if_fail(img != NULL, 0);
+  p->priv = img;
+  tooltip = fname = 0;
+  if (fp)
+  {
+    config_start = *fp;
+    while (lxpanel_get_line(fp, &s) != LINE_BLOCK_END)
+    {
+      if (s.type == LINE_NONE)
+      {
+        ERR("image: illegal token %s\n", s.str);
+        goto error;
+      }
+      if (s.type == LINE_VAR)
+      {
+        if (!g_ascii_strcasecmp(s.t[0], "image"))
+          fname = expand_tilda(s.t[1]);
+        else if (!g_ascii_strcasecmp(s.t[0], "tooltip"))
+          tooltip = g_strdup(s.t[1]);
+        else
+        {
+          ERR("image: unknown var %s\n", s.t[0]);
+          goto error;
         }
-        config_end = *fp - 1;
-        while( *config_end != '}' && config_end > config_start ) {
-            --config_end;
-        }
-        if( *config_end == '}' )
-            --config_end;
-        img->config_data = g_strndup( config_start,
-                                      (config_end-config_start) );
+      }
+      else
+      {
+        ERR("image: illegal in this context %s\n", s.str);
+        goto error;
+      }
     }
-    else {
-        config_start = config_end = NULL;
+    config_end = *fp - 1;
+    while (*config_end != '}' && config_end > config_start)
+    {
+      --config_end;
     }
-    img->mainw = gtk_event_box_new();
-    gtk_widget_show(img->mainw);
-    //g_signal_connect(G_OBJECT(img->mainw), "expose_event",
-    //      G_CALLBACK(gtk_widget_queue_draw), NULL);
-    gp = gdk_pixbuf_new_from_file(fname, &err);
-    if (!gp) {
-        g_warning("image: can't read image %s\n", fname);
-        wid = gtk_label_new("?");
-    } else {
-        float ratio;
-        ratio = (p->panel->orientation == GTK_ORIENTATION_HORIZONTAL) ?
-            (float) (p->panel->ah - 2) / (float) gdk_pixbuf_get_height(gp)
-            : (float) (p->panel->aw - 2) / (float) gdk_pixbuf_get_width(gp);
-        gps =  gdk_pixbuf_scale_simple (gp,
-              ratio * ((float) gdk_pixbuf_get_width(gp)),
-              ratio * ((float) gdk_pixbuf_get_height(gp)),
-              GDK_INTERP_HYPER);
-        wid = gtk_image_new_from_pixbuf(gps);
-        g_object_unref(gp);
-        g_object_unref(gps);
+    if (*config_end == '}')
+      --config_end;
+    img->config_data = g_strndup(config_start,
+                                 (config_end - config_start));
+  }
+  else
+  {
+    config_start = config_end = NULL;
+  }
+  img->mainw = gtk_event_box_new();
+  gtk_widget_show(img->mainw);
+  // g_signal_connect(G_OBJECT(img->mainw), "expose_event",
+  //       G_CALLBACK(gtk_widget_queue_draw), NULL);
+  gp = gdk_pixbuf_new_from_file(fname, &err);
+  if (!gp)
+  {
+    g_warning("image: can't read image %s\n", fname);
+    wid = gtk_label_new("?");
+  }
+  else
+  {
+    float ratio;
+    ratio = (p->panel->orientation == GTK_ORIENTATION_HORIZONTAL) ? (float)(p->panel->ah - 2) / (float)gdk_pixbuf_get_height(gp)
+                                                                  : (float)(p->panel->aw - 2) / (float)gdk_pixbuf_get_width(gp);
+    gps = gdk_pixbuf_scale_simple(gp,
+                                  ratio * ((float)gdk_pixbuf_get_width(gp)),
+                                  ratio * ((float)gdk_pixbuf_get_height(gp)),
+                                  GDK_INTERP_HYPER);
+    wid = gtk_image_new_from_pixbuf(gps);
+    g_object_unref(gp);
+    g_object_unref(gps);
+  }
+  gtk_widget_show(wid);
+  gtk_container_add(GTK_CONTAINER(img->mainw), wid);
+  gtk_container_set_border_width(GTK_CONTAINER(img->mainw), 0);
+  g_free(fname);
 
-    }
-    gtk_widget_show(wid);
-    gtk_container_add(GTK_CONTAINER(img->mainw), wid);
-    gtk_container_set_border_width(GTK_CONTAINER(img->mainw), 0);
-    g_free(fname);
-
-    if (tooltip) {
-        gtk_widget_set_tooltip_text(img->mainw, tooltip);
-        g_free(tooltip);
-    }
-    RET(1);
-
- error:
-    g_free(fname);
+  if (tooltip)
+  {
+    gtk_widget_set_tooltip_text(img->mainw, tooltip);
     g_free(tooltip);
-    image_destructor(p);
-    RET(0);
+  }
+  RET(1);
+
+error:
+  g_free(fname);
+  g_free(tooltip);
+  image_destructor(p);
+  RET(0);
 }
 
-static void save_config( Plugin* p, FILE* fp )
+static void save_config(Plugin *p, FILE *fp)
 {
-    image *img = (image *)p->priv;
-    if( img->config_data ) {
-        char** lines = g_strsplit( img->config_data, "\n", 0 );
-        char** line;
-        for( line = lines; *line; ++line ) {
-            g_strstrip( *line );
-            if( **line )
-                lxpanel_put_line( fp, *line );
-        }
-        g_strfreev( lines );
+  image *img = (image *)p->priv;
+  if (img->config_data)
+  {
+    char **lines = g_strsplit(img->config_data, "\n", 0);
+    char **line;
+    for (line = lines; *line; ++line)
+    {
+      g_strstrip(*line);
+      if (**line)
+        lxpanel_put_line(fp, *line);
     }
+    g_strfreev(lines);
+  }
 }
 
 PluginClass image_plugin_class = {
@@ -161,7 +174,6 @@ PluginClass image_plugin_class = {
     .description = N_("Display Image and Tooltip"),
 
     .constructor = image_constructor,
-    .destructor  = image_destructor,
+    .destructor = image_destructor,
     .config = NULL,
-    .save = save_config
-};
+    .save = save_config};

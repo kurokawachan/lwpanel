@@ -24,37 +24,37 @@
 
 /* compatibility things */
 #if !GTK_CHECK_VERSION(2, 20, 0)
-#  define  gtk_widget_get_realized      GTK_WIDGET_REALIZED
-#  define  gtk_widget_get_mapped        GTK_WIDGET_MAPPED
+#define gtk_widget_get_realized GTK_WIDGET_REALIZED
+#define gtk_widget_get_mapped GTK_WIDGET_MAPPED
 #endif
 
 #if !GTK_CHECK_VERSION(2, 21, 0)
-#  define  GDK_KEY_Tab                  GDK_Tab
-#  define  GDK_KEY_space                GDK_space
-#  define  GDK_KEY_Return               GDK_Return
-#  define  GDK_KEY_KP_Enter             GDK_KP_Enter
-#  define  GDK_KEY_BackSpace            GDK_BackSpace
+#define GDK_KEY_Tab GDK_Tab
+#define GDK_KEY_space GDK_space
+#define GDK_KEY_Return GDK_Return
+#define GDK_KEY_KP_Enter GDK_KP_Enter
+#define GDK_KEY_BackSpace GDK_BackSpace
 #endif
 
 #if !GTK_CHECK_VERSION(2, 22, 0)
-#  define  gtk_button_get_event_window(a)  a->event_window
-#  define  gdk_visual_get_depth(a)      a->depth
+#define gtk_button_get_event_window(a) a->event_window
+#define gdk_visual_get_depth(a) a->depth
 #endif
 
 #if !GTK_CHECK_VERSION(2, 24, 0)
-#  define  gdk_window_get_screen        gdk_drawable_get_screen
+#define gdk_window_get_screen gdk_drawable_get_screen
 #endif
 
 #if !GLIB_CHECK_VERSION(2, 28, 0)
-#define g_list_free_full(list, free_func)        \
-{                                                \
-  g_list_foreach(list, (GFunc) free_func, NULL); \
-  g_list_free(list);                             \
-}
+#define g_list_free_full(list, free_func)         \
+  {                                               \
+    g_list_foreach(list, (GFunc)free_func, NULL); \
+    g_list_free(list);                            \
+  }
 #endif
 
 #if GTK_CHECK_VERSION(3, 0, 0)
-#  define  GTK_DIALOG_NO_SEPARATOR      0
+#define GTK_DIALOG_NO_SEPARATOR 0
 #endif
 
 #endif

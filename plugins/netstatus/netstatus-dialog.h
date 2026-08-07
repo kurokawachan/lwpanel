@@ -30,14 +30,14 @@
 
 G_BEGIN_DECLS
 
-GtkWidget *netstatus_dialog_new (NetstatusIface *iface);
+GtkWidget *netstatus_dialog_new(NetstatusIface *iface);
 
 /* 2006.10.08 Add by Hong Jen Yee (PCMan) to be used in lxpanel plugin */
-void netstatus_dialog_set_configuration_tool( GtkWidget* dialog, const char* tool );
-const char* netstatus_dialog_get_configuration_tool( GtkWidget* dialog );
+void netstatus_dialog_set_configuration_tool(GtkWidget *dialog, const char *tool);
+const char *netstatus_dialog_get_configuration_tool(GtkWidget *dialog);
 
 /* 2009.05.10 Add by Hong Jen Yee (PCMan) to be used in lxpanel plugin */
-const char* netstatus_dialog_get_iface_name( GtkWidget* dialog );
+const char *netstatus_dialog_get_iface_name(GtkWidget *dialog);
 
 void netstatus_dialog_present(GtkWidget *dialog);
 

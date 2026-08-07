@@ -36,25 +36,25 @@
 #include <glib-object.h>
 #include <gtk/gtk.h>
 
-#define FB_TYPE_BG         (fb_bg_get_type ())
-#define FB_BG(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o),      \
-					       FB_TYPE_BG,        \
-					       FbBg))
-#define FB_BG_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST ((k),         \
-					       FB_TYPE_BG,        \
-					       FbBgClass))
-#define FB_IS_BG(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o),      \
-					       FB_TYPE_BG))
-#define FB_IS_BG_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k),         \
-					       FB_TYPE_BG))
-#define FB_BG_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o),       \
-					       FB_TYPE_BG,        \
-					       FbBgClass))
+#define FB_TYPE_BG (fb_bg_get_type())
+#define FB_BG(o) (G_TYPE_CHECK_INSTANCE_CAST((o),        \
+                                             FB_TYPE_BG, \
+                                             FbBg))
+#define FB_BG_CLASS(k) (G_TYPE_CHECK_CLASS_CAST((k),        \
+                                                FB_TYPE_BG, \
+                                                FbBgClass))
+#define FB_IS_BG(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), \
+                                                FB_TYPE_BG))
+#define FB_IS_BG_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), \
+                                                   FB_TYPE_BG))
+#define FB_BG_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o),        \
+                                                      FB_TYPE_BG, \
+                                                      FbBgClass))
 
 typedef struct _FbBgClass FbBgClass;
-typedef struct _FbBg      FbBg;
+typedef struct _FbBg FbBg;
 
-GType fb_bg_get_type       (void);
+GType fb_bg_get_type(void);
 #define fb_bg_new() (FbBg *)g_object_new(FB_TYPE_BG, NULL)
 void fb_bg_composite(GdkDrawable *base, GdkColor *tintcolor, gint alpha);
 GdkPixmap *fb_bg_get_xroot_pix_for_win(FbBg *bg, GtkWidget *widget);

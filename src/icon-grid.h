@@ -25,24 +25,24 @@
 
 G_BEGIN_DECLS
 
-#define PANEL_TYPE_ICON_GRID               (panel_icon_grid_get_type())
-#define PANEL_ICON_GRID(obj)               (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-                                            PANEL_TYPE_ICON_GRID, PanelIconGrid))
-#define PANEL_ICON_GRID_CLASS(klass)       (G_TYPE_CHECK_CLASS_CAST((klass), \
-                                            PANEL_TYPE_ICON_GRID, PanelIconGridClass))
-#define PANEL_IS_ICON_GRID(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                                            PANEL_TYPE_ICON_GRID))
-#define PANEL_IS_ICON_GRID_CLASS(klass)    (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                                            PANEL_TYPE_ICON_GRID))
+#define PANEL_TYPE_ICON_GRID (panel_icon_grid_get_type())
+#define PANEL_ICON_GRID(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), \
+                                                         PANEL_TYPE_ICON_GRID, PanelIconGrid))
+#define PANEL_ICON_GRID_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), \
+                                                              PANEL_TYPE_ICON_GRID, PanelIconGridClass))
+#define PANEL_IS_ICON_GRID(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), \
+                                                            PANEL_TYPE_ICON_GRID))
+#define PANEL_IS_ICON_GRID_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), \
+                                                                 PANEL_TYPE_ICON_GRID))
 
-extern GType panel_icon_grid_get_type   (void) G_GNUC_CONST;
+extern GType panel_icon_grid_get_type(void) G_GNUC_CONST;
 
-typedef struct _PanelIconGrid           PanelIconGrid;
-typedef struct _PanelIconGridClass      PanelIconGridClass;
+typedef struct _PanelIconGrid PanelIconGrid;
+typedef struct _PanelIconGridClass PanelIconGridClass;
 
-extern GtkWidget * panel_icon_grid_new(
+extern GtkWidget *panel_icon_grid_new(
     GtkOrientation orientation, gint child_width, gint child_height, gint spacing, gint border, gint target_dimension);
-						/* Create an icon grid */
+/* Create an icon grid */
 
 /**
  * panel_icon_grid_set_constrain_width
@@ -55,7 +55,7 @@ extern GtkWidget * panel_icon_grid_new(
  * all existing children of @ig. All children will receive the same size
  * deficit in described case.
  */
-extern void panel_icon_grid_set_constrain_width(PanelIconGrid * ig, gboolean constrain_width);
+extern void panel_icon_grid_set_constrain_width(PanelIconGrid *ig, gboolean constrain_width);
 
 /**
  * panel_icon_grid_set_aspect_width
@@ -74,28 +74,29 @@ extern void panel_icon_grid_set_constrain_width(PanelIconGrid * ig, gboolean con
  *
  * Since: 0.8.0
  */
-extern void panel_icon_grid_set_aspect_width(PanelIconGrid * ig, gboolean aspect_width);
+extern void panel_icon_grid_set_aspect_width(PanelIconGrid *ig, gboolean aspect_width);
 
 /* extern void panel_icon_grid_set_fill_width(PanelIconGrid * ig, gboolean fill_width);
-						 Set the fill-width property */
-extern void panel_icon_grid_set_geometry(PanelIconGrid * ig,
-    GtkOrientation orientation, gint child_width, gint child_height, gint spacing, gint border, gint target_dimension);
-						/* Change the geometry of an icon grid */
-extern gint panel_icon_grid_get_child_position(PanelIconGrid * ig, GtkWidget * child);
-						/* Get the index of an icon grid element. */
-extern void panel_icon_grid_reorder_child(PanelIconGrid * ig, GtkWidget * child, gint position);
-						/* Reorder the position of a child in the icon grid */
-extern guint panel_icon_grid_get_n_children(PanelIconGrid * ig);
-						/* Count non-internal children */
+             Set the fill-width property */
+extern void panel_icon_grid_set_geometry(PanelIconGrid *ig,
+                                         GtkOrientation orientation, gint child_width, gint child_height, gint spacing, gint border, gint target_dimension);
+/* Change the geometry of an icon grid */
+extern gint panel_icon_grid_get_child_position(PanelIconGrid *ig, GtkWidget *child);
+/* Get the index of an icon grid element. */
+extern void panel_icon_grid_reorder_child(PanelIconGrid *ig, GtkWidget *child, gint position);
+/* Reorder the position of a child in the icon grid */
+extern guint panel_icon_grid_get_n_children(PanelIconGrid *ig);
+/* Count non-internal children */
 
-typedef enum {
-    PANEL_ICON_GRID_DROP_LEFT_AFTER,
-    PANEL_ICON_GRID_DROP_LEFT_BEFORE,
-    PANEL_ICON_GRID_DROP_RIGHT_AFTER,
-    PANEL_ICON_GRID_DROP_RIGHT_BEFORE,
-    PANEL_ICON_GRID_DROP_BELOW,
-    PANEL_ICON_GRID_DROP_ABOVE,
-    PANEL_ICON_GRID_DROP_INTO
+typedef enum
+{
+  PANEL_ICON_GRID_DROP_LEFT_AFTER,
+  PANEL_ICON_GRID_DROP_LEFT_BEFORE,
+  PANEL_ICON_GRID_DROP_RIGHT_AFTER,
+  PANEL_ICON_GRID_DROP_RIGHT_BEFORE,
+  PANEL_ICON_GRID_DROP_BELOW,
+  PANEL_ICON_GRID_DROP_ABOVE,
+  PANEL_ICON_GRID_DROP_INTO
 } PanelIconGridDropPosition;
 
 /**
@@ -113,8 +114,8 @@ typedef enum {
  *
  * Since: 0.9.0
  */
-extern gboolean panel_icon_grid_get_dest_at_pos(PanelIconGrid * ig, gint x, gint y,
-                            GtkWidget ** child, PanelIconGridDropPosition * pos);
+extern gboolean panel_icon_grid_get_dest_at_pos(PanelIconGrid *ig, gint x, gint y,
+                                                GtkWidget **child, PanelIconGridDropPosition *pos);
 
 /**
  * panel_icon_grid_set_drag_dest
@@ -127,7 +128,7 @@ extern gboolean panel_icon_grid_get_dest_at_pos(PanelIconGrid * ig, gint x, gint
  *
  * Since: 0.9.0
  */
-extern void panel_icon_grid_set_drag_dest(PanelIconGrid * ig, GtkWidget * child,
+extern void panel_icon_grid_set_drag_dest(PanelIconGrid *ig, GtkWidget *child,
                                           PanelIconGridDropPosition pos);
 
 /**
@@ -141,7 +142,7 @@ extern void panel_icon_grid_set_drag_dest(PanelIconGrid * ig, GtkWidget * child,
  *
  * Since: 0.9.0
  */
-extern PanelIconGridDropPosition panel_icon_grid_get_drag_dest(PanelIconGrid * ig, GtkWidget ** child);
+extern PanelIconGridDropPosition panel_icon_grid_get_drag_dest(PanelIconGrid *ig, GtkWidget **child);
 
 G_END_DECLS
 

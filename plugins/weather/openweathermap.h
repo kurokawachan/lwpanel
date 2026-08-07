@@ -29,6 +29,6 @@
 
 extern provider_callback_info OpenWeatherMapCallbacks;
 
-GList *getOSMLocationInfo(ProviderInfo * instance, const gchar * pczLocation);
+GList *getOSMLocationInfo(ProviderInfo *instance, const gchar *pczLocation);
 
 #endif /* _OPENWEATHERMAP_H_ */

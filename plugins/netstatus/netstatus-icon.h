@@ -29,52 +29,52 @@
 
 G_BEGIN_DECLS
 
-#define NETSTATUS_TYPE_ICON         (netstatus_icon_get_type ())
-#define NETSTATUS_ICON(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), NETSTATUS_TYPE_ICON, NetstatusIcon))
-#define NETSTATUS_ICON_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), NETSTATUS_TYPE_ICON, NetstatusIconClass))
-#define NETSTATUS_IS_ICON(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), NETSTATUS_TYPE_ICON))
-#define NETSTATUS_IS_ICON_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), NETSTATUS_TYPE_ICON))
-#define NETSTATUS_ICON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), NETSTATUS_TYPE_ICON, NetstatusIconClass))
+#define NETSTATUS_TYPE_ICON (netstatus_icon_get_type())
+#define NETSTATUS_ICON(o) (G_TYPE_CHECK_INSTANCE_CAST((o), NETSTATUS_TYPE_ICON, NetstatusIcon))
+#define NETSTATUS_ICON_CLASS(k) (G_TYPE_CHECK_CLASS_CAST((k), NETSTATUS_TYPE_ICON, NetstatusIconClass))
+#define NETSTATUS_IS_ICON(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), NETSTATUS_TYPE_ICON))
+#define NETSTATUS_IS_ICON_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), NETSTATUS_TYPE_ICON))
+#define NETSTATUS_ICON_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), NETSTATUS_TYPE_ICON, NetstatusIconClass))
 
-typedef struct _NetstatusIcon        NetstatusIcon;
-typedef struct _NetstatusIconClass   NetstatusIconClass;
+typedef struct _NetstatusIcon NetstatusIcon;
+typedef struct _NetstatusIconClass NetstatusIconClass;
 typedef struct _NetstatusIconPrivate NetstatusIconPrivate;
 
 struct _NetstatusIcon
 {
-  GtkBox                 box_instance;
+  GtkBox box_instance;
 
-  NetstatusIconPrivate  *priv;
+  NetstatusIconPrivate *priv;
 };
 
 struct _NetstatusIconClass
 {
-  GtkBoxClass      box_class;
+  GtkBoxClass box_class;
 
-  void (*invoked) (NetstatusIcon *icon);
+  void (*invoked)(NetstatusIcon *icon);
 };
 
-GType           netstatus_icon_get_type            (void) G_GNUC_CONST;
+GType netstatus_icon_get_type(void) G_GNUC_CONST;
 
-GtkWidget *     netstatus_icon_new                  (NetstatusIface *iface);
+GtkWidget *netstatus_icon_new(NetstatusIface *iface);
 
-void            netstatus_icon_invoke               (NetstatusIcon  *icon);
+void netstatus_icon_invoke(NetstatusIcon *icon);
 
-void            netstatus_icon_set_iface            (NetstatusIcon  *icon,
-						     NetstatusIface *interface);
-NetstatusIface *netstatus_icon_get_iface            (NetstatusIcon  *icon);
+void netstatus_icon_set_iface(NetstatusIcon *icon,
+                              NetstatusIface *interface);
+NetstatusIface *netstatus_icon_get_iface(NetstatusIcon *icon);
 
-void            netstatus_icon_set_orientation      (NetstatusIcon  *icon,
-						     GtkOrientation  orientation);
-GtkOrientation  netstatus_icon_get_orientation      (NetstatusIcon  *icon);
+void netstatus_icon_set_orientation(NetstatusIcon *icon,
+                                    GtkOrientation orientation);
+GtkOrientation netstatus_icon_get_orientation(NetstatusIcon *icon);
 
-void            netstatus_icon_set_tooltips_enabled (NetstatusIcon  *icon,
-						     gboolean        enabled);
-gboolean        netstatus_icon_get_tooltips_enabled (NetstatusIcon  *icon);
+void netstatus_icon_set_tooltips_enabled(NetstatusIcon *icon,
+                                         gboolean enabled);
+gboolean netstatus_icon_get_tooltips_enabled(NetstatusIcon *icon);
 
-void            netstatus_icon_set_show_signal      (NetstatusIcon  *icon,
-						     gboolean        show_signal);
-gboolean        netstatus_icon_get_show_signal      (NetstatusIcon  *icon);
+void netstatus_icon_set_show_signal(NetstatusIcon *icon,
+                                    gboolean show_signal);
+gboolean netstatus_icon_get_show_signal(NetstatusIcon *icon);
 
 G_END_DECLS
 

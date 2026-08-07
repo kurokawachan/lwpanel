@@ -25,24 +25,24 @@
 
 G_BEGIN_DECLS
 
-#define PANEL_TYPE_LAUNCH_BUTTON           (launch_button_get_type())
-#define PANEL_LAUNCH_BUTTON(obj)           (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-                                            PANEL_TYPE_LAUNCH_BUTTON, LaunchButton))
-#define PANEL_LAUNCH_BUTTON_CLASS(klass)   (G_TYPE_CHECK_CLASS_CAST((klass), \
-                                            PANEL_TYPE_LAUNCH_BUTTON, LaunchButtonClass))
-#define PANEL_IS_LAUNCH_BUTTON(obj)        (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                                            PANEL_TYPE_LAUNCH_BUTTON))
-#define PANEL_IS_LAUNCH_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                                             PANEL_TYPE_LAUNCH_BUTTON))
+#define PANEL_TYPE_LAUNCH_BUTTON (launch_button_get_type())
+#define PANEL_LAUNCH_BUTTON(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), \
+                                                             PANEL_TYPE_LAUNCH_BUTTON, LaunchButton))
+#define PANEL_LAUNCH_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST((klass), \
+                                                                  PANEL_TYPE_LAUNCH_BUTTON, LaunchButtonClass))
+#define PANEL_IS_LAUNCH_BUTTON(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), \
+                                                                PANEL_TYPE_LAUNCH_BUTTON))
+#define PANEL_IS_LAUNCH_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE((klass), \
+                                                                     PANEL_TYPE_LAUNCH_BUTTON))
 
-extern GType launch_button_get_type        (void) G_GNUC_CONST;
+extern GType launch_button_get_type(void) G_GNUC_CONST;
 
-typedef struct _LaunchButton                LaunchButton;
-typedef struct _LaunchButtonClass           LaunchButtonClass;
+typedef struct _LaunchButton LaunchButton;
+typedef struct _LaunchButtonClass LaunchButtonClass;
 
 struct _LaunchButtonClass
 {
-    GtkEventBoxClass parent_class;
+  GtkEventBoxClass parent_class;
 };
 
 /* creates new button */

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- * 
+ *
  * See the COPYRIGHT file for more information.
  */
 
@@ -39,7 +39,7 @@ typedef enum
  * @param pczPath Path to a file to log to (can be NULL for std{out|err},
  *                or 'syslog' for syslog)
  */
-void initializeLogUtil(const char * pczPath);
+void initializeLogUtil(const char *pczPath);
 
 /**
  * Cleans up the logging subsystem
@@ -53,7 +53,7 @@ void cleanupLogUtil();
  * @param level The level to log at
  * @param pczMsg Message to log
  */
-void logUtil(LXWEATHER_LOGLEVEL level, const char * pczMsg, ...);
+void logUtil(LXWEATHER_LOGLEVEL level, const char *pczMsg, ...);
 
 /**
  * Sets the maximum allowed log level

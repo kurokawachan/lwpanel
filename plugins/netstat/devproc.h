@@ -1,9 +1,10 @@
 #ifndef HAVE_DEVPROC_H
 #define HAVE_DEVPROC_H
 
-struct linktest_value {
-        unsigned int    cmd;
-        unsigned int    data;
+struct linktest_value
+{
+  unsigned int cmd;
+  unsigned int data;
 };
 
 FILE *netproc_open(void);

@@ -28,16 +28,17 @@
 
 typedef struct ProviderInfo ProviderInfo;
 
-typedef struct {
-    const char *name;
-    const char *description;
-    ProviderInfo * (*initProvider)(void);
-    void (*freeProvider)(ProviderInfo *instance);
-    GList * (*getLocationInfo)(ProviderInfo *instance, const gchar *pattern);
-    ForecastInfo * (*getForecastInfo)(ProviderInfo *instance,
-                                      LocationInfo *location,
-                                      ForecastInfo *last);
-    gboolean supports_woeid;
+typedef struct
+{
+  const char *name;
+  const char *description;
+  ProviderInfo *(*initProvider)(void);
+  void (*freeProvider)(ProviderInfo *instance);
+  GList *(*getLocationInfo)(ProviderInfo *instance, const gchar *pattern);
+  ForecastInfo *(*getForecastInfo)(ProviderInfo *instance,
+                                   LocationInfo *location,
+                                   ForecastInfo *last);
+  gboolean supports_woeid;
 } provider_callback_info;
 
 #endif /* _PROVIDERS_H_ */

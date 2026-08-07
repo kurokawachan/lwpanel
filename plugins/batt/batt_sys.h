@@ -20,48 +20,47 @@
  *      MA 02110-1301, USA.
  */
 
-
 #ifndef BATT_SYS_H
 #define BATT_SYS_H
 
-
 #define BUF_SIZE 1024
-#define ACPI_PATH_SYS_POWER_SUPPLY  "/sys/class/power_supply"
-#define ACPI_BATTERY_DEVICE_NAME    "BAT"
-#define MIN_CAPACITY	 0.01
+#define ACPI_PATH_SYS_POWER_SUPPLY "/sys/class/power_supply"
+#define ACPI_BATTERY_DEVICE_NAME "BAT"
+#define MIN_CAPACITY 0.01
 #define MIN_PRESENT_RATE 0.01
-#define BATTERY_DESC	"Battery"
+#define BATTERY_DESC "Battery"
 
 #include <glib.h>
 
-typedef struct battery {
-    int battery_num;
-    /* path to battery dir */
-    gchar *path;
-    /* sysfs file contents */
-    int charge_now;
-    int energy_now;
-    int current_now;
-    int power_now;
-    int voltage_now;
-    int charge_full_design;
-    int energy_full_design;
-    int charge_full;
-    int energy_full;
-    /* extra info */
-    int seconds;
-    int percentage;
-    char *state;
-    //const char *poststr;
-    //const char *capacity_unit;
-    int type_battery;
+typedef struct battery
+{
+  int battery_num;
+  /* path to battery dir */
+  gchar *path;
+  /* sysfs file contents */
+  int charge_now;
+  int energy_now;
+  int current_now;
+  int power_now;
+  int voltage_now;
+  int charge_full_design;
+  int energy_full_design;
+  int charge_full;
+  int energy_full;
+  /* extra info */
+  int seconds;
+  int percentage;
+  char *state;
+  // const char *poststr;
+  // const char *capacity_unit;
+  int type_battery;
 } battery;
 
 battery *battery_get(int);
-battery *battery_update( battery *b );
-//void battery_print(battery *b, int show_capacity);
-gboolean battery_is_charging( battery *b );
-gint battery_get_remaining( battery *b );
-void battery_free(battery* bat);
+battery *battery_update(battery *b);
+// void battery_print(battery *b, int show_capacity);
+gboolean battery_is_charging(battery *b);
+gint battery_get_remaining(battery *b);
+void battery_free(battery *bat);
 
 #endif

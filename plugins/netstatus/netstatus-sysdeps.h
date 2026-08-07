@@ -29,14 +29,14 @@
 
 G_BEGIN_DECLS
 
-char *netstatus_sysdeps_read_iface_statistics       (const char *iface,
-						     gulong     *in_packets,
-						     gulong     *out_packets,
-						     gulong     *in_bytes,
-						     gulong     *out_bytes);
-char *netstatus_sysdeps_read_iface_wireless_details (const char *iface,
-						     gboolean   *is_wireless,
-						     int        *signal_strength);
+char *netstatus_sysdeps_read_iface_statistics(const char *iface,
+                                              gulong *in_packets,
+                                              gulong *out_packets,
+                                              gulong *in_bytes,
+                                              gulong *out_bytes);
+char *netstatus_sysdeps_read_iface_wireless_details(const char *iface,
+                                                    gboolean *is_wireless,
+                                                    int *signal_strength);
 
 G_END_DECLS
 

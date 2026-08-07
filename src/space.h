@@ -21,16 +21,16 @@
 
 #include "plugin.h"
 
-#define PANEL_TYPE_SPACE               (panel_space_get_type())
-#define PANEL_SPACE(obj)               (G_TYPE_CHECK_INSTANCE_CAST((obj), \
-                                        PANEL_TYPE_SPACE, PanelSpace))
-#define PANEL_IS_SPACE(obj)            (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                                        PANEL_TYPE_SPACE))
+#define PANEL_TYPE_SPACE (panel_space_get_type())
+#define PANEL_SPACE(obj) (G_TYPE_CHECK_INSTANCE_CAST((obj), \
+                                                     PANEL_TYPE_SPACE, PanelSpace))
+#define PANEL_IS_SPACE(obj) (G_TYPE_CHECK_INSTANCE_TYPE((obj), \
+                                                        PANEL_TYPE_SPACE))
 
-extern GType panel_space_get_type   (void) G_GNUC_CONST;
+extern GType panel_space_get_type(void) G_GNUC_CONST;
 
-typedef struct _PanelSpace           PanelSpace;
-typedef struct _PanelSpaceClass      PanelSpaceClass;
+typedef struct _PanelSpace PanelSpace;
+typedef struct _PanelSpaceClass PanelSpaceClass;
 
 GtkWidget *_panel_space_new(LXPanel *panel, config_setting_t *settings);
 void _panel_space_resize(GtkWidget *spacer, gint size);
