@@ -1129,7 +1129,8 @@ install_man(
 # data below *********************************************************
 install_data(
     'debian/local/source_lxpanel.py',
-    install_dir: '/usr/share/apport/package-hooks/',
+    # install_dir: '/usr/share/apport/package-hooks/',
+    install_dir: prefix / 'share/apport/package-hooks/',
     install_tag: 'lxpanel-data',
 )
 # data above *********************************************************
@@ -1141,7 +1142,8 @@ install_data(
 # data below *********************************************************
 install_data(
     'debian/copyright',
-    install_dir: '/usr/share/doc/lxpanel-data/copyright',
+    # install_dir: '/usr/share/doc/lxpanel-data/copyright',
+    install_dir: prefix / 'share/doc/lxpanel-data/copyright',
     install_tag: 'lxpanel-data',
 )
 # data above *********************************************************
@@ -1156,7 +1158,8 @@ install_data(
 install_data(
     'debian/lxpanel.lintian-overrides',
     rename: 'lxpanel',
-    install_dir: '/usr/share/lintian/overrides/',
+    # install_dir: '/usr/share/lintian/overrides/',
+    install_dir: prefix / 'share/lintian/overrides/',
     install_tag: 'lxpanel',
 )
 # data above *********************************************************
@@ -1178,12 +1181,14 @@ install_man(
 # data below *********************************************************
 install_data(
     'debian/desktop/lxde-x-terminal-emulator.desktop',
-    install_dir: '/usr/share/applications/',
+    # install_dir: '/usr/share/applications/',
+    install_dir: prefix / 'share/applications/',
     install_tag: 'lxpanel',
 )
 install_data(
     'debian/desktop/lxde-x-www-browser.desktop',
-    install_dir: '/usr/share/applications/',
+    # install_dir: '/usr/share/applications/',
+    install_dir: prefix / 'share/applications/',
     install_tag: 'lxpanel',
 )
 # data above *********************************************************
@@ -1585,7 +1590,8 @@ lxpanel_pc = configure_file(
 # data below ********************************************************
 install_data(
     lxpanel_pc,
-    install_dir: '/usr/lib/x86_64-linux-gnu/pkgconfig/',
+    # install_dir: '/usr/lib/x86_64-linux-gnu/pkgconfig/',
+    install_dir: prefix / 'lib/x86_64-linux-gnu/pkgconfig/',
     install_tag: 'lxpanel-dev',
 )
 # data before *******************************************************
