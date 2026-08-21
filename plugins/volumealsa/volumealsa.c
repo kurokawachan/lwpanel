@@ -745,6 +745,17 @@ static void _check_click(VolumeALSAPlugin *vol, int button, GdkModifierType mod)
 /* Handler for "button-press-event" signal on main widget. */
 static gboolean volumealsa_button_press_event(GtkWidget *widget, GdkEventButton *event, LXPanel *panel)
 {
+
+  // If we do not filter out GDK_2BUTTON_PRESS or GDK_3BUTTON_PRESS
+  // we might encounter errors:
+  //
+  // lxpanel : X error: BadMatch (invalid parameter attributes)
+  //
+  if (event->type != GDK_BUTTON_PRESS)
+  {
+    return FALSE;
+  }
+
   VolumeALSAPlugin *vol = lxpanel_plugin_get_data(widget);
 
   if (event->button == 1)
