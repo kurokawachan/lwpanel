@@ -19,12 +19,12 @@ static const GEnumValue _netstatus_state_values[] = {
 
 GType netstatus_state_get_type(void)
 {
-  static GType type = 0;
+    static GType type = 0;
 
-  if (!type)
-    type = g_enum_register_static("NetstatusState", _netstatus_state_values);
+    if (!type)
+        type = g_enum_register_static("NetstatusState", _netstatus_state_values);
 
-  return type;
+    return type;
 }
 
 static const GEnumValue _netstatus_error_values[] = {
@@ -40,12 +40,12 @@ static const GEnumValue _netstatus_error_values[] = {
 
 GType netstatus_error_get_type(void)
 {
-  static GType type = 0;
+    static GType type = 0;
 
-  if (!type)
-    type = g_enum_register_static("NetstatusError", _netstatus_error_values);
+    if (!type)
+        type = g_enum_register_static("NetstatusError", _netstatus_error_values);
 
-  return type;
+    return type;
 }
 
 static const GEnumValue _netstatus_debug_flags_values[] = {
@@ -55,12 +55,12 @@ static const GEnumValue _netstatus_debug_flags_values[] = {
 
 GType netstatus_debug_flags_get_type(void)
 {
-  static GType type = 0;
+    static GType type = 0;
 
-  if (!type)
-    type = g_enum_register_static("NetstatusDebugFlags", _netstatus_debug_flags_values);
+    if (!type)
+        type = g_enum_register_static("NetstatusDebugFlags", _netstatus_debug_flags_values);
 
-  return type;
+    return type;
 }
 
 /* Generated data ends here */

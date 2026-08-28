@@ -42,16 +42,16 @@ typedef struct _NetstatusIconPrivate NetstatusIconPrivate;
 
 struct _NetstatusIcon
 {
-  GtkBox box_instance;
+    GtkBox box_instance;
 
-  NetstatusIconPrivate *priv;
+    NetstatusIconPrivate *priv;
 };
 
 struct _NetstatusIconClass
 {
-  GtkBoxClass box_class;
+    GtkBoxClass box_class;
 
-  void (*invoked)(NetstatusIcon *icon);
+    void (*invoked)(NetstatusIcon *icon);
 };
 
 GType netstatus_icon_get_type(void) G_GNUC_CONST;

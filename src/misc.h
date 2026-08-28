@@ -93,30 +93,30 @@ extern Atom a_LXPANEL_CMD; /* for private client message */
 /* Decoded value of WM_STATE property. */
 typedef struct
 {
-  unsigned int modal : 1;
-  unsigned int sticky : 1;
-  unsigned int maximized_vert : 1;
-  unsigned int maximized_horz : 1;
-  unsigned int shaded : 1;
-  unsigned int skip_taskbar : 1;
-  unsigned int skip_pager : 1;
-  unsigned int hidden : 1;
-  unsigned int fullscreen : 1;
-  unsigned int above : 1;
-  unsigned int below : 1;
+    unsigned int modal : 1;
+    unsigned int sticky : 1;
+    unsigned int maximized_vert : 1;
+    unsigned int maximized_horz : 1;
+    unsigned int shaded : 1;
+    unsigned int skip_taskbar : 1;
+    unsigned int skip_pager : 1;
+    unsigned int hidden : 1;
+    unsigned int fullscreen : 1;
+    unsigned int above : 1;
+    unsigned int below : 1;
 } NetWMState;
 
 /* Decoded value of _NET_WM_WINDOW_TYPE property. */
 typedef struct
 {
-  unsigned int desktop : 1;
-  unsigned int dock : 1;
-  unsigned int toolbar : 1;
-  unsigned int menu : 1;
-  unsigned int utility : 1;
-  unsigned int splash : 1;
-  unsigned int dialog : 1;
-  unsigned int normal : 1;
+    unsigned int desktop : 1;
+    unsigned int dock : 1;
+    unsigned int toolbar : 1;
+    unsigned int menu : 1;
+    unsigned int utility : 1;
+    unsigned int splash : 1;
+    unsigned int dialog : 1;
+    unsigned int normal : 1;
 } NetWMWindowType;
 
 void Xclimsgx(Screen *screen, Window win, Atom type, long l0, long l1, long l2, long l3, long l4);

@@ -33,30 +33,30 @@
 /* LocationInfo struct definition */
 typedef struct
 {
-  gchar *pcAlias_;
-  gchar *pcCity_;
-  gchar *pcState_;
-  gchar *pcCountry_;
-  gchar *pcWOEID_;
-  gdouble dLatitude_;
-  gdouble dLongitude_;
-  gchar cUnits_;
-  guint uiInterval_;
-  gboolean bEnabled_;
+    gchar *pcAlias_;
+    gchar *pcCity_;
+    gchar *pcState_;
+    gchar *pcCountry_;
+    gchar *pcWOEID_;
+    gdouble dLatitude_;
+    gdouble dLongitude_;
+    gchar cUnits_;
+    guint uiInterval_;
+    gboolean bEnabled_;
 } LocationInfo;
 
 /* Configuration helpers */
 typedef enum
 {
-  ALIAS = 0,
-  CITY,
-  STATE,
-  COUNTRY,
-  WOEID,
-  UNITS,
-  INTERVAL,
-  ENABLED,
-  LOCATIONINFO_FIELD_COUNT
+    ALIAS = 0,
+    CITY,
+    STATE,
+    COUNTRY,
+    WOEID,
+    UNITS,
+    INTERVAL,
+    ENABLED,
+    LOCATIONINFO_FIELD_COUNT
 } LocationInfoField;
 
 /* Defined in the .c file - specifies the array of field names */

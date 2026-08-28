@@ -34,41 +34,41 @@ G_BEGIN_DECLS
 
 typedef enum
 {
-  NETSTATUS_STATE_DISCONNECTED = 0,
-  NETSTATUS_STATE_IDLE = 1,
-  NETSTATUS_STATE_TX = 2,
-  NETSTATUS_STATE_RX = 3,
-  NETSTATUS_STATE_TX_RX = 4,
-  NETSTATUS_STATE_ERROR = 5,
-  NETSTATUS_STATE_LAST = 6
+    NETSTATUS_STATE_DISCONNECTED = 0,
+    NETSTATUS_STATE_IDLE = 1,
+    NETSTATUS_STATE_TX = 2,
+    NETSTATUS_STATE_RX = 3,
+    NETSTATUS_STATE_TX_RX = 4,
+    NETSTATUS_STATE_ERROR = 5,
+    NETSTATUS_STATE_LAST = 6
 } NetstatusState;
 
 typedef enum
 {
-  NETSTATUS_ERROR_NONE = 0,
-  NETSTATUS_ERROR_ICONS = 1,           /* Can't locate the icon files */
-  NETSTATUS_ERROR_SOCKET = 2,          /* Can't open socket */
-  NETSTATUS_ERROR_STATISTICS = 3,      /* Can't find statistics on the interface */
-  NETSTATUS_ERROR_IOCTL_IFFLAGS = 4,   /* SIOCGIFFLAGS failed */
-  NETSTATUS_ERROR_IOCTL_IFCONF = 5,    /* SIOCGIFCONF failed */
-  NETSTATUS_ERROR_NO_INTERFACES = 6,   /* No interfaces found */
-  NETSTATUS_ERROR_WIRELESS_DETAILS = 7 /* Error finding wireless details
-                                        * (not an error if iface isn't wireless)
-                                        */
+    NETSTATUS_ERROR_NONE = 0,
+    NETSTATUS_ERROR_ICONS = 1,           /* Can't locate the icon files */
+    NETSTATUS_ERROR_SOCKET = 2,          /* Can't open socket */
+    NETSTATUS_ERROR_STATISTICS = 3,      /* Can't find statistics on the interface */
+    NETSTATUS_ERROR_IOCTL_IFFLAGS = 4,   /* SIOCGIFFLAGS failed */
+    NETSTATUS_ERROR_IOCTL_IFCONF = 5,    /* SIOCGIFCONF failed */
+    NETSTATUS_ERROR_NO_INTERFACES = 6,   /* No interfaces found */
+    NETSTATUS_ERROR_WIRELESS_DETAILS = 7 /* Error finding wireless details
+                                          * (not an error if iface isn't wireless)
+                                          */
 } NetstatusError;
 
 typedef enum
 {
-  NETSTATUS_DEBUG_NONE = 0,
-  NETSTATUS_DEBUG_POLLING = 1 << 0
+    NETSTATUS_DEBUG_NONE = 0,
+    NETSTATUS_DEBUG_POLLING = 1 << 0
 } NetstatusDebugFlags;
 
 typedef struct
 {
-  gulong in_packets;
-  gulong out_packets;
-  gulong in_bytes;
-  gulong out_bytes;
+    gulong in_packets;
+    gulong out_packets;
+    gulong in_bytes;
+    gulong out_bytes;
 } NetstatusStats;
 
 GQuark netstatus_error_quark(void);
@@ -95,21 +95,21 @@ void netstatus_connect_signal_while_alive(gpointer object,
 extern NetstatusDebugFlags _netstatus_debug_flags;
 
 #ifdef G_HAVE_ISO_VARARGS
-#define dprintf(type, ...)                               \
-  G_STMT_START                                           \
-  {                                                      \
-    if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
-      fprintf(stderr, __VA_ARGS__);                      \
-  }                                                      \
-  G_STMT_END
+#define dprintf(type, ...)                                   \
+    G_STMT_START                                             \
+    {                                                        \
+        if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
+            fprintf(stderr, __VA_ARGS__);                    \
+    }                                                        \
+    G_STMT_END
 #elif defined(G_HAVE_GNUC_VARARGS)
-#define dprintf(type, args...)                           \
-  G_STMT_START                                           \
-  {                                                      \
-    if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
-      fprintf(stderr, args);                             \
-  }                                                      \
-  G_STMT_END
+#define dprintf(type, args...)                               \
+    G_STMT_START                                             \
+    {                                                        \
+        if (_netstatus_debug_flags & NETSTATUS_DEBUG_##type) \
+            fprintf(stderr, args);                           \
+    }                                                        \
+    G_STMT_END
 #endif
 
 void netstatus_setup_debug_flags(void);

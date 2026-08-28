@@ -42,7 +42,7 @@ typedef struct _LaunchButtonClass LaunchButtonClass;
 
 struct _LaunchButtonClass
 {
-  GtkEventBoxClass parent_class;
+    GtkEventBoxClass parent_class;
 };
 
 /* creates new button */

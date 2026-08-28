@@ -31,20 +31,20 @@ button_press_handler(GtkWidget *tip,
                      GdkEvent *event,
                      void *data)
 {
-  fixed_tip_hide();
+    fixed_tip_hide();
 
-  return FALSE;
+    return FALSE;
 }
 
 static gboolean
 expose_handler(GtkTooltips *tooltips)
 {
-  gtk_paint_flat_box(tip->style, tip->window,
-                     GTK_STATE_NORMAL, GTK_SHADOW_OUT,
-                     NULL, tip, "tooltip",
-                     0, 0, -1, -1);
+    gtk_paint_flat_box(tip->style, tip->window,
+                       GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+                       NULL, tip, "tooltip",
+                       0, 0, -1, -1);
 
-  return FALSE;
+    return FALSE;
 }
 
 void fixed_tip_show(int screen_number,
@@ -53,104 +53,104 @@ void fixed_tip_show(int screen_number,
                     int strut,
                     const char *markup_text)
 {
-  int w, h;
+    int w, h;
 
-  if (tip == NULL)
-  {
-    tip = gtk_window_new(GTK_WINDOW_POPUP);
-#ifdef HAVE_GTK_MULTIHEAD
+    if (tip == NULL)
     {
-      GdkScreen *gdk_screen;
+        tip = gtk_window_new(GTK_WINDOW_POPUP);
+#ifdef HAVE_GTK_MULTIHEAD
+        {
+            GdkScreen *gdk_screen;
 
-      gdk_screen = gdk_display_get_screen(gdk_get_default_display(),
-                                          screen_number);
-      gtk_window_set_screen(GTK_WINDOW(tip),
-                            gdk_screen);
-      screen_width = gdk_screen_get_width(gdk_screen);
-      screen_height = gdk_screen_get_height(gdk_screen);
-    }
+            gdk_screen = gdk_display_get_screen(gdk_get_default_display(),
+                                                screen_number);
+            gtk_window_set_screen(GTK_WINDOW(tip),
+                                  gdk_screen);
+            screen_width = gdk_screen_get_width(gdk_screen);
+            screen_height = gdk_screen_get_height(gdk_screen);
+        }
 #else
-    screen_width = gdk_screen_width();
-    screen_height = gdk_screen_height();
+        screen_width = gdk_screen_width();
+        screen_height = gdk_screen_height();
 #endif
 
-    gtk_widget_set_app_paintable(tip, TRUE);
-    // gtk_window_set_policy (GTK_WINDOW (tip), FALSE, FALSE, TRUE);
-    gtk_window_set_resizable(GTK_WINDOW(tip), FALSE);
-    gtk_widget_set_name(tip, "gtk-tooltips");
-    gtk_container_set_border_width(GTK_CONTAINER(tip), 4);
+        gtk_widget_set_app_paintable(tip, TRUE);
+        // gtk_window_set_policy (GTK_WINDOW (tip), FALSE, FALSE, TRUE);
+        gtk_window_set_resizable(GTK_WINDOW(tip), FALSE);
+        gtk_widget_set_name(tip, "gtk-tooltips");
+        gtk_container_set_border_width(GTK_CONTAINER(tip), 4);
 
-    g_signal_connect(G_OBJECT(tip),
-                     "expose_event",
-                     G_CALLBACK(expose_handler),
-                     NULL);
+        g_signal_connect(G_OBJECT(tip),
+                         "expose_event",
+                         G_CALLBACK(expose_handler),
+                         NULL);
 
-    gtk_widget_add_events(tip, GDK_BUTTON_PRESS_MASK);
+        gtk_widget_add_events(tip, GDK_BUTTON_PRESS_MASK);
 
-    g_signal_connect(G_OBJECT(tip),
-                     "button_press_event",
-                     G_CALLBACK(button_press_handler),
-                     NULL);
+        g_signal_connect(G_OBJECT(tip),
+                         "button_press_event",
+                         G_CALLBACK(button_press_handler),
+                         NULL);
 
-    label = gtk_label_new(NULL);
-    gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
-    gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
-    gtk_widget_show(label);
+        label = gtk_label_new(NULL);
+        gtk_label_set_line_wrap(GTK_LABEL(label), TRUE);
+        gtk_misc_set_alignment(GTK_MISC(label), 0.5, 0.5);
+        gtk_widget_show(label);
 
-    gtk_container_add(GTK_CONTAINER(tip), label);
+        gtk_container_add(GTK_CONTAINER(tip), label);
 
-    g_signal_connect(G_OBJECT(tip),
-                     "destroy",
-                     G_CALLBACK(gtk_widget_destroyed),
-                     &tip);
-  }
+        g_signal_connect(G_OBJECT(tip),
+                         "destroy",
+                         G_CALLBACK(gtk_widget_destroyed),
+                         &tip);
+    }
 
-  gtk_label_set_markup(GTK_LABEL(label), markup_text);
+    gtk_label_set_markup(GTK_LABEL(label), markup_text);
 
-  /* FIXME should also handle Xinerama here, just to be
-   * really cool
-   */
-  gtk_window_get_size(GTK_WINDOW(tip), &w, &h);
+    /* FIXME should also handle Xinerama here, just to be
+     * really cool
+     */
+    gtk_window_get_size(GTK_WINDOW(tip), &w, &h);
 
-  /* pad between panel and message window */
+    /* pad between panel and message window */
 #define PAD 5
 
-  if (strut_is_vertical)
-  {
-    if (strut > root_x)
-      root_x = strut + PAD;
+    if (strut_is_vertical)
+    {
+        if (strut > root_x)
+            root_x = strut + PAD;
+        else
+            root_x = strut - w - PAD;
+
+        root_y -= h / 2;
+    }
     else
-      root_x = strut - w - PAD;
+    {
+        if (strut > root_y)
+            root_y = strut + PAD;
+        else
+            root_y = strut - h - PAD;
 
-    root_y -= h / 2;
-  }
-  else
-  {
-    if (strut > root_y)
-      root_y = strut + PAD;
-    else
-      root_y = strut - h - PAD;
+        root_x -= w / 2;
+    }
 
-    root_x -= w / 2;
-  }
+    /* Push onscreen */
+    if ((root_x + w) > screen_width)
+        root_x -= (root_x + w) - screen_width;
 
-  /* Push onscreen */
-  if ((root_x + w) > screen_width)
-    root_x -= (root_x + w) - screen_width;
+    if ((root_y + h) > screen_height)
+        root_y -= (root_y + h) - screen_height;
 
-  if ((root_y + h) > screen_height)
-    root_y -= (root_y + h) - screen_height;
+    gtk_window_move(GTK_WINDOW(tip), root_x, root_y);
 
-  gtk_window_move(GTK_WINDOW(tip), root_x, root_y);
-
-  gtk_widget_show(tip);
+    gtk_widget_show(tip);
 }
 
 void fixed_tip_hide(void)
 {
-  if (tip)
-  {
-    gtk_widget_destroy(tip);
-    tip = NULL;
-  }
+    if (tip)
+    {
+        gtk_widget_destroy(tip);
+        tip = NULL;
+    }
 }

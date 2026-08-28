@@ -29,24 +29,24 @@
 
 struct wdata_t
 {
-  char *buff;
-  size_t alloc;
+    char *buff;
+    size_t alloc;
 };
 
 static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp)
 {
-  struct wdata_t *data = userp;
-  size_t todo = size * nmemb;
-  size_t new_alloc = data->alloc + todo;
+    struct wdata_t *data = userp;
+    size_t todo = size * nmemb;
+    size_t new_alloc = data->alloc + todo;
 
-  if (todo == 0)
-    return 0;
-  data->buff = realloc(data->buff, new_alloc + 1);
-  if (data->buff == NULL)
-    return 0; /* is that correct? */
-  memcpy(&data->buff[data->alloc], buffer, todo);
-  data->alloc = new_alloc;
-  return todo;
+    if (todo == 0)
+        return 0;
+    data->buff = realloc(data->buff, new_alloc + 1);
+    if (data->buff == NULL)
+        return 0; /* is that correct? */
+    memcpy(&data->buff[data->alloc], buffer, todo);
+    data->alloc = new_alloc;
+    return todo;
 }
 
 /**
@@ -62,41 +62,41 @@ static size_t write_data(void *buffer, size_t size, size_t nmemb, void *userp)
 CURLcode
 getURL(const gchar *pczURL, gchar **pcData, gint *piDataSize, const gchar **pccHeaders)
 {
-  struct curl_slist *headers = NULL;
-  CURL *curl;
-  CURLcode res;
-  struct wdata_t data = {NULL, 0};
+    struct curl_slist *headers = NULL;
+    CURL *curl;
+    CURLcode res;
+    struct wdata_t data = {NULL, 0};
 
-  if (!pczURL)
-    return CURLE_URL_MALFORMAT;
+    if (!pczURL)
+        return CURLE_URL_MALFORMAT;
 
-  if (pccHeaders)
-  {
-    while (*pccHeaders)
-      headers = curl_slist_append(headers, *pccHeaders++);
-  }
-  curl_global_init(CURL_GLOBAL_SSL);
-  curl = curl_easy_init();
-  curl_easy_setopt(curl, CURLOPT_URL, pczURL);
-  curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-  curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
-  res = curl_easy_perform(curl);
-  if (data.buff)
-    data.buff[data.alloc] = '\0';
+    if (pccHeaders)
+    {
+        while (*pccHeaders)
+            headers = curl_slist_append(headers, *pccHeaders++);
+    }
+    curl_global_init(CURL_GLOBAL_SSL);
+    curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_URL, pczURL);
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
+    res = curl_easy_perform(curl);
+    if (data.buff)
+        data.buff[data.alloc] = '\0';
 
-  if (pcData)
-    *pcData = data.buff;
-  else
-    g_free(data.buff);
-  if (piDataSize)
-    *piDataSize = data.alloc;
+    if (pcData)
+        *pcData = data.buff;
+    else
+        g_free(data.buff);
+    if (piDataSize)
+        *piDataSize = data.alloc;
 
-  // if (res != CURLE_OK)
-  // fprintf(stderr, "curl_easy_perform() failed: %s\n",
-  // curl_easy_strerror(res));
+    // if (res != CURLE_OK)
+    // fprintf(stderr, "curl_easy_perform() failed: %s\n",
+    // curl_easy_strerror(res));
 
-  curl_slist_free_all(headers);
-  curl_easy_cleanup(curl);
-  return res;
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+    return res;
 }

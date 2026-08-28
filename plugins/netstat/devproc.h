@@ -3,8 +3,8 @@
 
 struct linktest_value
 {
-  unsigned int cmd;
-  unsigned int data;
+    unsigned int cmd;
+    unsigned int data;
 };
 
 FILE *netproc_open(void);

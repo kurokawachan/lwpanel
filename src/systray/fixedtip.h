@@ -40,16 +40,16 @@ typedef struct _NaFixedTipClass NaFixedTipClass;
 
 struct _NaFixedTip
 {
-  GtkWindow parent_instance;
+    GtkWindow parent_instance;
 
-  NaFixedTipPrivate *priv;
+    NaFixedTipPrivate *priv;
 };
 
 struct _NaFixedTipClass
 {
-  GtkWindowClass parent_class;
+    GtkWindowClass parent_class;
 
-  void (*clicked)(NaFixedTip *fixedtip);
+    void (*clicked)(NaFixedTip *fixedtip);
 };
 
 GType na_fixed_tip_get_type(void);

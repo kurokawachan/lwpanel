@@ -47,117 +47,117 @@ static const char usage[] =
 
 static int get_cmd(const char *cmd)
 {
-  if (!strcmp(cmd, "menu"))
-    return LXPANEL_CMD_SYS_MENU;
-  else if (!strcmp(cmd, "run"))
-    return LXPANEL_CMD_RUN;
-  else if (!strcmp(cmd, "config"))
-    return LXPANEL_CMD_CONFIG;
-  else if (!strcmp(cmd, "restart"))
-    return LXPANEL_CMD_RESTART;
-  else if (!strcmp(cmd, "exit"))
-    return LXPANEL_CMD_EXIT;
-  else if (!strcmp(cmd, "command"))
-    return LXPANEL_CMD_COMMAND;
-  return -1;
+    if (!strcmp(cmd, "menu"))
+        return LXPANEL_CMD_SYS_MENU;
+    else if (!strcmp(cmd, "run"))
+        return LXPANEL_CMD_RUN;
+    else if (!strcmp(cmd, "config"))
+        return LXPANEL_CMD_CONFIG;
+    else if (!strcmp(cmd, "restart"))
+        return LXPANEL_CMD_RESTART;
+    else if (!strcmp(cmd, "exit"))
+        return LXPANEL_CMD_EXIT;
+    else if (!strcmp(cmd, "command"))
+        return LXPANEL_CMD_COMMAND;
+    return -1;
 }
 
 /* format: either "<edge>" or "<num>:<edge>" */
 static int parse_id(const char *arg, int *mon)
 {
-  char *end;
-  long lmon = strtoul(arg, &end, 10);
+    char *end;
+    long lmon = strtoul(arg, &end, 10);
 
-  if (*end == ':')
-    arg = (const char *)end + 1;
-  else
-    lmon = 0;
-  *mon = lmon;
-  if (strcmp(arg, "top") == 0)
-    return EDGE_TOP;
-  if (strcmp(arg, "bottom") == 0)
-    return EDGE_BOTTOM;
-  if (strcmp(arg, "left") == 0)
-    return EDGE_LEFT;
-  if (strcmp(arg, "right") == 0)
-    return EDGE_RIGHT;
-  return EDGE_NONE;
+    if (*end == ':')
+        arg = (const char *)end + 1;
+    else
+        lmon = 0;
+    *mon = lmon;
+    if (strcmp(arg, "top") == 0)
+        return EDGE_TOP;
+    if (strcmp(arg, "bottom") == 0)
+        return EDGE_BOTTOM;
+    if (strcmp(arg, "left") == 0)
+        return EDGE_LEFT;
+    if (strcmp(arg, "right") == 0)
+        return EDGE_RIGHT;
+    return EDGE_NONE;
 }
 
 int main(int argc, char **argv)
 {
-  char *display_name = (char *)getenv("DISPLAY");
-  XEvent ev;
-  Window root;
-  Atom cmd_atom;
-  int cmd;
-  /* int restart; */
-  /* target of message, it's XClientMessageEvent::b[1]
-   * valid only if XClientMessageEvent::b[0] == LXPANEL_CMD_COMMAND */
-  uint8_t target;
+    char *display_name = (char *)getenv("DISPLAY");
+    XEvent ev;
+    Window root;
+    Atom cmd_atom;
+    int cmd;
+    /* int restart; */
+    /* target of message, it's XClientMessageEvent::b[1]
+     * valid only if XClientMessageEvent::b[0] == LXPANEL_CMD_COMMAND */
+    uint8_t target;
 
-  if (argc < 2)
-  {
-    printf(usage);
-    return 1;
-  }
-
-  /*
-  if( restart = !strcmp( argv[1], "restart" ) )
-      argv[1] = "exit";
-  */
-
-  if ((cmd = get_cmd(argv[1])) == -1)
-    return 1;
-
-  if (cmd == LXPANEL_CMD_COMMAND && argc < 4)
-  {
-    printf(usage);
-    return 1;
-  }
-
-  dpy = XOpenDisplay(display_name);
-  if (dpy == NULL)
-  {
-    printf("Cant connect to display: %s\n", display_name);
-    exit(1);
-  }
-  root = DefaultRootWindow(dpy);
-  cmd_atom = XInternAtom(dpy, "_LXPANEL_CMD", False);
-  memset(&ev, '\0', sizeof ev);
-  ev.xclient.type = ClientMessage;
-  ev.xclient.window = root;
-  ev.xclient.message_type = cmd_atom;
-  ev.xclient.format = 8;
-
-  ev.xclient.data.b[0] = cmd;
-
-  if (cmd == LXPANEL_CMD_COMMAND)
-  {
-    int i = 2;
-    if (argc > 4 && strncmp(argv[2], "--panel=", 8) == 0)
+    if (argc < 2)
     {
-      int monitor;
-      int edge = parse_id(argv[2] + 8, &monitor);
-      /* edge: EDGE_NONE ..., monitor: 0 - none, 1...8 - selected */
-      target = ((edge & 0x7) << 4) + (monitor & 0xf);
-      i++;
+        printf(usage);
+        return 1;
     }
-    else
-      target = (EDGE_NONE << 4) + 0; /* edge: none, monitor: none */
-    ev.xclient.data.b[1] = target;
-    snprintf(&ev.xclient.data.b[2], 18, "%s\t%s", argv[i], argv[i + 1]);
-  }
 
-  XSendEvent(dpy, root, False,
-             SubstructureRedirectMask | SubstructureNotifyMask, &ev);
-  XSync(dpy, False);
-  XCloseDisplay(dpy);
+    /*
+    if( restart = !strcmp( argv[1], "restart" ) )
+        argv[1] = "exit";
+    */
 
-  /*
-      if( restart ) {
-          system( PACKAGE_BIN_DIR "/lxpanel &" );
-      }
-  */
-  return 0;
+    if ((cmd = get_cmd(argv[1])) == -1)
+        return 1;
+
+    if (cmd == LXPANEL_CMD_COMMAND && argc < 4)
+    {
+        printf(usage);
+        return 1;
+    }
+
+    dpy = XOpenDisplay(display_name);
+    if (dpy == NULL)
+    {
+        printf("Cant connect to display: %s\n", display_name);
+        exit(1);
+    }
+    root = DefaultRootWindow(dpy);
+    cmd_atom = XInternAtom(dpy, "_LXPANEL_CMD", False);
+    memset(&ev, '\0', sizeof ev);
+    ev.xclient.type = ClientMessage;
+    ev.xclient.window = root;
+    ev.xclient.message_type = cmd_atom;
+    ev.xclient.format = 8;
+
+    ev.xclient.data.b[0] = cmd;
+
+    if (cmd == LXPANEL_CMD_COMMAND)
+    {
+        int i = 2;
+        if (argc > 4 && strncmp(argv[2], "--panel=", 8) == 0)
+        {
+            int monitor;
+            int edge = parse_id(argv[2] + 8, &monitor);
+            /* edge: EDGE_NONE ..., monitor: 0 - none, 1...8 - selected */
+            target = ((edge & 0x7) << 4) + (monitor & 0xf);
+            i++;
+        }
+        else
+            target = (EDGE_NONE << 4) + 0; /* edge: none, monitor: none */
+        ev.xclient.data.b[1] = target;
+        snprintf(&ev.xclient.data.b[2], 18, "%s\t%s", argv[i], argv[i + 1]);
+    }
+
+    XSendEvent(dpy, root, False,
+               SubstructureRedirectMask | SubstructureNotifyMask, &ev);
+    XSync(dpy, False);
+    XCloseDisplay(dpy);
+
+    /*
+        if( restart ) {
+            system( PACKAGE_BIN_DIR "/lxpanel &" );
+        }
+    */
+    return 0;
 }

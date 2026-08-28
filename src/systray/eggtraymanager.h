@@ -44,41 +44,41 @@ typedef struct _NaTrayManagerChild NaTrayManagerChild;
 
 struct _NaTrayManager
 {
-  GObject parent_instance;
+    GObject parent_instance;
 
 #ifdef GDK_WINDOWING_X11
-  GdkAtom selection_atom;
-  Atom opcode_atom;
+    GdkAtom selection_atom;
+    Atom opcode_atom;
 #endif
 
-  GtkWidget *invisible;
-  GdkScreen *screen;
-  GtkOrientation orientation;
+    GtkWidget *invisible;
+    GdkScreen *screen;
+    GtkOrientation orientation;
 
-  GList *messages;
-  GHashTable *socket_table;
+    GList *messages;
+    GHashTable *socket_table;
 };
 
 struct _NaTrayManagerClass
 {
-  GObjectClass parent_class;
+    GObjectClass parent_class;
 
-  void (*tray_icon_added)(NaTrayManager *manager,
-                          NaTrayManagerChild *child);
-  void (*tray_icon_removed)(NaTrayManager *manager,
+    void (*tray_icon_added)(NaTrayManager *manager,
                             NaTrayManagerChild *child);
+    void (*tray_icon_removed)(NaTrayManager *manager,
+                              NaTrayManagerChild *child);
 
-  void (*message_sent)(NaTrayManager *manager,
-                       NaTrayManagerChild *child,
-                       const gchar *message,
-                       glong id,
-                       glong timeout);
+    void (*message_sent)(NaTrayManager *manager,
+                         NaTrayManagerChild *child,
+                         const gchar *message,
+                         glong id,
+                         glong timeout);
 
-  void (*message_cancelled)(NaTrayManager *manager,
-                            NaTrayManagerChild *child,
-                            glong id);
+    void (*message_cancelled)(NaTrayManager *manager,
+                              NaTrayManagerChild *child,
+                              glong id);
 
-  void (*lost_selection)(NaTrayManager *manager);
+    void (*lost_selection)(NaTrayManager *manager);
 };
 
 GType na_tray_manager_get_type(void);

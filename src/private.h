@@ -46,23 +46,23 @@
 /* Extracted from panel.h */
 enum
 {
-  ALIGN_NONE,
-  ALIGN_LEFT,
-  ALIGN_CENTER,
-  ALIGN_RIGHT
+    ALIGN_NONE,
+    ALIGN_LEFT,
+    ALIGN_CENTER,
+    ALIGN_RIGHT
 };
 enum
 {
-  WIDTH_NONE,
-  WIDTH_REQUEST,
-  WIDTH_PIXEL,
-  WIDTH_PERCENT
+    WIDTH_NONE,
+    WIDTH_REQUEST,
+    WIDTH_PIXEL,
+    WIDTH_PERCENT
 };
 enum
 {
-  HEIGHT_NONE,
-  HEIGHT_PIXEL,
-  HEIGHT_REQUEST
+    HEIGHT_NONE,
+    HEIGHT_PIXEL,
+    HEIGHT_REQUEST
 };
 
 #define PANEL_ICON_SIZE 24            /* Default size of panel icons */
@@ -74,17 +74,17 @@ enum
 
 typedef enum
 {
-  PANEL_MOVE_STOP,   /* initial state */
-  PANEL_MOVE_DETECT, /* button pressed, detect drag */
-  PANEL_MOVE_MOVING  /* moving the plugin */
+    PANEL_MOVE_STOP,   /* initial state */
+    PANEL_MOVE_DETECT, /* button pressed, detect drag */
+    PANEL_MOVE_MOVING  /* moving the plugin */
 } PanelPluginMoveState;
 
 typedef struct
 {
-  int space_size;    /* size of space plugin if expandable */
-  int plugin_center; /* position of center of prev no-space plugin */
-  GtkWidget *space;
-  GtkWidget *plugin;
+    int space_size;    /* size of space plugin if expandable */
+    int plugin_center; /* position of center of prev no-space plugin */
+    GtkWidget *space;
+    GtkWidget *plugin;
 } PanelPluginMoveData;
 
 /* to check if we are in LXDE */
@@ -97,106 +97,106 @@ extern GSList *all_panels;
 /* Context of a panel on a given edge. */
 struct _Panel
 {
-  char *name;
-  LXPanel *topgwin;    /* Main panel window */
-  Window topxwin;      /* Main panel's X window   */
-  GdkDisplay *display; /* Main panel's GdkDisplay */
-  GtkStyle *defstyle;
-  GtkIconTheme *icon_theme; /*Default icon theme*/
+    char *name;
+    LXPanel *topgwin;    /* Main panel window */
+    Window topxwin;      /* Main panel's X window   */
+    GdkDisplay *display; /* Main panel's GdkDisplay */
+    GtkStyle *defstyle;
+    GtkIconTheme *icon_theme; /*Default icon theme*/
 
-  GtkWidget *box; /* Top level widget */
+    GtkWidget *box; /* Top level widget */
 
-  GtkRequisition requisition;
-  GtkWidget *(*my_box_new)(gboolean, gint);
-  GtkWidget *(*my_separator_new)(void);
+    GtkRequisition requisition;
+    GtkWidget *(*my_box_new)(gboolean, gint);
+    GtkWidget *(*my_separator_new)(void);
 
-  void *bg; /* unused since 0.8.0 */
-  int alpha;
-  guint32 tintcolor;
-  guint32 fontcolor;
-  GdkColor gtintcolor;
-  GdkColor gfontcolor;
+    void *bg; /* unused since 0.8.0 */
+    int alpha;
+    guint32 tintcolor;
+    guint32 fontcolor;
+    GdkColor gtintcolor;
+    GdkColor gfontcolor;
 
-  int ax, ay, aw, ah; /* prefferd allocation of a panel */
-  int cx, cy, cw, ch; /* current allocation (as reported by configure event) allocation */
-  int align, edge, margin;
-  guint orientation;
-  int widthtype, width;
-  int heighttype, height;
-  gint monitor;
-  gulong strut_size; /* Values for WM_STRUT_PARTIAL */
-  gulong strut_lower;
-  gulong strut_upper;
-  int strut_edge;
+    int ax, ay, aw, ah; /* prefferd allocation of a panel */
+    int cx, cy, cw, ch; /* current allocation (as reported by configure event) allocation */
+    int align, edge, margin;
+    guint orientation;
+    int widthtype, width;
+    int heighttype, height;
+    gint monitor;
+    gulong strut_size; /* Values for WM_STRUT_PARTIAL */
+    gulong strut_lower;
+    gulong strut_upper;
+    int strut_edge;
 
-  guint config_changed : 1;
-  guint self_destroy : 1;
-  guint setdocktype : 1;
-  guint setstrut : 1;
-  guint round_corners : 1;
-  guint usefontcolor : 1;
-  guint usefontsize : 1;
-  guint fontsize;
-  guint transparent : 1;
-  guint background : 1;
-  guint spacing;
+    guint config_changed : 1;
+    guint self_destroy : 1;
+    guint setdocktype : 1;
+    guint setstrut : 1;
+    guint round_corners : 1;
+    guint usefontcolor : 1;
+    guint usefontsize : 1;
+    guint fontsize;
+    guint transparent : 1;
+    guint background : 1;
+    guint spacing;
 
-  guint autohide : 1;
-  guint visible : 1;
-  int height_when_hidden;
-  guint hide_timeout;
-  int icon_size; /* Icon size */
+    guint autohide : 1;
+    guint visible : 1;
+    int height_when_hidden;
+    guint hide_timeout;
+    int icon_size; /* Icon size */
 
-  int desknum;
-  int curdesk;
-  gulong *workarea; /* unused since 0.8.0 */
-  int wa_len;       /* unused since 0.8.0 */
+    int desknum;
+    int curdesk;
+    gulong *workarea; /* unused since 0.8.0 */
+    int wa_len;       /* unused since 0.8.0 */
 
-  char *background_file;
+    char *background_file;
 
-  PanelConf *config;    /* Panel configuration data */
-  GSList *system_menus; /* List of plugins having menus: deprecated */
+    PanelConf *config;    /* Panel configuration data */
+    GSList *system_menus; /* List of plugins having menus: deprecated */
 
-  GtkWidget *plugin_pref_dialog;    /* Plugin preference dialog */
-  GtkWidget *pref_dialog;           /* preference dialog */
-  GtkWidget *margin_control;        /* Margin control in preference dialog */
-  GtkWidget *height_label;          /* Label of height control */
-  GtkWidget *width_label;           /* Label of width control */
-  GtkWidget *alignment_left_label;  /* Label of alignment: left control */
-  GtkWidget *alignment_right_label; /* Label of alignment: right control */
-  GtkWidget *height_control;        /* Height control in preference dialog */
-  GtkWidget *width_control;         /* Width control in preference dialog */
-  GtkWidget *strut_control;         /* Reserve space in preference dialog */
-  GtkWidget *edge_bottom_button;
-  GtkWidget *edge_top_button;
-  GtkWidget *edge_left_button;
-  GtkWidget *edge_right_button;
+    GtkWidget *plugin_pref_dialog;    /* Plugin preference dialog */
+    GtkWidget *pref_dialog;           /* preference dialog */
+    GtkWidget *margin_control;        /* Margin control in preference dialog */
+    GtkWidget *height_label;          /* Label of height control */
+    GtkWidget *width_label;           /* Label of width control */
+    GtkWidget *alignment_left_label;  /* Label of alignment: left control */
+    GtkWidget *alignment_right_label; /* Label of alignment: right control */
+    GtkWidget *height_control;        /* Height control in preference dialog */
+    GtkWidget *width_control;         /* Width control in preference dialog */
+    GtkWidget *strut_control;         /* Reserve space in preference dialog */
+    GtkWidget *edge_bottom_button;
+    GtkWidget *edge_top_button;
+    GtkWidget *edge_left_button;
+    GtkWidget *edge_right_button;
 
-  guint initialized : 1; /* Should be grouped better later, */
-  guint ah_far : 1;      /* placed here for binary compatibility */
-  guint ah_state : 3;
-  guint background_update_queued;
-  guint strut_update_queued;
-  guint mouse_timeout;
-  guint reconfigure_queued;
-  // gint dyn_space;                     /* Space for expandable plugins */
-  // guint calculate_size_idle;          /* The idle handler for dyn_space calc */
-  cairo_surface_t *surface; /* Panel background */
+    guint initialized : 1; /* Should be grouped better later, */
+    guint ah_far : 1;      /* placed here for binary compatibility */
+    guint ah_state : 3;
+    guint background_update_queued;
+    guint strut_update_queued;
+    guint mouse_timeout;
+    guint reconfigure_queued;
+    // gint dyn_space;                     /* Space for expandable plugins */
+    // guint calculate_size_idle;          /* The idle handler for dyn_space calc */
+    cairo_surface_t *surface; /* Panel background */
 
-  PanelPluginMoveState move_state; /* Plugin movement (drag&drop) support */
-  int move_x, move_y;
-  int move_diff;
-  GdkDevice *move_device;
-  GtkWidget *move_plugin; /* widgets involved in movement */
-  PanelPluginMoveData move_before;
-  PanelPluginMoveData move_after;
+    PanelPluginMoveState move_state; /* Plugin movement (drag&drop) support */
+    int move_x, move_y;
+    int move_diff;
+    GdkDevice *move_device;
+    GtkWidget *move_plugin; /* widgets involved in movement */
+    PanelPluginMoveData move_before;
+    PanelPluginMoveData move_after;
 };
 
 typedef struct
 {
-  char *name;
-  char *disp_name;
-  void (*cmd)(void);
+    char *name;
+    char *disp_name;
+    void (*cmd)(void);
 } Command;
 
 #define FBPANEL_WIN(win) gdk_window_lookup(win)
@@ -204,8 +204,8 @@ typedef struct
 /* Extracted from misc.h */
 typedef struct
 {
-  int num;
-  gchar *str;
+    int num;
+    gchar *str;
 } pair;
 
 extern pair align_pair[];
@@ -220,18 +220,18 @@ const gchar *num2str(pair *p, int num, const gchar *defval);
 #ifdef __LXPANEL_INTERNALS__
 static inline char *_system_config_file_name(const char *dir, const char *file_name)
 {
-  return g_build_filename(dir, "lxpanel", cprofile, file_name, NULL);
+    return g_build_filename(dir, "lxpanel", cprofile, file_name, NULL);
 }
 
 static inline char *_old_system_config_file_name(const char *file_name)
 {
-  return g_build_filename(PACKAGE_DATA_DIR "/profile", cprofile, file_name, NULL);
+    return g_build_filename(PACKAGE_DATA_DIR "/profile", cprofile, file_name, NULL);
 }
 
 static inline char *_user_config_file_name(const char *name1, const char *name2)
 {
-  return g_build_filename(g_get_user_config_dir(), "lxpanel", cprofile, name1,
-                          name2, NULL);
+    return g_build_filename(g_get_user_config_dir(), "lxpanel", cprofile, name1,
+                            name2, NULL);
 }
 #endif
 
@@ -338,17 +338,17 @@ typedef struct _Plugin Plugin;
 
 enum
 {
-  LINE_NONE,
-  LINE_BLOCK_START,
-  LINE_BLOCK_END,
-  LINE_VAR
+    LINE_NONE,
+    LINE_BLOCK_START,
+    LINE_BLOCK_END,
+    LINE_VAR
 };
 
 typedef struct
 {
-  int num, len, type;
-  gchar str[256];
-  gchar *t[3];
+    int num, len, type;
+    gchar str[256];
+    gchar *t[3];
 } line;
 
 void calculate_position(Panel *np);
@@ -396,53 +396,53 @@ struct _Plugin;
 /* Support for external plugin versioning.
  * Plugins must invoke PLUGINCLASS_VERSIONING when they instantiate PluginClass. */
 #define PLUGINCLASS_VERSION 1
-#define PLUGINCLASS_VERSIONING           \
-  .structure_size = sizeof(PluginClass), \
-  .structure_version = PLUGINCLASS_VERSION
+#define PLUGINCLASS_VERSIONING             \
+    .structure_size = sizeof(PluginClass), \
+    .structure_version = PLUGINCLASS_VERSION
 
 /* Representative of an available plugin. */
 typedef struct
 {
 
-  /* Keep these first.  Do not make unnecessary changes in structure layout. */
-  unsigned short structure_size;    /* Structure size, for versioning support */
-  unsigned short structure_version; /* Structure version, for versioning support */
+    /* Keep these first.  Do not make unnecessary changes in structure layout. */
+    unsigned short structure_size;    /* Structure size, for versioning support */
+    unsigned short structure_version; /* Structure version, for versioning support */
 
-  char *fname;      /* Plugin file pathname */
-  int count;        /* Reference count */
-  GModule *gmodule; /* Associated GModule structure */
+    char *fname;      /* Plugin file pathname */
+    int count;        /* Reference count */
+    GModule *gmodule; /* Associated GModule structure */
 
-  int dynamic : 1;                     /* True if dynamically loaded */
-  int unused_invisible : 1;            /* Unused; reserved bit */
-  int not_unloadable : 1;              /* Not unloadable due to GModule restriction */
-  int one_per_system : 1;              /* Special: only one possible per system, such as system tray */
-  int one_per_system_instantiated : 1; /* True if one instance exists */
-  int expand_available : 1;            /* True if "stretch" option is available */
-  int expand_default : 1;              /* True if "stretch" option is default */
+    int dynamic : 1;                     /* True if dynamically loaded */
+    int unused_invisible : 1;            /* Unused; reserved bit */
+    int not_unloadable : 1;              /* Not unloadable due to GModule restriction */
+    int one_per_system : 1;              /* Special: only one possible per system, such as system tray */
+    int one_per_system_instantiated : 1; /* True if one instance exists */
+    int expand_available : 1;            /* True if "stretch" option is available */
+    int expand_default : 1;              /* True if "stretch" option is default */
 
-  /* These fields point within the plugin image. */
-  char *type;        /* Internal name of plugin, to match external filename */
-  char *name;        /* Display name of plugin for selection UI */
-  char *version;     /* Version of plugin */
-  char *description; /* Brief textual description of plugin for selection UI */
+    /* These fields point within the plugin image. */
+    char *type;        /* Internal name of plugin, to match external filename */
+    char *name;        /* Display name of plugin for selection UI */
+    char *version;     /* Version of plugin */
+    char *description; /* Brief textual description of plugin for selection UI */
 
-  int (*constructor)(struct _Plugin *plugin, char **fp);       /* Create an instance of the plugin */
-  void (*destructor)(struct _Plugin *plugin);                  /* Destroy an instance of the plugin */
-  void (*config)(struct _Plugin *plugin, GtkWindow *parent);   /* Request the plugin to display its configuration dialog */
-  void (*save)(struct _Plugin *plugin, FILE *fp);              /* Request the plugin to save its configuration to a file */
-  void (*panel_configuration_changed)(struct _Plugin *plugin); /* Request the plugin to do a full redraw after a panel configuration change */
+    int (*constructor)(struct _Plugin *plugin, char **fp);       /* Create an instance of the plugin */
+    void (*destructor)(struct _Plugin *plugin);                  /* Destroy an instance of the plugin */
+    void (*config)(struct _Plugin *plugin, GtkWindow *parent);   /* Request the plugin to display its configuration dialog */
+    void (*save)(struct _Plugin *plugin, FILE *fp);              /* Request the plugin to save its configuration to a file */
+    void (*panel_configuration_changed)(struct _Plugin *plugin); /* Request the plugin to do a full redraw after a panel configuration change */
 } PluginClass;
 
 /* Representative of a loaded and active plugin attached to a panel. */
 struct _Plugin
 {
-  PluginClass *class; /* Back pointer to PluginClass */
-  Panel *panel;       /* Back pointer to Panel */
-  GtkWidget *pwid;    /* Top level widget; plugin allocates, but plugin mechanism, not plugin itself, destroys this */
-  int expand;         /* Expand ("stretch") setting for container */
-  int padding;        /* Padding setting for container */
-  int border;         /* Border setting for container */
-  gpointer priv;      /* Private context for plugin; plugin frees this in its destructor */
+    PluginClass *class; /* Back pointer to PluginClass */
+    Panel *panel;       /* Back pointer to Panel */
+    GtkWidget *pwid;    /* Top level widget; plugin allocates, but plugin mechanism, not plugin itself, destroys this */
+    int expand;         /* Expand ("stretch") setting for container */
+    int padding;        /* Padding setting for container */
+    int border;         /* Border setting for container */
+    gpointer priv;      /* Private context for plugin; plugin frees this in its destructor */
 };
 
 /* Plugins management - deprecated style, for backward compatibility */

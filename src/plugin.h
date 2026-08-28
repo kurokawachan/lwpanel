@@ -103,28 +103,28 @@ G_BEGIN_DECLS
  */
 typedef struct
 {
-  /*< public >*/
-  void (*init)(void);     /* optional startup */
-  void (*finalize)(void); /* optional finalize */
-  char *name;             /* name to represent in lists */
-  char *description;      /* tooltip text */
-  GtkWidget *(*new_instance)(LXPanel *panel, config_setting_t *settings);
-  GtkWidget *(*config)(LXPanel *panel, GtkWidget *instance);
-  void (*reconfigure)(LXPanel *panel, GtkWidget *instance);
-  gboolean (*button_press_event)(GtkWidget *widget, GdkEventButton *event, LXPanel *panel);
-  void (*show_system_menu)(GtkWidget *widget);
-  gboolean (*update_context_menu)(GtkWidget *plugin, GtkMenu *menu);
-  gboolean (*control)(GtkWidget *plugin, const char *cmd);
-  char *gettext_package; /* optional: gettext package used to translate name and description */
-  /*< private >*/
-  gpointer _reserved1;
-  gpointer _reserved2;
-  /*< public >*/
-  int one_per_system : 1;   /* True to disable more than one instance */
-  int expand_available : 1; /* True if "stretch" option is available */
-  int expand_default : 1;   /* True if "stretch" option is default */
-  int superseded : 1;       /* True if plugin was superseded by another */
-} LXPanelPluginInit;        /* constant data */
+    /*< public >*/
+    void (*init)(void);     /* optional startup */
+    void (*finalize)(void); /* optional finalize */
+    char *name;             /* name to represent in lists */
+    char *description;      /* tooltip text */
+    GtkWidget *(*new_instance)(LXPanel *panel, config_setting_t *settings);
+    GtkWidget *(*config)(LXPanel *panel, GtkWidget *instance);
+    void (*reconfigure)(LXPanel *panel, GtkWidget *instance);
+    gboolean (*button_press_event)(GtkWidget *widget, GdkEventButton *event, LXPanel *panel);
+    void (*show_system_menu)(GtkWidget *widget);
+    gboolean (*update_context_menu)(GtkWidget *plugin, GtkMenu *menu);
+    gboolean (*control)(GtkWidget *plugin, const char *cmd);
+    char *gettext_package; /* optional: gettext package used to translate name and description */
+    /*< private >*/
+    gpointer _reserved1;
+    gpointer _reserved2;
+    /*< public >*/
+    int one_per_system : 1;   /* True to disable more than one instance */
+    int expand_available : 1; /* True if "stretch" option is available */
+    int expand_default : 1;   /* True if "stretch" option is default */
+    int superseded : 1;       /* True if plugin was superseded by another */
+} LXPanelPluginInit;          /* constant data */
 
 /*
  * This descriptor instance should be defined in each plugin code as main
@@ -262,14 +262,14 @@ extern void lxpanel_plugin_show_config_dialog(GtkWidget *plugin);
  */
 typedef enum
 {
-  CONF_TYPE_STR,
-  CONF_TYPE_INT,
-  CONF_TYPE_BOOL,
-  CONF_TYPE_FILE,
-  CONF_TYPE_FILE_ENTRY,
-  CONF_TYPE_DIRECTORY_ENTRY,
-  CONF_TYPE_TRIM,
-  CONF_TYPE_EXTERNAL
+    CONF_TYPE_STR,
+    CONF_TYPE_INT,
+    CONF_TYPE_BOOL,
+    CONF_TYPE_FILE,
+    CONF_TYPE_FILE_ENTRY,
+    CONF_TYPE_DIRECTORY_ENTRY,
+    CONF_TYPE_TRIM,
+    CONF_TYPE_EXTERNAL
 } PluginConfType;
 
 /**

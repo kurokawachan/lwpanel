@@ -46,11 +46,11 @@
 #endif
 
 #if !GLIB_CHECK_VERSION(2, 28, 0)
-#define g_list_free_full(list, free_func)         \
-  {                                               \
-    g_list_foreach(list, (GFunc)free_func, NULL); \
-    g_list_free(list);                            \
-  }
+#define g_list_free_full(list, free_func)             \
+    {                                                 \
+        g_list_foreach(list, (GFunc)free_func, NULL); \
+        g_list_free(list);                            \
+    }
 #endif
 
 #if GTK_CHECK_VERSION(3, 0, 0)

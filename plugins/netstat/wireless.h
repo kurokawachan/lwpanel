@@ -23,20 +23,20 @@
 
 typedef struct
 {
-  char *essid;
-  char *apaddr;
-  int quality;
-  int en_method;
-  int pairwise;
-  int group;
-  int key_mgmt;
-  gboolean haskey;
+    char *essid;
+    char *apaddr;
+    int quality;
+    int en_method;
+    int pairwise;
+    int group;
+    int key_mgmt;
+    gboolean haskey;
 } ap_info;
 
 typedef struct ap_info_node
 {
-  ap_info *info;
-  struct ap_info_node *next;
+    ap_info *info;
+    struct ap_info_node *next;
 } APLIST;
 
 void wireless_aplist_free(void *aplist, GObject *dummy);

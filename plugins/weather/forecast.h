@@ -28,51 +28,51 @@
 
 typedef enum
 {
-  STEADY, // 0
-  RISING, // 1
-  FALLING // 2
+    STEADY, // 0
+    RISING, // 1
+    FALLING // 2
 } PressureState;
 
 typedef struct
 {
-  gchar *pcDay_;
-  gint iHigh_;
-  gint iLow_;
-  gchar *pcConditions_;
-  gchar *pcClouds_;
+    gchar *pcDay_;
+    gint iHigh_;
+    gint iLow_;
+    gchar *pcConditions_;
+    gchar *pcClouds_;
 } Forecast;
 
 typedef struct
 {
-  gchar *pcDistance_;
-  gchar *pcPressure_;
-  gchar *pcSpeed_;
-  gchar *pcTemperature_;
+    gchar *pcDistance_;
+    gchar *pcPressure_;
+    gchar *pcSpeed_;
+    gchar *pcTemperature_;
 } ForecastUnits;
 
 typedef struct
 {
-  ForecastUnits units_;
-  PressureState pressureState_;
-  Forecast today_;
-  Forecast tomorrow_;
-  gint iWindChill_;
-  gchar *pcWindDirection_;
-  gint iWindSpeed_;
-  gint iHumidity_;
-  gdouble dPressure_;
-  gdouble dVisibility_;
-  gchar *pcSunrise_;
-  gchar *pcSunset_;
-  gchar *pcTime_;
-  gint iTemperature_;
-  gchar *pcConditions_;
-  gchar *pcClouds_;
-  gchar *pcImageURL_;
-  GdkPixbuf *pImage_;
-  float fAspectRatio;
-  gchar *pcBigImageURL_;
-  GdkPixbuf *pBigImage_;
+    ForecastUnits units_;
+    PressureState pressureState_;
+    Forecast today_;
+    Forecast tomorrow_;
+    gint iWindChill_;
+    gchar *pcWindDirection_;
+    gint iWindSpeed_;
+    gint iHumidity_;
+    gdouble dPressure_;
+    gdouble dVisibility_;
+    gchar *pcSunrise_;
+    gchar *pcSunset_;
+    gchar *pcTime_;
+    gint iTemperature_;
+    gchar *pcConditions_;
+    gchar *pcClouds_;
+    gchar *pcImageURL_;
+    GdkPixbuf *pImage_;
+    float fAspectRatio;
+    gchar *pcBigImageURL_;
+    GdkPixbuf *pBigImage_;
 } ForecastInfo;
 
 /**

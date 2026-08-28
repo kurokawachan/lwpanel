@@ -45,14 +45,14 @@ typedef struct _NetstatusIfacePrivate NetstatusIfacePrivate;
 
 struct _NetstatusIface
 {
-  GObject parent_instance;
+    GObject parent_instance;
 
-  NetstatusIfacePrivate *priv;
+    NetstatusIfacePrivate *priv;
 };
 
 struct _NetstatusIfaceClass
 {
-  GObjectClass parent_class;
+    GObjectClass parent_class;
 };
 
 GList *netstatus_list_interface_names(GError **error);

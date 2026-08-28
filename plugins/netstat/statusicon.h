@@ -6,8 +6,8 @@
 
 struct statusicon
 {
-  GtkWidget *main;
-  GtkWidget *icon;
+    GtkWidget *main;
+    GtkWidget *icon;
 };
 
 struct statusicon *create_statusicon(LXPanel *panel, GtkWidget *box,

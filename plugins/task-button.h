@@ -27,17 +27,17 @@ G_BEGIN_DECLS
 
 typedef struct /* bitwise rendering options for taskbar */
 {
-  gboolean show_all_desks : 1;          /* show windows from all desktops */
-  gboolean show_square_brackets : 1;    /* show square brackets around the names of minimized windows */
-  gboolean tooltips : 1;                /* show tooltips */
-  gboolean icons_only : 1;              /* show icons only, omit name */
-  gboolean use_mouse_wheel : 1;         /* scroll wheel does iconify and raise */
-  gboolean use_urgency_hint : 1;        /* windows with urgency will flash */
-  gboolean flat_button : 1;             /* taskbar buttons have visible background */
-  gboolean same_monitor_only : 1;       /* only show windows that are in the same monitor as the taskbar */
-  gboolean disable_taskbar_upscale : 1; /* don't upscale taskbar icons */
-  gboolean use_net_active : 1;          /* NET_WM_ACTIVE_WINDOW is supported by the window manager */
-  gboolean use_smaller_icons : 1;       /* use icons 4 pixels less than panel default */
+    gboolean show_all_desks : 1;          /* show windows from all desktops */
+    gboolean show_square_brackets : 1;    /* show square brackets around the names of minimized windows */
+    gboolean tooltips : 1;                /* show tooltips */
+    gboolean icons_only : 1;              /* show icons only, omit name */
+    gboolean use_mouse_wheel : 1;         /* scroll wheel does iconify and raise */
+    gboolean use_urgency_hint : 1;        /* windows with urgency will flash */
+    gboolean flat_button : 1;             /* taskbar buttons have visible background */
+    gboolean same_monitor_only : 1;       /* only show windows that are in the same monitor as the taskbar */
+    gboolean disable_taskbar_upscale : 1; /* don't upscale taskbar icons */
+    gboolean use_net_active : 1;          /* NET_WM_ACTIVE_WINDOW is supported by the window manager */
+    gboolean use_smaller_icons : 1;       /* use icons 4 pixels less than panel default */
 } TaskShowFlags;
 
 #define PANEL_TYPE_TASK_BUTTON (task_button_get_type())
@@ -57,9 +57,9 @@ typedef struct _TaskButtonClass TaskButtonClass;
 
 struct _TaskButtonClass
 {
-  GtkToggleButtonClass parent_class;
-  void (*menu_built)(TaskButton *button, GtkMenu *menu);   /* "menu-built" signal */
-  void (*menu_target_set)(TaskButton *button, gulong win); /* "menu-target-set" signal */
+    GtkToggleButtonClass parent_class;
+    void (*menu_built)(TaskButton *button, GtkMenu *menu);   /* "menu-built" signal */
+    void (*menu_target_set)(TaskButton *button, gulong win); /* "menu-target-set" signal */
 };
 
 /* creates new button and sets rendering options */

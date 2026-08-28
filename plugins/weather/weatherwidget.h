@@ -45,15 +45,15 @@ typedef struct _GtkWeatherClass GtkWeatherClass;
 
 struct _GtkWeather
 {
-  GtkEventBox widget;
+    GtkEventBox widget;
 };
 
 struct _GtkWeatherClass
 {
-  GtkEventBoxClass parent_class;
+    GtkEventBoxClass parent_class;
 
-  void (*location_changed)(GtkWeather *weather, const gpointer location);
-  void (*forecast_changed)(GtkWeather *weather, const gpointer lorecast);
+    void (*location_changed)(GtkWeather *weather, const gpointer location);
+    void (*forecast_changed)(GtkWeather *weather, const gpointer lorecast);
 };
 
 GType gtk_weather_get_type(void) G_GNUC_CONST;

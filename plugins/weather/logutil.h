@@ -26,11 +26,11 @@
  */
 typedef enum
 {
-  LXW_NONE = 0,
-  LXW_ERROR,
-  LXW_DEBUG,
-  LXW_VERBOSE,
-  LXW_ALL
+    LXW_NONE = 0,
+    LXW_ERROR,
+    LXW_DEBUG,
+    LXW_VERBOSE,
+    LXW_ALL
 } LXWEATHER_LOGLEVEL;
 
 /**

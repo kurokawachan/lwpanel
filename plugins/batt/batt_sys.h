@@ -34,26 +34,26 @@
 
 typedef struct battery
 {
-  int battery_num;
-  /* path to battery dir */
-  gchar *path;
-  /* sysfs file contents */
-  int charge_now;
-  int energy_now;
-  int current_now;
-  int power_now;
-  int voltage_now;
-  int charge_full_design;
-  int energy_full_design;
-  int charge_full;
-  int energy_full;
-  /* extra info */
-  int seconds;
-  int percentage;
-  char *state;
-  // const char *poststr;
-  // const char *capacity_unit;
-  int type_battery;
+    int battery_num;
+    /* path to battery dir */
+    gchar *path;
+    /* sysfs file contents */
+    int charge_now;
+    int energy_now;
+    int current_now;
+    int power_now;
+    int voltage_now;
+    int charge_full_design;
+    int energy_full_design;
+    int charge_full;
+    int energy_full;
+    /* extra info */
+    int seconds;
+    int percentage;
+    char *state;
+    // const char *poststr;
+    // const char *capacity_unit;
+    int type_battery;
 } battery;
 
 battery *battery_get(int);

@@ -30,33 +30,33 @@ struct _icon_grid;
 /* Representative of an icon grid element.  This is a widget to be packed into a rectangular grid whose size adapts to conditions. */
 typedef struct _icon_grid_element
 {
-  struct _icon_grid_element *flink; /* Forward link */
-  struct _icon_grid *ig;            /* Back pointer to IconGrid */
-  GtkWidget *widget;                /* Customer's widget */
-  gboolean visible;                 /* True if widget is visible */
+    struct _icon_grid_element *flink; /* Forward link */
+    struct _icon_grid *ig;            /* Back pointer to IconGrid */
+    GtkWidget *widget;                /* Customer's widget */
+    gboolean visible;                 /* True if widget is visible */
 } IconGridElement;
 
 /* Representative of an icon grid.  This is a manager that packs widgets into a rectangular grid whose size adapts to conditions. */
 typedef struct _icon_grid
 {
-  IconGridElement *child_list; /* List of icon grid elements */
-  Panel *panel;                /* Back pointer to panel */
-  GtkWidget *container;        /* Container widget */
-  GtkOrientation orientation;  /* Desired orientation */
-  gint child_width;            /* Desired child width */
-  gint child_height;           /* Desired child height */
-  gint spacing;                /* Desired spacing between grid elements */
-  gint border;                 /* Desired border around grid elements */
-  gint target_dimension;       /* Desired dimension perpendicular to orientation */
-  gboolean constrain_width;    /* True if width should be constrained by allocated space */
-  gboolean actual_dimension;   /* True if container has been allocated space */
-  gboolean children_changed;   /* True if icon grid element list changed */
-  GtkWidget *widget;           /* Layout widget we use for packing */
-  int rows;                    /* Computed layout rows */
-  int columns;                 /* Computed layout columns */
-  int container_width;         /* Container's allocated width */
-  int container_height;        /* Container's allocated height */
-  int constrained_child_width; /* Child width constrained by allocation */
+    IconGridElement *child_list; /* List of icon grid elements */
+    Panel *panel;                /* Back pointer to panel */
+    GtkWidget *container;        /* Container widget */
+    GtkOrientation orientation;  /* Desired orientation */
+    gint child_width;            /* Desired child width */
+    gint child_height;           /* Desired child height */
+    gint spacing;                /* Desired spacing between grid elements */
+    gint border;                 /* Desired border around grid elements */
+    gint target_dimension;       /* Desired dimension perpendicular to orientation */
+    gboolean constrain_width;    /* True if width should be constrained by allocated space */
+    gboolean actual_dimension;   /* True if container has been allocated space */
+    gboolean children_changed;   /* True if icon grid element list changed */
+    GtkWidget *widget;           /* Layout widget we use for packing */
+    int rows;                    /* Computed layout rows */
+    int columns;                 /* Computed layout columns */
+    int container_width;         /* Container's allocated width */
+    int container_height;        /* Container's allocated height */
+    int constrained_child_width; /* Child width constrained by allocation */
 } IconGrid;
 
 extern IconGrid *icon_grid_new(
