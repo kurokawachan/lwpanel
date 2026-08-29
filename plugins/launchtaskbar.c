@@ -207,12 +207,18 @@ static char *task_get_cmdline(Window win, LaunchTaskBarPlugin *ltbp)
     {
         p_char = strchr(cmdline, '\n');
         if (p_char != NULL)
+        {
             *p_char = '\0';
+        }
         p_char = strrchr(cmdline, G_DIR_SEPARATOR);
         if (p_char != NULL)
+        {
             p_char++;
+        }
         else
+        {
             p_char = cmdline;
+        }
         if (strcmp(p_char, "python") == 0)
         {
             snprintf(proc_path, sizeof(proc_path),
@@ -225,7 +231,9 @@ static char *task_get_cmdline(Window win, LaunchTaskBarPlugin *ltbp)
             {
                 p_char = strchr(cmdline, '\n');
                 if (p_char != NULL)
+                {
                     *p_char = '\0';
+                }
             }
         }
         else
@@ -259,9 +267,13 @@ static FmPath *f_find_menu_launchbutton_recursive(Window win, LaunchTaskBarPlugi
     apps = menu_cache_list_all_apps(mc);
     short_exec = strrchr(exec_bin, '/');
     if (short_exec != NULL)
+    {
         short_exec++;
+    }
     else
+    {
         short_exec = exec_bin;
+    }
     len = strlen(short_exec);
     /* the same executable may be used in numerous applications so wild guess
        estimation check for desktop id equal to short_exec+".desktop" first */
@@ -271,18 +283,24 @@ static FmPath *f_find_menu_launchbutton_recursive(Window win, LaunchTaskBarPlugi
         /* we don't check flags here because user always can manually
            start any app that isn't visible in the desktop menu */
         if (strncmp(exec, short_exec, len) == 0 && exec[len] == '.')
+        {
             break;
+        }
     }
     /* if not found then check for non-absolute exec name in application
        since it usually is expanded by application starting functions */
     if (l == NULL)
+    {
         for (l = apps; l; l = l->next)
         {
             exec = menu_cache_app_get_exec(MENU_CACHE_APP(l->data));
             if (exec && exec[0] != '/' && strncmp(exec, short_exec, len) == 0 &&
                 (exec[len] == ' ' || exec[len] == 0))
+            {
                 break;
+            }
         }
+    }
     /* well, not matched, let try full path, we assume here if application
        starts executable by full path then process cannot have short name */
     if (l == NULL && exec_bin[0] == '/')
@@ -293,7 +311,9 @@ static FmPath *f_find_menu_launchbutton_recursive(Window win, LaunchTaskBarPlugi
             exec = menu_cache_app_get_exec(MENU_CACHE_APP(l->data));
             if (exec && exec[0] == '/' && strncmp(exec, exec_bin, len) == 0 &&
                 (exec[len] == ' ' || exec[len] == 0))
+            {
                 break;
+            }
         }
     }
     if (l)
@@ -317,11 +337,13 @@ static void launchbar_remove_bootstrap(LaunchTaskBarPlugin *ltbp)
     GList *l;
 
     for (l = btns; l; l = l->next)
+    {
         if (launch_button_get_settings(l->data) == NULL)
         {
             gtk_widget_destroy(l->data);
             g_debug("launchtaskbar: removed bootstrap button %p", l->data);
         }
+    }
     g_list_free(btns);
 }
 
@@ -330,7 +352,9 @@ static void launchbar_check_bootstrap(LaunchTaskBarPlugin *lb)
     LaunchButton *btn;
 
     if (panel_icon_grid_get_n_children(PANEL_ICON_GRID(lb->lb_icon_grid)) > 0)
+    {
         return;
+    }
     btn = launch_button_new(lb->panel, lb->plugin, NULL, NULL);
     gtk_container_add(GTK_CONTAINER(lb->lb_icon_grid), GTK_WIDGET(btn));
     g_debug("launchtaskbar: added bootstrap button %p", btn);
@@ -341,7 +365,9 @@ static void launchbar_remove_launcher(LaunchTaskBarPlugin *ltbp, FmPath *path)
     LaunchButton *btn = launchbar_exec_bin_exists(ltbp, path);
 
     if (btn != NULL)
+    {
         launchbar_remove_button(ltbp, btn);
+    }
 }
 
 /* Process drag & drop launchers between panels and places */
@@ -376,11 +402,17 @@ static gboolean on_launchbar_drag_source(GtkWidget *widget, GdkEvent *event,
     {
     case GDK_BUTTON_PRESS:
         if (event->button.button != 1)
+        {
             break;
+        }
         if (lb->in_drag)
+        {
             break;
+        }
         if (lb->dragged_launcher)
+        {
             fm_path_unref(lb->dragged_launcher);
+        }
         lb->dragged_launcher = NULL;
         /* check if it is a launcher where the drag begins */
         ig = PANEL_ICON_GRID(widget);
@@ -400,26 +432,36 @@ static gboolean on_launchbar_drag_source(GtkWidget *widget, GdkEvent *event,
 #endif
         }
         if (win == NULL)
+        {
             /* this should never happen */
             break;
+        }
         if (!panel_icon_grid_get_dest_at_pos(ig, (int)x, (int)y, &btn, &pos) ||
             !PANEL_IS_LAUNCH_BUTTON(btn))
+        {
             break;
+        }
         /* remember the current coordinates and the launcher */
         fi = launch_button_get_file_info((LaunchButton *)btn);
         if (fi == NULL)
+        {
             break;
+        }
         lb->dragged_launcher = fm_path_ref(fm_file_info_get_path(fi));
         lb->drag_start_x = event->button.x;
         lb->drag_start_y = event->button.y;
         if (pos != PANEL_ICON_GRID_DROP_INTO)
+        {
             break;
+        }
         /* g_debug("started dragging button #%d at %d,%d", panel_icon_grid_get_child_position(ig, btn), (int)x, (int)y); */
         lb->in_drag = TRUE;
         break;
     case GDK_BUTTON_RELEASE:
         if (event->button.button != 1)
+        {
             break;
+        }
         /* forget the drag state */
         lb->in_drag = FALSE;
         /* if user clicked somewhere on border, he/she expects nearest
@@ -436,7 +478,9 @@ static gboolean on_launchbar_drag_source(GtkWidget *widget, GdkEvent *event,
         break;
     case GDK_MOTION_NOTIFY:
         if ((event->motion.state & GDK_BUTTON1_MASK) == 0)
+        {
             break;
+        }
         /* if in drag state then check for threshold */
         if (lb->in_drag &&
             gtk_drag_check_threshold(widget, lb->drag_start_x, lb->drag_start_y,
@@ -444,8 +488,10 @@ static gboolean on_launchbar_drag_source(GtkWidget *widget, GdkEvent *event,
         {
             lb->in_drag = FALSE;
             if (G_UNLIKELY(drag_src_target_list == NULL))
+            {
                 drag_src_target_list = gtk_target_list_new(dnd_targets,
                                                            G_N_ELEMENTS(dnd_targets));
+            }
 #if GTK_CHECK_VERSION(3, 10, 0)
             gtk_drag_begin_with_coordinates(widget, drag_src_target_list,
                                             GDK_ACTION_MOVE, 1, event,
@@ -477,17 +523,17 @@ static void on_launchbar_drag_begin(GtkWidget *widget, GdkDragContext *context,
 #if GTK_CHECK_VERSION(3, 2, 0)
             gtk_drag_set_icon_gicon(context, fm_icon_get_gicon(icon), 0, 0);
 #else
-        {
-            gint w;
-            GdkPixbuf *pix;
-            gtk_icon_size_lookup(GTK_ICON_SIZE_DND, &w, NULL);
-            pix = fm_pixbuf_from_icon(icon, w);
-            if (pix)
             {
-                gtk_drag_set_icon_pixbuf(context, pix, 0, 0);
-                g_object_unref(pix);
+                gint w;
+                GdkPixbuf *pix;
+                gtk_icon_size_lookup(GTK_ICON_SIZE_DND, &w, NULL);
+                pix = fm_pixbuf_from_icon(icon, w);
+                if (pix)
+                {
+                    gtk_drag_set_icon_pixbuf(context, pix, 0, 0);
+                    g_object_unref(pix);
+                }
             }
-        }
 #endif
         }
     }
@@ -504,7 +550,9 @@ static void on_launchbar_drag_data_get(GtkWidget *widget, GdkDragContext *contex
     {
     case LAUNCHBUTTON_DND_TARGET:
         if (lb->dragged_launcher == NULL)
+        {
             break;
+        }
         /* create a path_str for currently dragged launcher */
         path_str = fm_path_to_str(lb->dragged_launcher);
         /* save it into selection */
@@ -522,7 +570,9 @@ static void on_launchbar_drag_data_delete(GtkWidget *widget,
 {
     /* check if remembered data are still valid and remove appropriate child */
     if (lb->dragged_launcher == NULL)
+    {
         return;
+    }
     launchbar_remove_launcher(lb, lb->dragged_launcher);
     fm_path_unref(lb->dragged_launcher);
     lb->dragged_launcher = NULL;
@@ -530,10 +580,14 @@ static void on_launchbar_drag_data_delete(GtkWidget *widget,
     {
         /* destroy empty plugin if it is in LAUNCHBAR mode */
         if (panel_icon_grid_get_n_children(PANEL_ICON_GRID(lb->lb_icon_grid)) == 0)
+        {
             lxpanel_remove_plugin(lb->panel, lb->plugin);
+        }
     }
     else
+    {
         launchbar_check_bootstrap(lb);
+    }
 }
 
 static void on_launchbar_drag_end(GtkWidget *widget, GdkDragContext *context,
@@ -541,7 +595,9 @@ static void on_launchbar_drag_end(GtkWidget *widget, GdkDragContext *context,
 {
     /* forget the currently dragged launcher */
     if (lb->dragged_launcher)
+    {
         fm_path_unref(lb->dragged_launcher);
+    }
     lb->dragged_launcher = NULL;
 }
 
@@ -561,7 +617,9 @@ static gboolean on_launchbar_drag_drop(GtkWidget *widget, GdkDragContext *contex
     }
     target = fm_dnd_dest_find_target(lb->dd, context);
     if (G_LIKELY(target != GDK_NONE))
+    {
         return fm_dnd_dest_drag_drop(lb->dd, context, target, x, y, time);
+    }
     return FALSE;
 }
 
@@ -590,19 +648,27 @@ static void on_launchbar_drag_data_received(GtkWidget *widget,
             g_return_if_fail(i >= 0);
             if (pos == PANEL_ICON_GRID_DROP_LEFT_AFTER ||
                 pos == PANEL_ICON_GRID_DROP_RIGHT_AFTER)
+            {
                 i++;
+            }
             /* get data from selection */
             path_str = (char *)gtk_selection_data_get_data(sel_data);
             if (!path_str)
+            {
                 break;
+            }
             /* g_debug("dropping dragged button to %d position", i); */
             path = fm_path_new_for_str(path_str);
             /* create new LaunchButton */
             s = config_group_add_subgroup(lb->settings, "Button");
             if (fm_path_equal(fm_path_get_scheme_path(path), fm_path_get_apps_menu()))
+            {
                 config_group_set_string(s, "id", fm_path_get_basename(path));
+            }
             else
+            {
                 config_group_set_string(s, "id", path_str);
+            }
             btn = GTK_WIDGET(launch_button_new(lb->panel, lb->plugin, path, s));
             fm_path_unref(path);
             if (btn)
@@ -663,9 +729,13 @@ static gboolean on_launchbar_drag_motion(
             lb_atom_action = GDK_ACTION_MOVE;
         }
         else if (pos == PANEL_ICON_GRID_DROP_INTO)
+        {
             fi = launch_button_get_file_info((LaunchButton *)btn);
+        }
         else
+        {
             lb_atom_action = GDK_ACTION_MOVE;
+        }
     }
     fm_dnd_dest_set_dest_file(b->dd, fi);
     target = fm_dnd_dest_find_target(b->dd, context);
@@ -673,14 +743,18 @@ static gboolean on_launchbar_drag_motion(
     {
         target = gtk_drag_dest_find_target(widget, context, NULL);
         if (target == launch_button_dnd_atom)
+        {
             action = lb_atom_action; /* action was set above */
+        }
     }
     else if (fm_dnd_dest_is_target_supported(b->dd, target))
     {
         action = fm_dnd_dest_get_default_action(b->dd, context, target);
         if (fi == NULL && PANEL_IS_LAUNCH_BUTTON(btn))
+        {
             /* dropping on free place */
             action = GDK_ACTION_COPY;
+        }
     }
     gdk_drag_status(context, action, time);
     /* g_debug("launchbutton_drag_motion_event: act=%u",action); */
@@ -706,17 +780,25 @@ static gboolean on_launchbar_files_dropped(FmDndDest *dd, int x, int y, GdkDragA
     int i;
 
     if (action != GDK_ACTION_COPY)
+    {
         return FALSE;
+    }
     path = fm_path_list_peek_head(files);
     if (!path)
+    {
         return FALSE;
+    }
     if (!lb->last_lb_drag_dest)
+    {
         return FALSE;
+    }
     i = panel_icon_grid_get_child_position(PANEL_ICON_GRID(lb->lb_icon_grid),
                                            lb->last_lb_drag_dest);
     lb->last_lb_drag_dest = NULL;
     if (i < 0)
+    {
         return FALSE;
+    }
     switch (lb->last_lb_drag_pos)
     {
     case PANEL_ICON_GRID_DROP_LEFT_AFTER:
@@ -731,7 +813,9 @@ static gboolean on_launchbar_files_dropped(FmDndDest *dd, int x, int y, GdkDragA
     }
     s = config_group_add_subgroup(lb->settings, "Button");
     if (fm_path_equal(fm_path_get_scheme_path(path), fm_path_get_apps_menu()))
+    {
         config_group_set_string(s, "id", fm_path_get_basename(path));
+    }
     else
     {
         path_str = fm_path_to_str(path);
@@ -750,7 +834,9 @@ static gboolean on_launchbar_files_dropped(FmDndDest *dd, int x, int y, GdkDragA
         launchbar_remove_bootstrap(lb);
     }
     else
+    {
         config_setting_destroy(s);
+    }
     return TRUE;
 }
 
@@ -761,7 +847,9 @@ static LaunchButton *launchbar_exec_bin_exists(LaunchTaskBarPlugin *lb, FmPath *
     FmFileInfo *fi;
 
     if (!path)
+    {
         return NULL;
+    }
     children = gtk_container_get_children(GTK_CONTAINER(lb->lb_icon_grid));
     for (l = children; l != NULL; l = l->next)
     {
@@ -786,7 +874,9 @@ static gboolean launchbutton_constructor(LaunchTaskBarPlugin *lb, config_setting
 
     /* Read parameters from the configuration file and validate. */
     if (!config_setting_lookup_string(s, "id", &str) || str[0] == '\0')
+    {
         return FALSE;
+    }
 
     /* Build the structures and return. */
     if (str[0] == '~')
@@ -808,7 +898,9 @@ static gboolean launchbutton_constructor(LaunchTaskBarPlugin *lb, config_setting
     g_free(str_path);
     fm_path_unref(path);
     if (btn)
+    {
         gtk_container_add(GTK_CONTAINER(lb->lb_icon_grid), GTK_WIDGET(btn));
+    }
     return (btn != NULL);
 }
 
@@ -821,9 +913,13 @@ static gboolean _launchbutton_create_id(LaunchTaskBarPlugin *lb, config_setting_
     gboolean ret = FALSE;
 
     if (!config_setting_lookup_string(s, "action", &exec) || exec[0] == '\0')
+    {
         return FALSE;
+    }
     if (!config_setting_lookup_string(s, "tooltip", &name) || name[0] == '\0')
+    {
         name = "Launcher"; /* placeholder, XDG requires a non-empty name */
+    }
     config_setting_lookup_string(s, "image", &icon);
     config_setting_lookup_string(s, "path", &path);
     config_setting_lookup_int(s, "terminal", &terminal);
@@ -841,11 +937,17 @@ static gboolean _launchbutton_create_id(LaunchTaskBarPlugin *lb, config_setting_
                             "[" G_KEY_FILE_DESKTOP_GROUP "]\n" G_KEY_FILE_DESKTOP_KEY_TYPE "=" G_KEY_FILE_DESKTOP_TYPE_APPLICATION "\n" G_KEY_FILE_DESKTOP_KEY_NAME "=%s\n" G_KEY_FILE_DESKTOP_KEY_EXEC "=%s\n" G_KEY_FILE_DESKTOP_KEY_CATEGORIES "=X-LXPanel;\n",
                             name, exec);
             if (icon)
+            {
                 g_string_append_printf(content, "Icon=%s\n", icon);
+            }
             if (terminal)
+            {
                 g_string_append(content, G_KEY_FILE_DESKTOP_KEY_TERMINAL "=true\n");
+            }
             if (path && path[0] == '/')
+            {
                 g_string_append_printf(content, "Path=%s\n", path);
+            }
             close(fd);
             ret = g_file_set_contents(filename, content->str, content->len, NULL);
             if (ret)
@@ -855,14 +957,18 @@ static gboolean _launchbutton_create_id(LaunchTaskBarPlugin *lb, config_setting_
                 lxpanel_config_save(lb->panel);
             }
             else
+            {
                 g_unlink(filename);
+            }
             g_string_free(content, TRUE);
         }
         g_free(filename);
     }
     g_free(dirname);
-    if (ret) /* we created it, let use it */
+    if (ret)
+    { /* we created it, let use it */
         return launchbutton_constructor(lb, s);
+    }
     return FALSE;
 }
 
@@ -900,8 +1006,10 @@ static void launchtaskbar_constructor_launch(LaunchTaskBarPlugin *ltbp)
                     /* FIXME: show failed id to the user instead */
                     config_setting_destroy(s);
                 }
-                else /* success, accept the setting */
+                else
+                { /* success, accept the setting */
                     i++;
+                }
             }
         }
         if (i == 0)
@@ -952,7 +1060,9 @@ static gboolean flash_window_timeout(gpointer user_data)
     LaunchTaskBarPlugin *tb;
 
     if (g_source_is_destroyed(g_main_current_source()))
+    {
         return FALSE;
+    }
     tb = user_data;
     tb->flash_state = !tb->flash_state;
     gtk_container_foreach(GTK_CONTAINER(tb->tb_icon_grid),
@@ -965,8 +1075,10 @@ static void on_gtk_cursor_blink_time_changed(GObject *gsettings, GParamSpec *psp
 {
     gint interval;
 
-    if (tb->flash_timeout == 0) /* nothing to do? */
+    if (tb->flash_timeout == 0)
+    { /* nothing to do? */
         return;
+    }
     g_source_remove(tb->flash_timeout);
     g_object_get(gtk_widget_get_settings(GTK_WIDGET(tb)), "gtk-cursor-blink-time",
                  &interval, NULL);
@@ -979,7 +1091,9 @@ static void set_timer_on_task(LaunchTaskBarPlugin *tb)
     gint interval;
 
     if (tb->flash_timeout != 0)
+    {
         return;
+    }
     g_object_get(gtk_widget_get_settings(GTK_WIDGET(tb->plugin)),
                  "gtk-cursor-blink-time", &interval, NULL);
     g_signal_connect(gtk_widget_get_settings(GTK_WIDGET(tb->plugin)),
@@ -991,7 +1105,9 @@ static void set_timer_on_task(LaunchTaskBarPlugin *tb)
 static void reset_timer_on_task(LaunchTaskBarPlugin *tb)
 {
     if (tb->flash_timeout == 0)
+    {
         return;
+    }
     g_source_remove(tb->flash_timeout);
     tb->flash_timeout = 0;
     g_signal_handlers_disconnect_by_func(gtk_widget_get_settings(GTK_WIDGET(tb->plugin)),
@@ -1009,29 +1125,51 @@ static void launchtaskbar_constructor_task(LaunchTaskBarPlugin *ltbp)
 
         /* Parse configuration now */
         if (config_setting_lookup_int(s, "tooltips", &tmp_int))
+        {
             ltbp->flags.tooltips = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "IconsOnly", &tmp_int))
+        {
             ltbp->flags.icons_only = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "ShowAllDesks", &tmp_int))
+        {
             ltbp->flags.show_all_desks = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "ShowSquareBrackets", &tmp_int))
+        {
             ltbp->flags.show_square_brackets = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "SameMonitorOnly", &tmp_int))
+        {
             ltbp->flags.same_monitor_only = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "DisableUpscale", &tmp_int))
+        {
             ltbp->flags.disable_taskbar_upscale = (tmp_int != 0);
+        }
         config_setting_lookup_int(s, "MaxTaskWidth", &ltbp->task_width_max);
         config_setting_lookup_int(s, "spacing", &ltbp->spacing);
         if (config_setting_lookup_int(s, "UseMouseWheel", &tmp_int))
+        {
             ltbp->flags.use_mouse_wheel = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "UseUrgencyHint", &tmp_int))
+        {
             ltbp->flags.use_urgency_hint = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "FlatButton", &tmp_int))
+        {
             ltbp->flags.flat_button = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "GroupedTasks", &tmp_int))
+        {
             ltbp->grouped_tasks = (tmp_int != 0);
+        }
         if (config_setting_lookup_int(s, "UseSmallerIcons", &tmp_int))
+        {
             ltbp->flags.use_smaller_icons = (tmp_int != 0);
+        }
 
         /* Make container for task buttons as a child of top level widget. */
         ltbp->tb_icon_grid = panel_icon_grid_new(panel_get_orientation(ltbp->panel),
@@ -1062,7 +1200,9 @@ static void launchtaskbar_constructor_task(LaunchTaskBarPlugin *ltbp)
 
         /* Start blinking timeout if configured */
         if (ltbp->flags.use_urgency_hint)
+        {
             set_timer_on_task(ltbp);
+        }
 
         /* Fetch the client list and redraw the taskbar.  Then determine what window has focus. */
         taskbar_net_client_list(NULL, ltbp);
@@ -1079,17 +1219,21 @@ static void on_size_allocation(GtkWidget *widget, GtkAllocation *a, LaunchTaskBa
         ltbp->w = a->width;
         ltbp->h = a->height;
         if (ltbp->lb_built && gtk_widget_get_visible(ltbp->lb_icon_grid))
+        {
             panel_icon_grid_set_geometry(PANEL_ICON_GRID(ltbp->lb_icon_grid),
                                          panel_get_orientation(ltbp->panel),
                                          ltbp->icon_size, ltbp->icon_size,
                                          3, 0, panel_get_height(ltbp->panel));
+        }
         if (ltbp->tb_built && gtk_widget_get_visible(ltbp->tb_icon_grid))
+        {
             panel_icon_grid_set_geometry(PANEL_ICON_GRID(ltbp->tb_icon_grid),
                                          panel_get_orientation(ltbp->panel),
                                          ((ltbp->flags.icons_only) ? ltbp->icon_size + ICON_ONLY_EXTRA : ltbp->task_width_max),
                                          ((ltbp->flags.icons_only) ? ltbp->icon_size + ICON_ONLY_EXTRA : ltbp->icon_size + ICON_BUTTON_TRIM),
                                          ltbp->spacing, 0,
                                          panel_get_height(ltbp->panel));
+        }
     }
 }
 
@@ -1170,7 +1314,9 @@ static GtkWidget *_launchtaskbar_constructor(LXPanel *panel, config_setting_t *s
     case TASKBAR:
         launchtaskbar_constructor_task(ltbp);
         if (ltbp->mode == TASKBAR)
+        {
             gtk_widget_set_name(p, "taskbar");
+        }
     }
 
     return p;
@@ -1190,7 +1336,9 @@ static void launchtaskbar_destructor_launch(LaunchTaskBarPlugin *ltbp)
     }
     /* do not disconnect handler on child widget - it is already destroyed */
     if (ltbp->dragged_launcher)
+    {
         fm_path_unref(ltbp->dragged_launcher);
+    }
 }
 
 static void launchtaskbar_destructor_task(LaunchTaskBarPlugin *ltbp)
@@ -1211,7 +1359,9 @@ static void launchtaskbar_destructor_task(LaunchTaskBarPlugin *ltbp)
     reset_timer_on_task(ltbp);
 #ifndef DISABLE_MENU
     if (ltbp->path)
+    {
         fm_path_unref(ltbp->path);
+    }
 #endif
 
     /* DND delay handler */
@@ -1221,7 +1371,9 @@ static void launchtaskbar_destructor_task(LaunchTaskBarPlugin *ltbp)
         ltbp->dnd_delay_timer = 0;
     }
     if (ltbp->dnd_delay_task)
+    {
         g_object_remove_weak_pointer(G_OBJECT(ltbp->dnd_delay_task), (gpointer *)&ltbp->dnd_delay_task);
+    }
 }
 
 /* Plugin destructor. */
@@ -1231,17 +1383,23 @@ static void launchtaskbar_destructor(gpointer user_data)
 
     // TASKBAR
     if (ltbp->tb_built)
+    {
         launchtaskbar_destructor_task(ltbp);
+    }
 
     // LAUNCHBAR
     if (ltbp->lb_built)
+    {
         launchtaskbar_destructor_launch(ltbp);
+    }
 
     // LAUNCHTASKBAR
 
     /* Deallocate all memory. */
     if (ltbp->p_key_file_special_cases != NULL)
+    {
         g_key_file_free(ltbp->p_key_file_special_cases);
+    }
     g_free(ltbp);
 }
 
@@ -1271,7 +1429,9 @@ static void _launchbar_configure_add(GtkTreeView *menu_view, LaunchTaskBarPlugin
         g_object_unref(pix);
         settings = config_group_add_subgroup(ltbp->settings, "Button");
         if (fm_path_equal(fm_path_get_scheme_path(sel_path), fm_path_get_apps_menu()))
+        {
             config_group_set_string(settings, "id", fm_path_get_basename(sel_path));
+        }
         else
         {
             path = fm_path_to_str(sel_path);
@@ -1416,8 +1576,10 @@ static void launchbar_configure_initialize_list(LaunchTaskBarPlugin *ltbp, GtkWi
         LaunchButton *btn = (LaunchButton *)l->data;
         GdkPixbuf *pix;
         GtkTreeIter it;
-        if (launch_button_get_settings(btn) == NULL) /* bootstrap button */
+        if (launch_button_get_settings(btn) == NULL)
+        { /* bootstrap button */
             continue;
+        }
         gtk_list_store_append(list, &it);
         pix = fm_pixbuf_from_icon(launch_button_get_icon(btn), PANEL_ICON_SIZE);
         gtk_list_store_set(list, &it,
@@ -1469,8 +1631,10 @@ static void on_combobox_mode_changed(GtkComboBox *p_combobox, gpointer p_data)
     LaunchTaskBarPlugin *ltbp = p_data;
     int new_mode = gtk_combo_box_get_active(GTK_COMBO_BOX(p_combobox));
 
-    if (new_mode < 0 || new_mode == ltbp->mode) /* no change was made */
+    if (new_mode < 0 || new_mode == ltbp->mode)
+    { /* no change was made */
         return;
+    }
 
     ltbp->mode = new_mode;
 
@@ -1480,7 +1644,9 @@ static void on_combobox_mode_changed(GtkComboBox *p_combobox, gpointer p_data)
     {
     case LAUNCHBAR:
         if (ltbp->tb_icon_grid)
+        {
             gtk_widget_set_visible(ltbp->tb_icon_grid, FALSE);
+        }
         launchtaskbar_constructor_launch(ltbp);
         plugin_set_expand_status(ltbp, FALSE);
         gtk_widget_set_name(ltbp->plugin, "launchbar");
@@ -1593,9 +1759,13 @@ static void on_checkbutton_urgency_hint_toggled(GtkToggleButton *p_togglebutton,
     taskbar_apply_configuration(ltbp);
     /* Start/stop blinking timeout if configured */
     if (ltbp->flags.use_urgency_hint)
+    {
         set_timer_on_task(ltbp);
+    }
     else
+    {
         reset_timer_on_task(ltbp);
+    }
 }
 
 static void on_checkbutton_grouped_tasks_toggled(GtkToggleButton *p_togglebutton, gpointer p_data)
@@ -1616,8 +1786,12 @@ static void on_checkbutton_grouped_tasks_toggled(GtkToggleButton *p_togglebutton
         while ((this = g_list_nth(children, i++)))
         {
             for (l = this->next; l; l = l->next)
+            {
                 if (task_button_merge(this->data, l->data))
+                {
                     changed = TRUE;
+                }
+            }
             if (changed)
             {
                 /* some button was consumed, need to reload buttons list */
@@ -1725,7 +1899,9 @@ static void on_menu_view_cursor_changed(GtkTreeView *p_treeview, gpointer p_data
         const char *app_info = g_app_info_get_description(app);
         GString *p_gstring = g_string_new("");
         if (!app_info)
+        {
             app_info = g_app_info_get_name(app);
+        }
         g_string_printf(p_gstring, "<i>%s</i>", app_info);
         gtk_label_set_markup(GTK_LABEL(lb->p_label_menu_app_exec), p_gstring->str);
         gtk_widget_set_tooltip_text(lb->p_label_menu_app_exec, app_info);
@@ -1852,13 +2028,19 @@ static GtkWidget *launchtaskbar_configure(LXPanel *panel, GtkWidget *p)
         {
             object = gtk_builder_get_object(builder, "hbox_mode");
             if (object)
+            {
                 gtk_widget_destroy(GTK_WIDGET(object));
+            }
             if (ltbp->mode == LAUNCHBAR)
+            {
                 gtk_window_set_title(GTK_WINDOW(ltbp->config_dlg),
                                      _("Application Launch Bar"));
+            }
             else
+            {
                 gtk_window_set_title(GTK_WINDOW(ltbp->config_dlg),
                                      _("Task Bar (Window List)"));
+            }
         }
 
         g_object_unref(builder);
@@ -1875,10 +2057,12 @@ static void launchtaskbar_panel_configuration_changed(LXPanel *panel, GtkWidget 
     int height = panel_get_height(panel);
 
     if (ltbp->lb_built)
+    {
         panel_icon_grid_set_geometry(PANEL_ICON_GRID(ltbp->lb_icon_grid),
                                      panel_get_orientation(panel),
                                      new_icon_size, new_icon_size,
                                      3, 0, height);
+    }
 
     /* Redraw all the labels.  Icon size or font color may have changed. */
     if (ltbp->tb_built)
@@ -1913,7 +2097,9 @@ static gboolean launchtaskbar_control(GtkWidget *p, const char *cmd)
                 return TRUE;
             }
             else
+            {
                 config_setting_destroy(s);
+            }
         }
     }
     return FALSE;
@@ -1928,10 +2114,14 @@ static void taskbar_redraw(LaunchTaskBarPlugin *tb)
     guint icon_size = panel_get_icon_size(tb->panel);
 
     if (tb->flags.use_smaller_icons)
+    {
         icon_size -= 4;
+    }
     for (l = children; l; l = l->next)
+    {
         task_button_update(l->data, tb->current_desktop, tb->number_of_desktops,
                            mon, icon_size, tb->flags);
+    }
     g_list_free(children);
 }
 
@@ -1982,11 +2172,13 @@ static TaskButton *task_lookup(LaunchTaskBarPlugin *tb, Window win)
     GList *l;
 
     for (l = children; l; l = l->next)
+    {
         if (task_button_has_window(l->data, win))
         {
             task = l->data;
             break;
         }
+    }
     g_list_free(children);
     return task;
 }
@@ -2004,9 +2196,13 @@ static void on_task_menu_built(GtkWidget *unused, GtkMenu *menu, LaunchTaskBarPl
     void (*_m_add)(GtkMenuShell * self, GtkWidget * child);
 
     if (panel_is_at_bottom(tb->panel))
+    {
         _m_add = gtk_menu_shell_append;
+    }
     else
+    {
         _m_add = gtk_menu_shell_prepend;
+    }
 
     tb->p_menuitem_lock_tbp = gtk_menu_item_new_with_mnemonic(_("A_dd to Launcher"));
     g_object_add_weak_pointer(G_OBJECT(menu), (void **)&tb->p_menuitem_lock_tbp);
@@ -2050,7 +2246,9 @@ static void on_task_menu_target_set(TaskButton *btn, gulong win, LaunchTaskBarPl
         }
         gtk_widget_set_visible(ltbp->p_menuitem_separator, TRUE);
         if (ltbp->path)
+        {
             fm_path_unref(ltbp->path);
+        }
         ltbp->path = path;
     }
     else
@@ -2067,7 +2265,9 @@ static void on_task_menu_target_set(TaskButton *btn, gulong win, LaunchTaskBarPl
 static gboolean taskbar_button_drag_motion_timeout(LaunchTaskBarPlugin *tb)
 {
     if (g_source_is_destroyed(g_main_current_source()))
+    {
         return FALSE;
+    }
 
     task_button_raise_window(PANEL_TASK_BUTTON(tb->dnd_delay_task), CurrentTime);
     tb->dnd_delay_timer = 0;
@@ -2087,12 +2287,16 @@ static gboolean taskbar_button_drag_motion(GtkWidget *widget, GdkDragContext *dr
     {
         /* Prevent excessive motion notification. */
         if (tb->dnd_delay_timer == 0)
+        {
             tb->dnd_delay_timer = g_timeout_add(DRAG_ACTIVE_DELAY, (GSourceFunc)taskbar_button_drag_motion_timeout, tb);
+        }
 
         if (tb->dnd_delay_task != widget)
         {
             if (tb->dnd_delay_task)
+            {
                 g_object_remove_weak_pointer(G_OBJECT(tb->dnd_delay_task), (gpointer *)&tb->dnd_delay_task);
+            }
             tb->dnd_delay_task = widget;
             g_object_add_weak_pointer(G_OBJECT(widget), (gpointer *)&tb->dnd_delay_task);
         }
@@ -2151,10 +2355,12 @@ static void taskbar_button_enter(GtkWidget *widget, GdkEvent *event, LaunchTaskB
 static gboolean taskbar_button_release_event(GtkWidget *widget, GdkEventButton *event, LaunchTaskBarPlugin *tb)
 {
     if (tb->dnd_task_moving)
+    {
         /* SF bug#731: don't process button release with DND. Also if button was
            released outside of widget but DND wasn't activated: this might happen
            if drag started at edge of button so drag treshold wasn't reached. */
         return TRUE;
+    }
     return FALSE;
 }
 
@@ -2204,13 +2410,23 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
     TaskButton *task;
 
     if (!tb->grouped_tasks || res_class == NULL)
+    {
         list = NULL;
+    }
     else
+    {
         for (; list; list = list->next)
+        {
             if (task_button_add_window(list->data, win, res_class))
+            {
                 break;
+            }
+        }
+    }
     if (list != NULL)
+    {
         return; /* some button accepted it, done */
+    }
 
     task = task_button_new(win, tb->current_desktop, tb->number_of_desktops,
                            tb->panel, res_class, tb->flags);
@@ -2226,7 +2442,9 @@ static void taskbar_net_client_list(GtkWidget *widget, LaunchTaskBarPlugin *tb)
 {
     LaunchTaskBarPlugin *ltbp = tb;
     if (ltbp->mode == LAUNCHBAR)
+    {
         return;
+    }
 
     /* Get the NET_CLIENT_LIST property. */
     int client_count;
@@ -2236,7 +2454,9 @@ static void taskbar_net_client_list(GtkWidget *widget, LaunchTaskBarPlugin *tb)
         GList *children = gtk_container_get_children(GTK_CONTAINER(tb->tb_icon_grid)), *l;
         /* Remove windows from the task list that are not present in the NET_CLIENT_LIST. */
         for (l = children; l; l = l->next)
+        {
             task_button_update_windows_list(l->data, client_list, client_count);
+        }
         g_list_free(children);
         children = gtk_container_get_children(GTK_CONTAINER(tb->tb_icon_grid));
         /* Loop over client list, correlating it with task list. */
@@ -2247,7 +2467,9 @@ static void taskbar_net_client_list(GtkWidget *widget, LaunchTaskBarPlugin *tb)
             for (l = children; l; l = l->next)
             {
                 if (task_button_has_window(l->data, client_list[i]))
+                {
                     break;
+                }
             }
 
             /* Task is not in task list. */
@@ -2271,9 +2493,11 @@ static void taskbar_net_client_list(GtkWidget *widget, LaunchTaskBarPlugin *tb)
         XFree(client_list);
     }
 
-    else /* clear taskbar */
+    else
+    { /* clear taskbar */
         gtk_container_foreach(GTK_CONTAINER(tb->tb_icon_grid),
                               (GtkCallback)gtk_widget_destroy, NULL);
+    }
 }
 
 /* Handler for "current-desktop" event from root window listener. */
@@ -2281,7 +2505,9 @@ static void taskbar_net_current_desktop(GtkWidget *widget, LaunchTaskBarPlugin *
 {
     LaunchTaskBarPlugin *ltbp = tb;
     if (ltbp->mode == LAUNCHBAR)
+    {
         return;
+    }
 
     /* Store the local copy of current desktops.  Redisplay the taskbar. */
     tb->current_desktop = get_net_current_desktop();
@@ -2293,7 +2519,9 @@ static void taskbar_net_number_of_desktops(GtkWidget *widget, LaunchTaskBarPlugi
 {
     LaunchTaskBarPlugin *ltbp = tb;
     if (ltbp->mode == LAUNCHBAR)
+    {
         return;
+    }
 
     /* Store the local copy of number of desktops.  Recompute the popup menu and redisplay the taskbar. */
     tb->number_of_desktops = get_net_number_of_desktops();
@@ -2306,7 +2534,9 @@ static void taskbar_net_active_window(GtkWidget *widget, LaunchTaskBarPlugin *tb
 {
     LaunchTaskBarPlugin *ltbp = tb;
     if (ltbp->mode == LAUNCHBAR)
+    {
         return;
+    }
 
     /* Get the window that has focus. */
     Window *f = get_xaproperty(GDK_ROOT_WINDOW(), a_NET_ACTIVE_WINDOW, XA_WINDOW, 0);
@@ -2314,7 +2544,9 @@ static void taskbar_net_active_window(GtkWidget *widget, LaunchTaskBarPlugin *tb
     gtk_container_foreach(GTK_CONTAINER(tb->tb_icon_grid),
                           (GtkCallback)task_button_window_focus_changed, f);
     if (f != NULL)
+    {
         XFree(f);
+    }
 }
 
 /* Handle PropertyNotify event.
@@ -2344,7 +2576,9 @@ static void taskbar_property_notify_event(LaunchTaskBarPlugin *tb, XEvent *ev)
                     NetWMState nws;
                     get_net_wm_state(win, &nws);
                     if (!accept_net_wm_state(&nws))
+                    {
                         task_button_drop_window(tk, win, FALSE);
+                    }
                     /* else
                         task_button_window_state_changed(tk, win, nws); */
                 }
@@ -2354,7 +2588,9 @@ static void taskbar_property_notify_event(LaunchTaskBarPlugin *tb, XEvent *ev)
                     NetWMWindowType nwwt;
                     get_net_wm_window_type(win, &nwwt);
                     if (!accept_net_wm_window_type(&nwwt))
+                    {
                         task_button_drop_window(tk, win, FALSE);
+                    }
                 }
                 else if (at == XA_WM_CLASS && tb->grouped_tasks && task_button_drop_window(tk, win, TRUE))
                 {
@@ -2403,12 +2639,18 @@ static void taskbar_configure_notify_event(LaunchTaskBarPlugin *tb, XConfigureEv
 static GdkFilterReturn taskbar_event_filter(XEvent *xev, GdkEvent *event, LaunchTaskBarPlugin *tb)
 {
     if (tb->mode == LAUNCHBAR)
+    {
         return GDK_FILTER_CONTINUE;
+    }
 
     if (xev->type == PropertyNotify)
+    {
         taskbar_property_notify_event(tb, xev);
+    }
     else if (xev->type == ConfigureNotify)
+    {
         taskbar_configure_notify_event(tb, &xev->xconfigure);
+    }
 
     return GDK_FILTER_CONTINUE;
 }
@@ -2430,9 +2672,13 @@ static void on_menuitem_lock_tbp_clicked(GtkWidget *widget, LaunchTaskBarPlugin 
         g_free(path);
         btn = launch_button_new(tb->panel, tb->plugin, tb->path, settings);
         if (btn)
+        {
             gtk_container_add(GTK_CONTAINER(tb->lb_icon_grid), GTK_WIDGET(btn));
+        }
         else
+        {
             config_setting_destroy(settings);
+        }
         lxpanel_config_save(tb->panel);
     }
 }
@@ -2460,7 +2706,9 @@ static void taskbar_window_manager_changed(GdkScreen *screen, LaunchTaskBarPlugi
     tb->flags.use_net_active = gdk_x11_screen_supports_net_wm_hint(tb->screen, net_active_atom);
 
     if (screen)
+    {
         taskbar_redraw(tb);
+    }
 }
 
 /* Callback from configuration dialog mechanism to apply the configuration. */
