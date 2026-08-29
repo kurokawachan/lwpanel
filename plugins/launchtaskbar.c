@@ -473,6 +473,7 @@ static void on_launchbar_drag_begin(GtkWidget *widget, GdkDragContext *context,
         FmIcon *icon = launch_button_get_icon(btn);
 
         if (icon)
+        {
 #if GTK_CHECK_VERSION(3, 2, 0)
             gtk_drag_set_icon_gicon(context, fm_icon_get_gicon(icon), 0, 0);
 #else
@@ -488,6 +489,7 @@ static void on_launchbar_drag_begin(GtkWidget *widget, GdkDragContext *context,
             }
         }
 #endif
+        }
     }
 }
 
