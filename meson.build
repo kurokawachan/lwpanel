@@ -1,6 +1,7 @@
 project(
     'lxpanel',
     'c',
+    'cpp',
     default_options: ['prefix=/usr/'],
     meson_version: '>=1.11.0',
     version: '0.11.1',
@@ -450,6 +451,8 @@ liblxpanel_la_SOURCES = [
     'src/conf.c',
     'src/space.c',
     'src/input-button.c',
+    'src/lw.cc',
+    'src/lwpanel_button.cc',
 ]
 
 
@@ -463,6 +466,10 @@ liblxpanel_la_SOURCES = [
 
 liblxpanel_la = shared_library(
     'lxpanel',
+    include_directories: [
+        '.',
+        'src/',
+    ],
     sources: liblxpanel_la_SOURCES,
     c_args: lxpanel_CPPFLAGS,
     link_args: [
@@ -502,6 +509,7 @@ libbuiltin_plugins_sources = [
     'plugins/separator.c',
     'plugins/tray.c',
     'plugins/wincmd.c',
+    'plugins/lwwindowsminimizer.cc',
 ]
 if (ENABLE_MENU_CACHE == true)
     # MENU_SOURCES = 'plugins/menu.c'

@@ -246,6 +246,7 @@ void free_global_config(void);
 #define STATIC_LAUNCHTASKBAR
 #define STATIC_DCLOCK
 #define STATIC_WINCMD
+#define STATIC_LWWINDOWSMINIMIZER
 #define STATIC_DIRMENU
 #define STATIC_TASKBAR
 #define STATIC_PAGER
