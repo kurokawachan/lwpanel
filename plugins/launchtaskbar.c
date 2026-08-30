@@ -2409,27 +2409,56 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
     gchar *res_class = task_get_class(win);
     TaskButton *task;
 
-    if (!tb->grouped_tasks || res_class == NULL)
+    // Here we lookup settings if we need to group windows
+    // If we don't need to group windows, we just create a new button
+    if (!tb->grouped_tasks)
     {
-        list = NULL;
-    }
-    else
-    {
-        for (; list; list = list->next)
-        {
-            if (task_button_add_window(list->data, win, res_class))
-            {
-                break;
-            }
-        }
-    }
-    if (list != NULL)
-    {
-        return; /* some button accepted it, done */
+        task = task_button_new(
+            win,
+            tb->current_desktop,
+            tb->number_of_desktops,
+            tb->panel,
+            res_class,
+            tb->flags);
+        taskbar_add_task_button(tb, task);
+
+        return;
     }
 
-    task = task_button_new(win, tb->current_desktop, tb->number_of_desktops,
-                           tb->panel, res_class, tb->flags);
+    // Some window might not have a res_class set
+    // if the window doesn't set res_class
+    // we just create a new button and return
+    if (res_class == NULL)
+    {
+        task = task_button_new(
+            win,
+            tb->current_desktop,
+            tb->number_of_desktops,
+            tb->panel,
+            res_class,
+            tb->flags);
+        taskbar_add_task_button(tb, task);
+
+        return;
+    }
+
+    // we search which button we could use to add this window
+    // if we found one, we would task_button_add_window
+    for (; list; list = list->next)
+    {
+        if (task_button_add_window(list->data, win, res_class))
+        {
+            return; /* some button accepted it, done */
+        }
+    }
+
+    task = task_button_new(
+        win,
+        tb->current_desktop,
+        tb->number_of_desktops,
+        tb->panel,
+        res_class,
+        tb->flags);
     taskbar_add_task_button(tb, task);
 }
 
