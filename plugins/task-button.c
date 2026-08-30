@@ -144,7 +144,9 @@ static gboolean task_has_urgency(Window win)
     if (hints != NULL)
     {
         if (hints->flags & XUrgencyHint)
+        {
             result = TRUE;
+        }
         XFree(hints);
     }
     // FIXME: also test _NET_WM_STATE_DEMANDS_ATTENTION flag in _NET_WM_STATE
@@ -162,7 +164,9 @@ static gboolean task_set_names(TaskDetails *tk, Atom source)
     {
         name = get_utf8_property(tk->win, a_NET_WM_VISIBLE_NAME);
         if (name != NULL)
+        {
             tk->name_source = a_NET_WM_VISIBLE_NAME;
+        }
     }
 
     /* Try _NET_WM_NAME, which supports UTF-8, but do not overwrite _NET_WM_VISIBLE_NAME. */
@@ -170,7 +174,9 @@ static gboolean task_set_names(TaskDetails *tk, Atom source)
     {
         name = get_utf8_property(tk->win, a_NET_WM_NAME);
         if (name != NULL)
+        {
             tk->name_source = a_NET_WM_NAME;
+        }
     }
 
     /* Try WM_NAME, which supports only ISO-8859-1, but do not overwrite _NET_WM_VISIBLE_NAME or _NET_WM_NAME. */
@@ -178,7 +184,9 @@ static gboolean task_set_names(TaskDetails *tk, Atom source)
     {
         name = get_textproperty(tk->win, XA_WM_NAME);
         if (name != NULL)
+        {
             tk->name_source = XA_WM_NAME;
+        }
     }
 
     /* Set the name into the task context, and also on the tooltip. */
@@ -199,7 +207,9 @@ static gboolean task_is_visible(TaskButton *b, TaskDetails *task)
 {
     /* Not on same monitor */
     if (b->flags.same_monitor_only && b->monitor != task->monitor && b->monitor >= 0)
+    {
         return FALSE;
+    }
 
     /* Desktop placement. */
     return ((task->desktop == ALL_WORKSPACES) ||
@@ -247,7 +257,9 @@ static void free_task_details(TaskDetails *details)
 {
     g_free(details->name);
     if (details->icon)
+    {
         g_object_unref(details->icon);
+    }
     g_slice_free(TaskDetails, details);
 }
 
@@ -256,8 +268,12 @@ static TaskDetails *task_details_lookup(TaskButton *task, Window win)
     GList *l;
 
     for (l = task->details; l; l = l->next)
+    {
         if (((TaskDetails *)l->data)->win == win)
+        {
             return l->data;
+        }
+    }
     return NULL;
 }
 
@@ -284,8 +300,10 @@ static void menu_raise_window(GtkWidget *widget, GtkWidget *taskbar)
     Screen *screen = GDK_SCREEN_XSCREEN(gtk_widget_get_screen(widget));
 
     if ((tk->desktop != ALL_WORKSPACES) && (tk->desktop != tb->desktop))
+    {
         Xclimsgx(screen, RootWindowOfScreen(screen), a_NET_CURRENT_DESKTOP,
                  tk->desktop, 0, 0, 0, 0);
+    }
     XMapRaised(DisplayOfScreen(screen), tk->win);
 }
 
@@ -397,7 +415,9 @@ static GtkWidget *taskbar_make_menu(TaskButton *tb, GtkWidget *parent)
             g_signal_connect(mi, "activate", G_CALLBACK(menu_move_to_workspace), parent);
             gtk_menu_shell_append(GTK_MENU_SHELL(workspace_menu), mi);
             if (G_UNLIKELY(workspace_menu0 == NULL))
+            {
                 workspace_menu0 = mi;
+            }
         }
         g_object_set_data(G_OBJECT(menu), "task-menu-workspace0", workspace_menu0);
 
@@ -423,9 +443,13 @@ static GtkWidget *taskbar_make_menu(TaskButton *tb, GtkWidget *parent)
 
     /* Add Close menu item.  By popular demand, we place this menu item closest to the cursor. */
     if (panel_is_at_bottom(tb->panel))
+    {
         _m_add = gtk_menu_shell_append;
+    }
     else
+    {
         _m_add = gtk_menu_shell_prepend;
+    }
 
     _m_add(GTK_MENU_SHELL(menu), gtk_separator_menu_item_new());
     mi = gtk_menu_item_new_with_mnemonic(_("_Close Window"));
@@ -461,9 +485,13 @@ static GtkWidget *get_task_button_menu(TaskButton *tb, TaskDetails *task)
         GList *items = gtk_container_get_children(GTK_CONTAINER(gtk_widget_get_parent(workspace_menu0)));
         GList *item = g_list_find(items, workspace_menu0);
         int i;
-        if (item != NULL) /* else error */
+        if (item != NULL)
+        { /* else error */
             for (i = 0; i < tb->n_desktops; i++, item = item->next)
+            {
                 gtk_widget_set_sensitive(item->data, i != task->desktop);
+            }
+        }
         g_list_free(items);
     }
     // FIXME: do the same for 'All workspaces' item
@@ -484,12 +512,16 @@ static void task_raise_window(TaskButton *tb, TaskDetails *tk, guint32 time)
 
     /* Change desktop if needed. */
     if ((tk->desktop != ALL_WORKSPACES) && (tk->desktop != tb->desktop))
+    {
         Xclimsgx(xscreen, RootWindowOfScreen(xscreen), a_NET_CURRENT_DESKTOP, tk->desktop, 0, 0, 0, 0);
+    }
 
     /* Raise the window.  We can use NET_ACTIVE_WINDOW if the window manager supports it.
      * Otherwise, do it the old way with XMapRaised and XSetInputFocus. */
     if (tb->flags.use_net_active)
+    {
         Xclimsgx(xscreen, tk->win, a_NET_ACTIVE_WINDOW, 2, time, 0, 0, 0);
+    }
     else
     {
 #if GTK_CHECK_VERSION(2, 24, 0)
@@ -498,16 +530,22 @@ static void task_raise_window(TaskButton *tb, TaskDetails *tk, guint32 time)
         GdkWindow *gdkwindow = gdk_xid_table_lookup(tk->win);
 #endif
         if (gdkwindow != NULL)
+        {
             gdk_window_show(gdkwindow);
+        }
         else
+        {
             XMapRaised(xdisplay, tk->win);
+        }
 
         /* There is a race condition between the X server actually executing the XMapRaised and this code executing XSetInputFocus.
          * If the window is not viewable, the XSetInputFocus will fail with BadMatch. */
         XWindowAttributes attr;
         XGetWindowAttributes(xdisplay, tk->win, &attr);
         if (attr.map_state == IsViewable)
+        {
             XSetInputFocus(xdisplay, tk->win, RevertToNone, time);
+        }
     }
 
     /* Change viewport if needed. */
@@ -533,11 +571,17 @@ static gboolean task_button_window_do_release_event(GtkWidget *tb, TaskDetails *
          * If the task is not iconified and has focus, iconify it.
          * If the task is not iconified and does not have focus, raise it. */
         if (task->iconified)
+        {
             task_raise_window(PANEL_TASK_BUTTON(tb), task, event->time);
+        }
         else if (task->focused)
+        {
             XIconifyWindow(xdisplay, task->win, DefaultScreen(xdisplay));
+        }
         else
+        {
             task_raise_window(PANEL_TASK_BUTTON(tb), task, event->time);
+        }
     }
     else if (event->button == 2)
     {
@@ -560,16 +604,26 @@ static gboolean taskbar_popup_activate_event(GtkWidget *widget, GdkEventButton *
 
     /* find details of this menu item and set tk->menu_target */
     for (l = tk->details; l; l = l->next)
+    {
         if (((TaskDetails *)l->data)->menu_item == widget)
+        {
             break;
-    if (l == NULL) /* it's impossible really */
+        }
+    }
+    if (l == NULL)
+    { /* it's impossible really */
         return FALSE;
+    }
     /* if button 1 or 2 pressed then handle it the same as button-release
        event on a single task button */
     if (event->button == 1 || event->button == 2)
+    {
         return task_button_window_do_release_event(GTK_WIDGET(tk), l->data, event);
-    else if (event->button != 3) /* don't process other buttons */
+    }
+    else if (event->button != 3)
+    { /* don't process other buttons */
         return FALSE;
+    }
     /* process event the same way as for single task button */
     menu = get_task_button_menu(tk, l->data);
     /* attach and show menu */
@@ -584,10 +638,16 @@ static void menu_task_selected(GtkMenuItem *item, TaskButton *tb)
     TaskDetails *task;
 
     for (l = tb->details; l; l = l->next)
+    {
         if ((task = l->data)->menu_item == (GtkWidget *)item)
+        {
             break;
-    if (l == NULL) /* it's impossible really */
+        }
+    }
+    if (l == NULL)
+    { /* it's impossible really */
         return;
+    }
     tb->menu_target = task->win;
     // FIXME: auto attach menu?
 }
@@ -598,10 +658,16 @@ static void menu_task_deselected(GtkMenuItem *item, TaskButton *tb)
     TaskDetails *task;
 
     for (l = tb->details; l; l = l->next)
+    {
         if ((task = l->data)->menu_item == (GtkWidget *)item)
+        {
             break;
-    if (l == NULL) /* it's impossible really */
+        }
+    }
+    if (l == NULL)
+    { /* it's impossible really */
         return;
+    }
     /* remove submenu from item */
     gtk_menu_item_set_submenu(item, NULL);
 }
@@ -732,7 +798,9 @@ static GdkPixbuf *_wnck_gdk_pixbuf_get_from_pixmap(GdkScreen *screen, Pixmap xpi
     gdk_error_trap_push();
 
     if (!XGetWindowAttributes(xdisplay, win, &attrs))
+    {
         goto TRAP_POP;
+    }
 
     if (attrs.depth == 1)
     {
@@ -756,7 +824,9 @@ static GdkPixbuf *_wnck_gdk_pixbuf_get_from_pixmap(GdkScreen *screen, Pixmap xpi
 TRAP_POP:
     gdk_flush();
     if (gdk_error_trap_pop())
+    {
         g_warning("task button : X error");
+    }
 
     return pixbuf;
 }
@@ -837,7 +907,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
         if ((type != XA_CARDINAL) || (nitems <= 0))
         {
             if (data != NULL)
+            {
                 XFree(data);
+            }
             result = -1;
         }
 
@@ -863,7 +935,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                 /* Bounds check the icon. Also check for invalid width and height,
                    see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=801319 */
                 if (size == 0 || w > 1024 || h > 1024 || pdata + size > pdata_end)
+                {
                     break;
+                }
 
                 /* Rare special case: the desired size is the same as icon size. */
                 if ((required_width == w) && (required_height == h))
@@ -916,7 +990,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                 possible_source = a_NET_WM_ICON;
             }
             else
+            {
                 result = -1;
+            }
 
             /* Free the X property data. */
             XFree(data);
@@ -936,9 +1012,13 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
         {
             /* WM_HINTS is available.  Extract the X pixmap and mask. */
             if ((hints->flags & IconPixmapHint))
+            {
                 xpixmap = hints->icon_pixmap;
+            }
             if ((hints->flags & IconMaskHint))
+            {
                 xmask = hints->icon_mask;
+            }
             XFree(hints);
             if (xpixmap != None)
             {
@@ -946,7 +1026,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                 possible_source = XA_WM_HINTS;
             }
             else
+            {
                 result = -1;
+            }
         }
 
         if (result != Success)
@@ -970,7 +1052,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
             if (type != kwin_win_icon_atom)
             {
                 if (icons != NULL)
+                {
                     XFree(icons);
+                }
                 result = -1;
             }
 
@@ -985,7 +1069,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                     possible_source = kwin_win_icon_atom;
                 }
                 else
+                {
                     result = -1;
+                }
             }
         }
 
@@ -1036,7 +1122,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
 
     /* If we got a pixmap, scale it and return it. */
     if (pixmap == NULL)
+    {
         return NULL;
+    }
     else
     {
         GdkPixbuf *ret;
@@ -1047,7 +1135,9 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
             guint w = gdk_pixbuf_get_width(pixmap);
             guint h = gdk_pixbuf_get_height(pixmap);
             if (w <= required_width || h <= required_height)
+            {
                 return pixmap;
+            }
         }
         ret = gdk_pixbuf_scale_simple(pixmap, required_width, required_height,
                                       GDK_INTERP_BILINEAR);
@@ -1062,7 +1152,9 @@ static void _task_update_icon(TaskButton *task, TaskDetails *details, Atom sourc
     GdkPixbuf *pixbuf = NULL;
 
     if (source == a_NET_ACTIVE_WINDOW && details != NULL)
+    {
         pixbuf = details->icon; /* use cached icon */
+    }
 
     /* Get the icon from the window's hints. */
     if (details != NULL && pixbuf == NULL)
@@ -1073,12 +1165,16 @@ static void _task_update_icon(TaskButton *task, TaskDetails *details, Atom sourc
         {
             /* replace old cached image */
             if (details->icon)
+            {
                 g_object_unref(details->icon);
+            }
             details->icon = g_object_ref_sink(pixbuf);
         }
         else
+        {
             /* use cached icon if available */
             pixbuf = details->icon;
+        }
     }
 
     /* If that fails, and we have no other icon yet, return the fallback icon. */
@@ -1092,13 +1188,17 @@ static void _task_update_icon(TaskButton *task, TaskDetails *details, Atom sourc
         {
             pixbuf = gdk_pixbuf_new_from_xpm_data((const char **)icon_xpm);
             if (pixbuf != NULL)
+            {
                 g_object_set_data_full(parent, "task-fallback-pixbuf",
                                        g_object_ref_sink(pixbuf), g_object_unref);
+            }
         }
     }
 
     if (pixbuf != NULL)
+    {
         gtk_image_set_from_pixbuf(GTK_IMAGE(task->image), pixbuf);
+    }
 }
 
 static gboolean task_update_icon_idle(gpointer user_data)
@@ -1108,14 +1208,18 @@ static gboolean task_update_icon_idle(gpointer user_data)
     TaskDetails *details;
 
     if (g_source_is_destroyed(g_main_current_source()))
+    {
         return FALSE;
+    }
     task = user_data;
     task->idle_loader = 0;
     for (l = task->details; l; l = l->next)
     {
         details = l->data;
         if (details->icon == NULL)
+        {
             _task_update_icon(task, details, None);
+        }
     }
     return FALSE;
 }
@@ -1123,11 +1227,15 @@ static gboolean task_update_icon_idle(gpointer user_data)
 static void task_update_icon(TaskButton *task, TaskDetails *details, Atom source)
 {
     if (source != None || (details && details->icon))
+    {
         _task_update_icon(task, details, source);
+    }
     else if (task->idle_loader == 0)
+    {
         task->idle_loader = gdk_threads_add_timeout_full(G_PRIORITY_LOW, 20,
                                                          task_update_icon_idle,
                                                          task, NULL);
+    }
 }
 
 /* Draw the label and tooltip on a taskbar button. */
@@ -1136,26 +1244,42 @@ static void task_draw_label(TaskButton *tb, gboolean bold_style, gboolean force)
     GString *str;
     gboolean old_bold = !!tb->set_bold;
 
-    if (!force && old_bold == bold_style) /* nothing to do */
+    if (!force && old_bold == bold_style)
+    { /* nothing to do */
         return;
-    if (tb->flags.icons_only) /* no label to show */
+    }
+    if (tb->flags.icons_only)
+    { /* no label to show */
         return;
+    }
 
     tb->set_bold = bold_style;
     str = g_string_sized_new(32);
     if (!tb->visible && tb->flags.show_square_brackets)
+    {
         g_string_append_c(str, '[');
+    }
     if (tb->n_visible > 1)
+    {
         g_string_append_printf(str, "(%d) ", tb->n_visible);
+    }
     if (!tb->same_name || !tb->last_focused || !tb->last_focused->name)
+    {
         g_string_append(str, tb->res_class);
+    }
     else
+    {
         g_string_append(str, tb->last_focused->name);
+    }
     if (!tb->visible && tb->flags.show_square_brackets)
+    {
         g_string_append_c(str, ']');
+    }
 
     if (force && tb->flags.tooltips)
+    {
         gtk_widget_set_tooltip_text(GTK_WIDGET(tb), str->str);
+    }
 
     lxpanel_draw_label_text(tb->panel, tb->label, str->str, bold_style, 1,
                             tb->flags.flat_button);
@@ -1186,19 +1310,29 @@ static gboolean task_update_visibility(TaskButton *task)
         details = l->data;
         details->visible = task_is_visible(task, details);
         if (!details->visible)
+        {
             continue;
+        }
         if (details->monitor == task->monitor && !details->iconified)
+        {
             /* window is visible on the current desktop */
             task->visible = TRUE;
+        }
         /* Compute the visible name.  If all visible windows have the same title, use that.
          * Otherwise, use the class name.  This follows WNCK. */
         if (first_visible == NULL)
+        {
             first_visible = details;
+        }
         else if (task->same_name && g_strcmp0(first_visible->name, details->name) != 0)
+        {
             task->same_name = FALSE;
+        }
         task->n_visible++;
         if (task->last_focused == NULL || !task->last_focused->visible)
+        {
             task->last_focused = details;
+        }
     }
     if (!task->n_visible && old_n_visible)
     {
@@ -1207,8 +1341,10 @@ static gboolean task_update_visibility(TaskButton *task)
         return FALSE;
     }
     else if (task->n_visible && !old_n_visible)
+    {
         /* task button became visible */
         gtk_widget_show(GTK_WIDGET(task));
+    }
     return (task->n_visible != old_n_visible ||      /* n_visible changed */
             (!task->visible) == old_visible ||       /* visible changed */
             (!task->same_name) == old_same_name ||   /* visible name changed */
@@ -1227,10 +1363,14 @@ static void task_button_finalize(GObject *object)
     /* free all data */
     g_free(self->res_class);
     if (self->menu_list)
+    {
         g_object_remove_weak_pointer(G_OBJECT(self->menu_list),
                                      (void **)&self->menu_list);
+    }
     if (self->idle_loader)
+    {
         g_source_remove(self->idle_loader);
+    }
     g_list_free_full(self->details, (GDestroyNotify)free_task_details);
 
     G_OBJECT_CLASS(task_button_parent_class)->finalize(object);
@@ -1260,7 +1400,9 @@ static gboolean task_button_button_press_event(GtkWidget *widget, GdkEventButton
         }
         /* detach menu from other button it it's already attached */
         if ((mi = gtk_menu_get_attach_widget(GTK_MENU(menu))) != NULL)
+        {
             gtk_menu_detach(GTK_MENU(menu));
+        }
         /* attach menu to the widget and show it */
         gtk_menu_attach_to_widget(GTK_MENU(menu), widget, NULL);
         gtk_menu_popup(GTK_MENU(menu), NULL, NULL, taskbar_popup_set_position,
@@ -1277,11 +1419,12 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
     char *name;
 
     if (!tb->entered_state)
+    {
         /* SF bug#731: don't process button release with DND. Also if button was
            released outside of widget but DND wasn't activated: this might happen
            if drag started at edge of button so drag treshold wasn't reached. */
         ;
-
+    }
     else if (tb->n_visible > 1)
     {
         /* This is grouped-task representative, meaning that there is a class
@@ -1325,7 +1468,9 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
                     gtk_menu_shell_append(GTK_MENU_SHELL(tb->menu_list), task->menu_item);
                 }
                 else
+                {
                     task->menu_item = NULL;
+                }
             }
             /* Show the menu.  Set context so we can find the menu later to dismiss it.
              * Use a position-calculation callback to get the menu nicely
@@ -1344,7 +1489,9 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
 
     /* As a matter of policy, avoid showing selected or prelight states on flat buttons. */
     if (tb->flags.flat_button)
+    {
         gtk_widget_set_state(widget, GTK_STATE_NORMAL);
+    }
     return TRUE;
 }
 
@@ -1356,7 +1503,9 @@ static gboolean task_button_enter_notify_event(GtkWidget *widget, GdkEventCrossi
     task_draw_label(tb, tb->flags.flat_button, FALSE);
     /* As a matter of policy, avoid showing selected or prelight states on flat buttons. */
     if (tb->flags.flat_button)
+    {
         return TRUE;
+    }
     return GTK_WIDGET_CLASS(task_button_parent_class)->enter_notify_event(widget, event);
 }
 
@@ -1367,7 +1516,9 @@ static gboolean task_button_leave_notify_event(GtkWidget *widget, GdkEventCrossi
     tb->entered_state = FALSE;
     task_draw_label(tb, FALSE, FALSE);
     if (tb->flags.flat_button)
+    {
         return TRUE;
+    }
     return GTK_WIDGET_CLASS(task_button_parent_class)->leave_notify_event(widget, event);
 }
 
@@ -1378,7 +1529,9 @@ static gboolean task_button_scroll_event(GtkWidget *widget, GdkEventScroll *even
     if (tb->flags.use_mouse_wheel && tb->n_visible == 1)
     {
         if ((event->direction == GDK_SCROLL_UP) || (event->direction == GDK_SCROLL_LEFT))
+        {
             task_raise_window(tb, tb->last_focused, event->time);
+        }
         else
         {
             Display *xdisplay = GDK_DISPLAY_XDISPLAY(gtk_widget_get_display(widget));
@@ -1398,8 +1551,12 @@ static void task_button_size_allocate(GtkWidget *widget, GtkAllocation *alloc)
 
     /* Set iconifying animation for all related windows into this button */
     if (gtk_widget_get_realized(widget))
+    {
         for (l = tb->details; l; l = l->next)
+        {
             map_xwindow_animation(widget, ((TaskDetails *)l->data)->win, alloc);
+        }
+    }
 }
 
 static void task_button_class_init(TaskButtonClass *klass)
@@ -1478,7 +1635,9 @@ TaskButton *task_button_new(Window win, gint desk, gint desks, LXPanel *panel,
     self->monitor = panel_get_monitor(panel);
     self->icon_size = panel_get_icon_size(panel);
     if (flags.use_smaller_icons)
+    {
         self->icon_size -= 4;
+    }
     self->res_class = g_strdup(res_class);
     self->flags = flags;
     /* create empty image and label */
@@ -1500,8 +1659,12 @@ gboolean task_button_has_window(TaskButton *button, Window win)
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button), FALSE);
 
     for (l = button->details; l; l = l->next)
+    {
         if (((TaskDetails *)l->data)->win == win)
+        {
             return TRUE;
+        }
+    }
     return FALSE;
 }
 
@@ -1520,14 +1683,20 @@ void task_button_update_windows_list(TaskButton *button, Window *list, gint n)
         next = l->next;
         details = l->data;
         for (i = 0; i < n; i++)
+        {
             if (list[i] == details->win)
+            {
                 break;
+            }
+        }
         if (i >= n) /* not found, remove details now */
         {
             button->details = g_list_delete_link(button->details, l);
             free_task_details(details);
             if (button->last_focused == details)
+            {
                 button->last_focused = NULL;
+            }
             has_removed = TRUE;
         }
         l = next; /* go next details */
@@ -1546,7 +1715,9 @@ void task_button_update_windows_list(TaskButton *button, Window *list, gint n)
         gtk_widget_destroy(GTK_WIDGET(button));
     }
     else if (has_removed && task_update_visibility(button))
+    {
         task_redraw_label(button);
+    }
     // FIXME: test if need to update menu
 }
 
@@ -1559,7 +1730,9 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
 
     details = task_details_lookup(button, win);
     if (details == NULL)
+    {
         return FALSE;
+    }
 
     /* Dispatch on atom. */
     if (atom == a_NET_WM_DESKTOP)
@@ -1568,13 +1741,17 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
         details->desktop = get_net_wm_desktop(win);
         details->visible = task_is_visible(button, details);
         if (task_update_visibility(button))
+        {
             task_redraw_label(button);
+        }
     }
     else if ((atom == XA_WM_NAME) || (atom == a_NET_WM_NAME) || (atom == a_NET_WM_VISIBLE_NAME))
     {
         /* Window changed name. */
         if (task_set_names(details, atom))
+        {
             task_redraw_label(button);
+        }
     }
     else if (atom == XA_WM_CLASS)
     {
@@ -1586,7 +1763,9 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
         ch.res_class = NULL;
         XGetClassHint(GDK_DISPLAY_XDISPLAY(gdk_display_get_default()), win, &ch);
         if (ch.res_name != NULL)
+        {
             XFree(ch.res_name);
+        }
         if (ch.res_class != NULL)
         {
             res_class = g_locale_to_utf8(ch.res_class, -1, NULL, NULL, NULL);
@@ -1596,7 +1775,9 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
                 g_free(button->res_class);
                 button->res_class = res_class;
                 if (!button->same_name)
+                {
                     task_redraw_label(button);
+                }
             }
         }
     }
@@ -1606,7 +1787,9 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
         details->iconified = (get_wm_state(win) == IconicState);
         details->visible = task_is_visible(button, details);
         if (task_update_visibility(button))
+        {
             task_redraw_label(button);
+        }
     }
     else if (atom == XA_WM_HINTS)
     {
@@ -1619,7 +1802,9 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
             details->visible = task_is_visible(button, details);
             task_update_visibility(button);
             if (details->visible)
+            {
                 button->last_focused = details;
+            }
             task_redraw_label(button);
         }
         /* Window changed "window manager hints".
@@ -1678,13 +1863,17 @@ gboolean task_button_window_focus_changed(TaskButton *button, Window *win)
             button->last_focused = details;
         }
         else
+        {
             details->focused = FALSE;
+        }
     }
     if (res)
     {
         /* for no flat buttons we have to reflect focus by button state */
         if (!button->flags.flat_button)
+        {
             gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
+        }
         /* if focus changed that means button widgets may need update */
         task_update_icon(button, button->last_focused, a_NET_ACTIVE_WINDOW);
         task_redraw_label(button);
@@ -1709,7 +1898,9 @@ gboolean task_button_window_reconfigured(TaskButton *button, Window win)
 
     details = task_details_lookup(button, win);
     if (details == NULL)
+    {
         return FALSE;
+    }
 
     /* If the same_monitor_only option is set and the window is on a different
        monitor than before, redraw the task button */
@@ -1736,14 +1927,22 @@ void task_button_update(TaskButton *button, gint desk, gint desks,
     g_return_if_fail(PANEL_IS_TASK_BUTTON(button));
 
     if (button->desktop != desk || button->monitor != mon || button->flags.show_all_desks != flags.show_all_desks || button->flags.same_monitor_only != flags.same_monitor_only)
+    {
         changed = TRUE;
+    }
     if (button->n_desktops != desks)
+    {
         task_button_reset_menu(gtk_widget_get_parent(GTK_WIDGET(button)));
+    }
     if (button->icon_size != icon_size || button->flags.disable_taskbar_upscale != flags.disable_taskbar_upscale)
+    {
         changed_icon = TRUE;
+    }
     if (button->flags.flat_button != flags.flat_button ||
         button->flags.show_square_brackets != flags.show_square_brackets)
+    {
         changed_label = TRUE;
+    }
     if (button->flags.icons_only != flags.icons_only)
     {
         changed_label = !flags.icons_only;
@@ -1757,7 +1956,9 @@ void task_button_update(TaskButton *button, gint desk, gint desks,
             gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
         }
         else
+        {
             gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NORMAL);
+        }
     }
     button->desktop = desk;
     button->n_desktops = desks;
@@ -1768,13 +1969,19 @@ void task_button_update(TaskButton *button, gint desk, gint desks,
     if (changed)
     {
         if (task_update_visibility(button))
+        {
             changed_label = TRUE;
+        }
         // FIXME: test if need to update menu
     }
     if (changed_label)
+    {
         task_redraw_label(button);
+    }
     if (changed_icon)
+    {
         task_update_icon(button, button->last_focused, None);
+    }
 }
 
 /* updates state for flashing buttons, including menu list */
@@ -1795,13 +2002,17 @@ void task_button_set_flash_state(TaskButton *button, gboolean state)
             m_state = state;
         }
         else
+        {
             m_state = FALSE;
+        }
         if (button->menu_list && details->menu_item
             /* don't ever touch selected menu item, it makes odd effects */
             && button->menu_target != details->win)
+        {
             /* if submenu exists and mapped then set state too */
             gtk_widget_set_state(details->menu_item,
                                  m_state ? GTK_STATE_SELECTED : GTK_STATE_NORMAL);
+        }
     }
     /* Set state on the button and redraw. */
     if (button->flags.flat_button)
@@ -1809,18 +2020,24 @@ void task_button_set_flash_state(TaskButton *button, gboolean state)
         if (has_flash || button->has_flash)
         {
             if (!has_flash)
+            {
                 state = button->entered_state;
+            }
             task_draw_label(button, state, FALSE); /* we have to redraw bold text state */
         }
     }
     else if (has_flash)
+    {
         gtk_widget_set_state(GTK_WIDGET(button),
                              state ? GTK_STATE_SELECTED : GTK_STATE_NORMAL);
+    }
     else if (!button->entered_state && button->has_flash)
+    {
         /* if flash state just disappeared and button isn't hovered then
            update the state, otherwise it will be updated on mouse leave */
         gtk_widget_set_state(GTK_WIDGET(button),
                              button->last_focused == NULL ? GTK_STATE_NORMAL : GTK_STATE_ACTIVE);
+    }
     button->has_flash = has_flash;
 }
 
@@ -1833,7 +2050,9 @@ gboolean task_button_add_window(TaskButton *button, Window win, const char *cl)
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button), FALSE);
 
     if (g_strcmp0(button->res_class, cl) != 0)
+    {
         return FALSE;
+    }
     /* fetch task details */
     details = task_details_for_window(button, win);
     button->details = g_list_append(button->details, details);
@@ -1841,7 +2060,9 @@ gboolean task_button_add_window(TaskButton *button, Window win, const char *cl)
     if (details->visible)
     {
         if (task_update_visibility(button))
+        {
             task_redraw_label(button);
+        }
         // FIXME: test if need to update menu
     }
     gtk_widget_get_allocation(GTK_WIDGET(button), &alloc);
@@ -1858,12 +2079,20 @@ gboolean task_button_drop_window(TaskButton *button, Window win, gboolean leave_
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button), FALSE);
 
     if (leave_last && g_list_length(button->details) <= 1)
+    {
         return FALSE;
+    }
     for (l = button->details; l; l = l->next)
+    {
         if (((TaskDetails *)l->data)->win == win)
+        {
             break;
-    if (l == NULL) /* not our window */
+        }
+    }
+    if (l == NULL)
+    { /* not our window */
         return FALSE;
+    }
     if (g_list_length(button->details) == 1)
     {
         /* this was last window, destroy the button */
@@ -1874,18 +2103,24 @@ gboolean task_button_drop_window(TaskButton *button, Window win, gboolean leave_
     button->details = g_list_delete_link(button->details, l);
     was_last_focused = (button->last_focused == details);
     if (was_last_focused)
+    {
         button->last_focused = NULL;
+    }
     if (details->visible)
     {
         task_update_visibility(button);
         if (was_last_focused)
+        {
             task_update_icon(button, button->last_focused, None);
+        }
         task_redraw_label(button);
         // FIXME: test if need to update menu
     }
     /* bug SF#823: menu may be still opened for this window */
     if (button->menu_list && details->menu_item)
+    {
         gtk_widget_destroy(details->menu_item);
+    }
     free_task_details(details);
     return TRUE;
 }
@@ -1899,7 +2134,9 @@ TaskButton *task_button_split(TaskButton *button)
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button), NULL);
 
     if (g_list_length(button->details) < 2)
+    {
         return NULL;
+    }
     sibling = g_object_new(PANEL_TYPE_TASK_BUTTON,
                            "relief", button->flags.flat_button ? GTK_RELIEF_NONE : GTK_RELIEF_NORMAL,
                            NULL);
@@ -1945,7 +2182,9 @@ gboolean task_button_merge(TaskButton *button, TaskButton *sibling)
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button) && PANEL_IS_TASK_BUTTON(sibling), FALSE);
 
     if (g_strcmp0(button->res_class, sibling->res_class) != 0)
+    {
         return FALSE;
+    }
     /* move data lists from sibling appending to button */
     button->details = g_list_concat(button->details, sibling->details);
     sibling->details = NULL;
@@ -1977,7 +2216,11 @@ void task_button_reset_menu(GtkWidget *parent)
 void task_button_raise_window(TaskButton *button, guint32 time)
 {
     if (!PANEL_IS_TASK_BUTTON(button))
+    {
         return;
+    }
     if (button->details)
+    {
         task_raise_window(button, button->details->data, time);
+    }
 }
