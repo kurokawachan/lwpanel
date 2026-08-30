@@ -223,8 +223,10 @@ static TaskDetails *task_details_for_window(TaskButton *button, Window win)
 #else
     if (!gdk_window_lookup(win))
 #endif
+    {
         XSelectInput(GDK_DISPLAY_XDISPLAY(display), win,
                      PropertyChangeMask | StructureNotifyMask);
+    }
 
     /* fetch task details */
     details->win = win;
