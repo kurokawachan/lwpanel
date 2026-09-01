@@ -2137,6 +2137,33 @@ static gboolean accept_net_wm_window_type(NetWMWindowType *nwwt)
     return (!((nwwt->desktop) || (nwwt->dock) || (nwwt->splash)));
 }
 
+/* Get the pid string associated with a Window. */
+//
+// Note
+//
+// The return value should be freed using
+//
+// free()
+//
+static char *task_get_pid_string(Window win)
+{
+    GPid *pid_pointer = get_net_wm_pid_for_window(win);
+    if (NULL == pid_pointer)
+    {
+        return NULL;
+    }
+    GPid pid = *pid_pointer;
+    free(pid_pointer);
+
+    int str_len = snprintf(NULL, 0, "%d", (int)pid);
+
+    int buf_len = str_len + 1;
+    char *str = malloc(buf_len);
+    snprintf(str, buf_len, "%d", (int)pid);
+
+    return str;
+}
+
 /* Set the class associated with a task. */
 static char *task_get_class(Window win)
 {
@@ -2407,7 +2434,10 @@ static void taskbar_add_task_button(LaunchTaskBarPlugin *tb, TaskButton *task)
 static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *list)
 {
     gchar *res_class = task_get_class(win);
-    TaskButton *task;
+    char *pid_string = task_get_pid_string(win);
+    // free(pid_string);
+    // g_free(res_class);
+    TaskButton *task = NULL;
 
     // Here we lookup settings if we need to group windows
     // If we don't need to group windows, we just create a new button
@@ -2419,16 +2449,19 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
             tb->number_of_desktops,
             tb->panel,
             res_class,
+            pid_string,
             tb->flags);
         taskbar_add_task_button(tb, task);
 
+        free(pid_string);
+        g_free(res_class);
         return;
     }
 
-    // Some window might not have a res_class set
-    // if the window doesn't set res_class
+    // Some window might not have _NET_WM_PID set
+    // if the window doesn't set _NET_WM_PID
     // we just create a new button and return
-    if (res_class == NULL)
+    if (pid_string == NULL)
     {
         task = task_button_new(
             win,
@@ -2436,9 +2469,12 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
             tb->number_of_desktops,
             tb->panel,
             res_class,
+            pid_string,
             tb->flags);
         taskbar_add_task_button(tb, task);
 
+        free(pid_string);
+        g_free(res_class);
         return;
     }
 
@@ -2446,8 +2482,10 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
     // if we found one, we would task_button_add_window
     for (; list; list = list->next)
     {
-        if (task_button_add_window(list->data, win, res_class))
+        if (task_button_add_window(list->data, win, pid_string))
         {
+            free(pid_string);
+            g_free(res_class);
             return; /* some button accepted it, done */
         }
     }
@@ -2458,8 +2496,12 @@ static void taskbar_add_new_window(LaunchTaskBarPlugin *tb, Window win, GList *l
         tb->number_of_desktops,
         tb->panel,
         res_class,
+        pid_string,
         tb->flags);
     taskbar_add_task_button(tb, task);
+
+    free(pid_string);
+    g_free(res_class);
 }
 
 /*****************************************************

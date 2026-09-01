@@ -135,6 +135,7 @@ int get_wm_state(Window win);
 void get_net_wm_state(Window win, NetWMState *nws);
 void get_net_wm_window_type(Window win, NetWMWindowType *nwwt);
 GPid get_net_wm_pid(Window win);
+GPid *get_net_wm_pid_for_window(Window win);
 
 /**
  * panel_handle_x_error

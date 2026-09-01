@@ -705,6 +705,37 @@ GPid get_net_wm_pid(Window win)
     RET(pid);
 }
 
+/* Get the _NET_WM_PID set by a Window. */
+//
+// This function would return NULL if no _NET_WM_PID
+// was set for this Window
+//
+// Note
+//
+// The return value should be freed using
+//
+// free()
+//
+GPid *get_net_wm_pid_for_window(Window win)
+{
+    gulong *data = NULL;
+    data = get_xaproperty(win, a_NET_WM_PID, XA_CARDINAL, 0);
+
+    if (data == NULL)
+    {
+        // The Window did not set _NET_WM_PID
+        return NULL;
+    }
+    else
+    {
+        GPid *pid_pointer = malloc(sizeof(int));
+        *pid_pointer = *data;
+
+        XFree(data);
+        return pid_pointer;
+    }
+}
+
 void get_net_wm_state(Window win, NetWMState *nws)
 {
     Atom *state;

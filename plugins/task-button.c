@@ -84,6 +84,7 @@ struct _TaskButton
 {
     GtkToggleButton parent;
     char *res_class;                /* Class name */
+    char *pid_string;               /* pid string */
     GtkWidget *image;               /* Icon for task, child of button */
     GtkWidget *label;               /* Label for task, child of button */
     LXPanel *panel;                 /* points to panel (grandparent widget) */
@@ -1362,6 +1363,7 @@ static void task_button_finalize(GObject *object)
 
     /* free all data */
     g_free(self->res_class);
+    g_free(self->pid_string);
     if (self->menu_list)
     {
         g_object_remove_weak_pointer(G_OBJECT(self->menu_list),
@@ -1621,8 +1623,14 @@ static void task_button_init(TaskButton *self)
  */
 
 /* creates new button and sets rendering options */
-TaskButton *task_button_new(Window win, gint desk, gint desks, LXPanel *panel,
-                            const char *res_class, TaskShowFlags flags)
+TaskButton *task_button_new(
+    Window win,
+    gint desk,
+    gint desks,
+    LXPanel *panel,
+    const char *res_class,
+    const char *pid_string,
+    TaskShowFlags flags)
 {
     TaskButton *self = g_object_new(PANEL_TYPE_TASK_BUTTON,
                                     "relief", flags.flat_button ? GTK_RELIEF_NONE : GTK_RELIEF_NORMAL,
@@ -1639,12 +1647,13 @@ TaskButton *task_button_new(Window win, gint desk, gint desks, LXPanel *panel,
         self->icon_size -= 4;
     }
     self->res_class = g_strdup(res_class);
+    self->pid_string = g_strdup(pid_string);
     self->flags = flags;
     /* create empty image and label */
     self->image = gtk_image_new();
     self->label = gtk_label_new(NULL);
     /* append the window and set icon/label by that */
-    task_button_add_window(self, win, self->res_class);
+    task_button_add_window(self, win, self->pid_string);
     /* and now let assemble all widgets we got */
     assemble_gui(self);
     /* and finally set visibility on it */
@@ -2042,14 +2051,14 @@ void task_button_set_flash_state(TaskButton *button, gboolean state)
 }
 
 /* adds task only if it's the same class */
-gboolean task_button_add_window(TaskButton *button, Window win, const char *cl)
+gboolean task_button_add_window(TaskButton *button, Window win, const char *group_identifier)
 {
     TaskDetails *details;
     GtkAllocation alloc;
 
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button), FALSE);
 
-    if (g_strcmp0(button->res_class, cl) != 0)
+    if (g_strcmp0(button->pid_string, group_identifier) != 0)
     {
         return FALSE;
     }
@@ -2141,6 +2150,7 @@ TaskButton *task_button_split(TaskButton *button)
                            "relief", button->flags.flat_button ? GTK_RELIEF_NONE : GTK_RELIEF_NORMAL,
                            NULL);
     sibling->res_class = g_strdup(button->res_class);
+    sibling->pid_string = g_strdup(button->pid_string);
     sibling->panel = button->panel;
     sibling->image = gtk_image_new();
     sibling->label = gtk_label_new(NULL);
@@ -2181,7 +2191,7 @@ gboolean task_button_merge(TaskButton *button, TaskButton *sibling)
 {
     g_return_val_if_fail(PANEL_IS_TASK_BUTTON(button) && PANEL_IS_TASK_BUTTON(sibling), FALSE);
 
-    if (g_strcmp0(button->res_class, sibling->res_class) != 0)
+    if (g_strcmp0(button->pid_string, sibling->pid_string) != 0)
     {
         return FALSE;
     }

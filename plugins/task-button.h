@@ -63,8 +63,14 @@ struct _TaskButtonClass
 };
 
 /* creates new button and sets rendering options */
-TaskButton *task_button_new(Window win, gint desk, gint desks, LXPanel *panel,
-                            const char *cl, TaskShowFlags flags);
+TaskButton *task_button_new(
+    Window win,
+    gint desk,
+    gint desks,
+    LXPanel *panel,
+    const char *res_class,
+    const char *pid_string,
+    TaskShowFlags flags);
 
 gboolean task_button_has_window(TaskButton *button, Window win);
 /* removes windows from button, that are missing in list */
@@ -78,7 +84,7 @@ void task_button_update(TaskButton *button, gint desk, gint desks,
                         gint mon, guint icon_size, TaskShowFlags flags);
 void task_button_set_flash_state(TaskButton *button, gboolean state);
 /* adds task only if it's the same class */
-gboolean task_button_add_window(TaskButton *button, Window win, const char *cl);
+gboolean task_button_add_window(TaskButton *button, Window win, const char *group_identifier);
 gboolean task_button_drop_window(TaskButton *button, Window win, gboolean leave_last);
 /* leaves only last task in button and returns rest if not empty */
 TaskButton *task_button_split(TaskButton *button);
