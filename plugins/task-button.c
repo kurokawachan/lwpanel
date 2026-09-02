@@ -864,7 +864,7 @@ static GdkPixbuf *apply_mask(GdkPixbuf *pixbuf, GdkPixbuf *mask)
     return with_alpha;
 }
 
-/* Get an icon from the window manager for a task, and scale it to a specified size. */
+/* Get the icon with the highest resolution from the window manager for a task. */
 static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                               guint required_height, Atom source,
                               Atom *current_source, TaskButton *tb)
@@ -937,15 +937,6 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                    see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=801319 */
                 if (size == 0 || w > 1024 || h > 1024 || pdata + size > pdata_end)
                 {
-                    break;
-                }
-
-                /* Rare special case: the desired size is the same as icon size. */
-                if ((required_width == w) && (required_height == h))
-                {
-                    max_icon = pdata;
-                    max_w = w;
-                    max_h = h;
                     break;
                 }
 
@@ -1121,29 +1112,28 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
         }
     }
 
-    /* If we got a pixmap, scale it and return it. */
-    if (pixmap == NULL)
-    {
-        return NULL;
-    }
-    else
-    {
-        GdkPixbuf *ret;
+    return pixmap;
+}
 
-        *current_source = possible_source;
-        if (tb->flags.disable_taskbar_upscale)
+/* Set the icon of a task. */
+static void set_icon(int logical_size, gint scale, GtkImage *target_image, GdkPixbuf *pixbuf_largest)
+{
+    int real_size = logical_size * scale;
+    {
+        GdkPixbuf *pixbuf_real = gdk_pixbuf_scale_simple(
+            pixbuf_largest,
+            real_size,
+            real_size,
+            GDK_INTERP_HYPER);
+        cairo_surface_t *surface = gdk_cairo_surface_create_from_pixbuf(
+            pixbuf_real,
+            scale,
+            NULL);
         {
-            guint w = gdk_pixbuf_get_width(pixmap);
-            guint h = gdk_pixbuf_get_height(pixmap);
-            if (w <= required_width || h <= required_height)
-            {
-                return pixmap;
-            }
+            gtk_image_set_from_surface(target_image, surface);
         }
-        ret = gdk_pixbuf_scale_simple(pixmap, required_width, required_height,
-                                      GDK_INTERP_BILINEAR);
-        g_object_unref(pixmap);
-        return ret;
+        cairo_surface_destroy(surface);
+        g_object_unref(pixbuf_real);
     }
 }
 
@@ -1196,9 +1186,11 @@ static void _task_update_icon(TaskButton *task, TaskDetails *details, Atom sourc
         }
     }
 
+    // We are using gdk_cairo_surface_create_from_pixbuf
     if (pixbuf != NULL)
     {
-        gtk_image_set_from_pixbuf(GTK_IMAGE(task->image), pixbuf);
+        gint scale = gtk_widget_get_scale_factor(task->image);
+        set_icon(task->icon_size, scale, GTK_IMAGE(task->image), pixbuf);
     }
 }
 
@@ -1442,6 +1434,7 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
                 gtk_menu_detach(tb->menu_list);
             }
             tb->menu_list = GTK_MENU(gtk_menu_new());
+            gtk_menu_set_reserve_toggle_size(tb->menu_list, FALSE);
             g_object_add_weak_pointer(G_OBJECT(tb->menu_list), (void **)&tb->menu_list);
             g_signal_connect(G_OBJECT(tb->menu_list), "selection-done",
                              G_CALLBACK(on_menu_list_selection_done), tb);
@@ -1454,13 +1447,31 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
                     /* The menu item has the name, or the iconified name, and
                      * the icon of the application window. */
                     name = task->iconified ? g_strdup_printf("[%s]", task->name) : NULL;
-                    task->menu_item = gtk_image_menu_item_new_with_label(name ? name : task->name);
-                    g_free(name);
-                    if (task->icon)
                     {
-                        GtkWidget *im = gtk_image_new_from_pixbuf(task->icon);
-                        gtk_image_menu_item_set_image(GTK_IMAGE_MENU_ITEM(task->menu_item), im);
+                        GtkWidget *menu_item = gtk_menu_item_new();
+                        {
+                            GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 6);
+                            {
+                                GtkWidget *icon = gtk_image_new_from_icon_name(NULL, GTK_ICON_SIZE_MENU);
+                                {
+                                    if (task->icon)
+                                    {
+                                        gint scale = gtk_widget_get_scale_factor(icon);
+                                        set_icon(tb->icon_size, scale, GTK_IMAGE(icon), task->icon);
+                                    }
+                                }
+                                GtkWidget *label = gtk_label_new(name ? name : task->name);
+                                gtk_container_add(GTK_CONTAINER(box), icon);
+                                gtk_container_add(GTK_CONTAINER(box), label);
+                            }
+                            gtk_container_add(GTK_CONTAINER(menu_item), box);
+                        }
+                        gtk_widget_show_all(menu_item);
+
+                        task->menu_item = menu_item;
                     }
+                    g_free(name);
+
                     g_signal_connect(task->menu_item, "button-press-event",
                                      G_CALLBACK(taskbar_popup_activate_event), tb);
                     g_signal_connect(task->menu_item, "select",
