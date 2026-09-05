@@ -864,6 +864,278 @@ static GdkPixbuf *apply_mask(GdkPixbuf *pixbuf, GdkPixbuf *mask)
     return with_alpha;
 }
 
+// Note
+//
+// The return value should be freed using
+//
+// g_object_unref()
+//
+GdkPixbuf *get_gdkpixbuf_using_ximage(XImage *x_image)
+{
+    if (x_image == NULL)
+    {
+        return NULL;
+    }
+
+    int width = x_image->width;
+    int height = x_image->height;
+    GdkPixbuf *pixbuf = NULL;
+
+    int number_of_bytes_per_pixel = x_image->bits_per_pixel / 8;
+    int size_of_memory = width * height * number_of_bytes_per_pixel;
+
+    // this should be freed using g_free
+    guchar *data = g_new(guchar, size_of_memory);
+    {
+        for (int j = 0; j < height; j++)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                guchar *source_data = x_image->data + j * width * number_of_bytes_per_pixel + i * number_of_bytes_per_pixel;
+                guchar *target_data = data + j * width * number_of_bytes_per_pixel + i * number_of_bytes_per_pixel;
+
+                if (x_image->byte_order == LSBFirst)
+                {
+                    // source_data[0]; // blue
+                    // source_data[1]; // green
+                    // source_data[2]; // red
+                    // source_data[3];
+
+                    // target_data[0]; // red
+                    // target_data[1]; // green
+                    // target_data[2]; // blue
+                    // target_data[3];
+
+                    target_data[0] = source_data[2];
+                    target_data[1] = source_data[1];
+                    target_data[2] = source_data[0];
+                    target_data[3] = source_data[3];
+                }
+                else
+                {
+                    target_data[0] = source_data[0];
+                    target_data[1] = source_data[1];
+                    target_data[2] = source_data[2];
+                    target_data[3] = source_data[3];
+                }
+            }
+        }
+        GdkPixbuf *pixbuf_to_delete = gdk_pixbuf_new_from_data(
+            (const guchar *)(data),
+            GDK_COLORSPACE_RGB,
+            TRUE, // If we don't set this to TRUE there would be the image skewed
+            8,
+            width, height,
+            x_image->bytes_per_line,
+            NULL, // We do not free it here
+            NULL);
+        {
+            pixbuf = gdk_pixbuf_copy(pixbuf_to_delete);
+        }
+        g_object_unref(pixbuf_to_delete);
+    }
+    g_free(data);
+
+    return pixbuf;
+}
+
+// Note
+//
+// The return value should be freed using
+//
+// g_object_unref()
+//
+GdkPixbuf *get_mask_pixbuf_with_x_image_icon_mask(
+    const GdkPixbuf *pixbuf_icon,
+    const XImage *x_image_icon_mask)
+{
+    g_return_val_if_fail(NULL != pixbuf_icon, NULL);
+    g_return_val_if_fail(NULL != x_image_icon_mask, NULL);
+
+    int width = gdk_pixbuf_get_width(pixbuf_icon);
+    int height = gdk_pixbuf_get_height(pixbuf_icon);
+    g_return_val_if_fail((width == x_image_icon_mask->width), NULL);
+    g_return_val_if_fail((height == x_image_icon_mask->height), NULL);
+
+    GdkPixbuf *pixbuf_icon_with_mask = gdk_pixbuf_add_alpha(pixbuf_icon, FALSE, 0, 0, 0);
+    guchar *pixbuf_data_pointer = gdk_pixbuf_get_pixels(pixbuf_icon_with_mask);
+    // pixbuf_data_pointer
+    {
+        int rowstride = gdk_pixbuf_get_rowstride(pixbuf_icon_with_mask);
+        // Right now this is always 4
+        int number_of_bytes_per_pixel = 4;
+        for (int j = 0; j < height; j++)
+        {
+            for (int i = 0; i < width; i++)
+            {
+                guchar *pixel_data = pixbuf_data_pointer + j * rowstride + i * number_of_bytes_per_pixel;
+                {
+                    unsigned long pixel_mask = XGetPixel(x_image_icon_mask, i, j);
+                    if (pixel_mask == 1)
+                    {
+                        pixel_data[3] = 0xff;
+                    }
+                    else
+                    {
+                        pixel_data[3] = 0x00;
+                    }
+                }
+            }
+        }
+    }
+    return pixbuf_icon_with_mask;
+}
+
+// Note
+//
+// The return value should be freed using
+//
+// XDestroyImage()
+//
+XImage *get_x_image_using_pixmap(Pixmap icon_pixmap)
+{
+    GdkDisplay *gdk_display = gdk_display_get_default();
+    Display *x_display = GDK_DISPLAY_XDISPLAY(gdk_display);
+
+    Window root_return = None;
+    int x_return = 0;
+    int y_return = 0;
+    unsigned int width_return = 0;
+    unsigned int height_return = 0;
+    unsigned int border_width_return = 0;
+    unsigned int depth_return = 0;
+
+    Status get_pixmap_size_result = XGetGeometry(
+        x_display,
+        icon_pixmap,
+        &root_return,
+        &x_return, &y_return,
+        &width_return, &height_return,
+        &border_width_return,
+        &depth_return);
+
+    // If the function fails, it returns a zero
+    if (get_pixmap_size_result == 0)
+    {
+        // fail
+        return NULL;
+    }
+    else
+    {
+        // not fail
+        {
+            XImage *x_image_icon_pixmap = XGetImage(
+                x_display,
+                icon_pixmap,
+                0, 0,
+                width_return, height_return,
+                AllPlanes, ZPixmap);
+            return x_image_icon_pixmap;
+        }
+    }
+}
+
+// Note
+//
+// The return value should be freed using
+//
+// g_object_unref()
+//
+GdkPixbuf *get_x11_window_as_icon(Window icon_window)
+{
+    GdkDisplay *gdk_display = gdk_display_get_default();
+    GdkPixbuf *result = NULL;
+
+    GdkWindow *gdk_window = gdk_x11_window_foreign_new_for_display(gdk_display, icon_window);
+    {
+        int height = gdk_window_get_height(gdk_window);
+        int width = gdk_window_get_width(gdk_window);
+        result = gdk_pixbuf_get_from_window(gdk_window, 0, 0, width, height);
+    }
+    g_object_unref(gdk_window);
+
+    return result;
+}
+
+// Note
+//
+// The return value should be freed using
+//
+// g_object_unref()
+//
+GdkPixbuf *get_wmhints_icon(Window task_win)
+{
+    GdkDisplay *gdk_display = gdk_display_get_default();
+    Display *x_display = GDK_DISPLAY_XDISPLAY(gdk_display);
+    GdkPixbuf *result = NULL;
+
+    XWMHints *hints = XGetWMHints(x_display, task_win);
+    if (hints == NULL)
+    {
+        // no WM_HINTS property was set on the window
+        return NULL;
+    }
+    {
+        if ((hints->flags & IconWindowHint))
+        {
+            Window icon_window = hints->icon_window;
+            result = get_x11_window_as_icon(icon_window);
+        }
+        else
+        {
+            if (!(hints->flags & IconPixmapHint))
+            {
+                result = NULL;
+            }
+            else
+            {
+                Pixmap icon_pixmap = hints->icon_pixmap;
+                XImage *x_image_icon_pixmap = get_x_image_using_pixmap(icon_pixmap);
+                {
+                    if (x_image_icon_pixmap == NULL)
+                    {
+                        result = NULL;
+                    }
+                    else
+                    {
+                        GdkPixbuf *pixbuf_icon_pixmap = get_gdkpixbuf_using_ximage(x_image_icon_pixmap);
+                        {
+                            if (!(hints->flags & IconMaskHint))
+                            {
+                                result = gdk_pixbuf_copy(pixbuf_icon_pixmap);
+                            }
+                            else
+                            {
+                                Pixmap icon_mask = hints->icon_mask;
+                                XImage *x_image_icon_mask = get_x_image_using_pixmap(icon_mask);
+                                {
+                                    if (x_image_icon_mask == NULL)
+                                    {
+                                        result = gdk_pixbuf_copy(pixbuf_icon_pixmap);
+                                    }
+                                    else
+                                    {
+                                        GdkPixbuf *pixbuf_icon_pixmap_with_mask =
+                                            get_mask_pixbuf_with_x_image_icon_mask(
+                                                pixbuf_icon_pixmap,
+                                                x_image_icon_mask);
+                                        result = pixbuf_icon_pixmap_with_mask;
+                                    }
+                                }
+                                XDestroyImage(x_image_icon_mask);
+                            }
+                        }
+                        g_object_unref(pixbuf_icon_pixmap);
+                    }
+                }
+                XDestroyImage(x_image_icon_pixmap);
+            }
+        }
+    }
+    XFree(hints);
+    return result;
+}
+
 /* Get the icon with the highest resolution from the window manager for a task. */
 static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
                               guint required_height, Atom source,
@@ -994,122 +1266,7 @@ static GdkPixbuf *get_wm_icon(Window task_win, guint required_width,
     /* No icon available from _NET_WM_ICON.  Next try WM_HINTS, but do not overwrite _NET_WM_ICON. */
     if ((result != Success) && (*current_source != a_NET_WM_ICON) && ((source == None) || (source != a_NET_WM_ICON)))
     {
-        XWMHints *hints = XGetWMHints(xdisplay, task_win);
-        result = (hints != NULL) ? Success : -1;
-        Pixmap xpixmap = None;
-        Pixmap xmask = None;
-        Window win = None;
-
-        if (result == Success)
-        {
-            /* WM_HINTS is available.  Extract the X pixmap and mask. */
-            if ((hints->flags & IconPixmapHint))
-            {
-                xpixmap = hints->icon_pixmap;
-            }
-            if ((hints->flags & IconMaskHint))
-            {
-                xmask = hints->icon_mask;
-            }
-            XFree(hints);
-            if (xpixmap != None)
-            {
-                result = Success;
-                possible_source = XA_WM_HINTS;
-            }
-            else
-            {
-                result = -1;
-            }
-        }
-
-        if (result != Success)
-        {
-            /* No icon available from _NET_WM_ICON or WM_HINTS.  Next try KWM_WIN_ICON. */
-            Atom type = None;
-            int format;
-            gulong nitems;
-            gulong bytes_after;
-            Pixmap *icons = NULL;
-            Atom kwin_win_icon_atom = gdk_x11_get_xatom_by_name("KWM_WIN_ICON");
-            result = XGetWindowProperty(
-                xdisplay,
-                task_win,
-                kwin_win_icon_atom,
-                0, G_MAXLONG,
-                False, kwin_win_icon_atom,
-                &type, &format, &nitems, &bytes_after, (void *)&icons);
-
-            /* Inspect the result to see if it is usable.  If not, and we got data, free it. */
-            if (type != kwin_win_icon_atom)
-            {
-                if (icons != NULL)
-                {
-                    XFree(icons);
-                }
-                result = -1;
-            }
-
-            /* If the result is usable, extract the X pixmap and mask from it. */
-            if (result == Success)
-            {
-                xpixmap = icons[0];
-                xmask = icons[1];
-                if (xpixmap != None)
-                {
-                    result = Success;
-                    possible_source = kwin_win_icon_atom;
-                }
-                else
-                {
-                    result = -1;
-                }
-            }
-        }
-
-        /* If we have an X pixmap, get its geometry.*/
-        unsigned int w, h;
-        if (result == Success)
-        {
-            int unused;
-            unsigned int unused_2;
-            result = XGetGeometry(
-                         xdisplay, xpixmap,
-                         &win, &unused, &unused, &w, &h, &unused_2, &unused_2)
-                         ? Success
-                         : -1;
-        }
-
-        /* If we have an X pixmap and its geometry, convert it to a GDK pixmap. */
-        if (result == Success)
-        {
-            pixmap = _wnck_gdk_pixbuf_get_from_pixmap(screen, xpixmap, win, w, h);
-            result = ((pixmap != NULL) ? Success : -1);
-        }
-
-        /* If we have success, see if the result needs to be masked.
-         * Failures here are implemented as nonfatal. */
-        if ((result == Success) && (xmask != None))
-        {
-            Window win;
-            int unused;
-            unsigned int unused_2;
-            if (XGetGeometry(
-                    xdisplay, xmask,
-                    &win, &unused, &unused, &w, &h, &unused_2, &unused_2))
-            {
-                /* Convert the X mask to a GDK pixmap. */
-                GdkPixbuf *mask = _wnck_gdk_pixbuf_get_from_pixmap(screen, xmask, win, w, h);
-                if (mask != NULL)
-                {
-                    /* Apply the mask. */
-                    GdkPixbuf *masked_pixmap = apply_mask(pixmap, mask);
-                    g_object_unref(G_OBJECT(pixmap));
-                    g_object_unref(G_OBJECT(mask));
-                    pixmap = masked_pixmap;
-                }
-            }
-        }
+        pixmap = get_wmhints_icon(task_win);
     }
 
     return pixmap;
