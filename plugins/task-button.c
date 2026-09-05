@@ -689,26 +689,71 @@ static void taskbar_close_all_windows(GtkWidget *widget, TaskButton *tb)
     }
 }
 
+static void normalize_taskbutton_size(TaskButton *self)
+{
+    gtk_widget_set_name(GTK_WIDGET(self), "task_button_widget");
+    {
+        GtkCssProvider *css_provider = gtk_css_provider_new();
+        {
+            GError *error = NULL;
+            gboolean result = gtk_css_provider_load_from_data(
+                css_provider,
+                "#task_button_widget{"
+                "padding:0px;"
+                "}",
+                -1, &error);
+
+            if (error != NULL)
+            {
+                g_error("%s", error->message);
+                g_error_free(error);
+
+                // warning it should not be here
+                exit(1);
+            }
+
+            GtkStyleContext *style_context = gtk_widget_get_style_context(GTK_WIDGET(self));
+            gtk_style_context_add_provider(
+                style_context,
+                GTK_STYLE_PROVIDER(css_provider),
+                GTK_STYLE_PROVIDER_PRIORITY_USER);
+        }
+        g_object_unref(css_provider);
+    }
+}
+
 static void assemble_gui(TaskButton *self)
 {
+
+    normalize_taskbutton_size(self);
+
     /* Create a box to contain the application icon and window title. */
-    GtkWidget *container = gtk_hbox_new(FALSE, 1);
+    GtkWidget *container = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
     gtk_container_set_border_width(GTK_CONTAINER(container), 0);
 
-    /* Add the image to contain the application icon to the box. */
-    gtk_misc_set_padding(GTK_MISC(self->image), 0, 0);
-    gtk_box_pack_start(GTK_BOX(container), self->image, FALSE, FALSE, 0);
+    if (!self->flags.icons_only)
+    {
+        /* Add the image to contain the application icon to the box. */
+        g_object_set(G_OBJECT(self->image), "margin", 0, NULL);
+        gtk_box_pack_start(GTK_BOX(container), self->image, FALSE, FALSE, 0);
 
-    /* Add the label to contain the window title to the box. */
-    gtk_misc_set_alignment(GTK_MISC(self->label), 0.0, 0.5);
-    gtk_label_set_ellipsize(GTK_LABEL(self->label), PANGO_ELLIPSIZE_END);
-    gtk_box_pack_start(GTK_BOX(container), self->label, TRUE, TRUE, 0);
+        /* Add the label to contain the window title to the box. */
+        gtk_label_set_xalign(GTK_LABEL(self->label), 0.0);
+        gtk_label_set_yalign(GTK_LABEL(self->label), 0.5);
+        gtk_label_set_ellipsize(GTK_LABEL(self->label), PANGO_ELLIPSIZE_END);
+        gtk_box_pack_start(GTK_BOX(container), self->label, TRUE, TRUE, 0);
+    }
+    else
+    {
+        /* Add the image to contain the application icon to the box. */
+        g_object_set(G_OBJECT(self->image), "margin", 0, NULL);
+        gtk_widget_set_halign(container, GTK_ALIGN_CENTER);
+        gtk_box_pack_start(GTK_BOX(container), self->image, FALSE, FALSE, 0);
+    }
 
     /* Add the box to the button. */
     gtk_container_add(GTK_CONTAINER(self), container);
-    gtk_widget_show(container);
-    gtk_widget_show(self->image);
-    gtk_widget_set_visible(self->label, !self->flags.icons_only);
+    gtk_widget_show_all(container);
 }
 
 static void map_xwindow_animation(GtkWidget *widget, Window win, GtkAllocation *alloc)
