@@ -1601,8 +1601,20 @@ static gboolean task_button_button_press_event(GtkWidget *widget, GdkEventButton
         }
         /* attach menu to the widget and show it */
         gtk_menu_attach_to_widget(GTK_MENU(menu), widget, NULL);
-        gtk_menu_popup(GTK_MENU(menu), NULL, NULL, taskbar_popup_set_position,
-                       tb, event->button, event->time);
+        //
+        // TODO
+        // This logic currently does not account for
+        //
+        // right-to-left text direction
+        // panel positioned at left right and top
+        //
+        {
+            GdkGravity widget_anchor;
+            GdkGravity menu_anchor;
+
+            panel_plugin_calculate_menu_anchor_helper(tb->panel, &widget_anchor, &menu_anchor);
+            gtk_menu_popup_at_widget(GTK_MENU(menu), widget, widget_anchor, menu_anchor, (GdkEvent *)event);
+        }
     }
     return TRUE;
 }
@@ -1692,8 +1704,20 @@ static gboolean task_button_button_release_event(GtkWidget *widget, GdkEventButt
              * positioned with respect to the button. */
             gtk_widget_show_all(GTK_WIDGET(tb->menu_list));
             gtk_menu_attach_to_widget(tb->menu_list, widget, NULL);
-            gtk_menu_popup(tb->menu_list, NULL, NULL, taskbar_popup_set_position,
-                           tb, event->button, event->time);
+            //
+            // TODO
+            // This logic currently does not account for
+            //
+            // right-to-left text direction
+            // panel positioned at left right and top
+            //
+            {
+                GdkGravity widget_anchor;
+                GdkGravity menu_anchor;
+
+                panel_plugin_calculate_menu_anchor_helper(tb->panel, &widget_anchor, &menu_anchor);
+                gtk_menu_popup_at_widget(GTK_MENU(tb->menu_list), widget, widget_anchor, menu_anchor, (GdkEvent *)event);
+            }
         }
     }
     else

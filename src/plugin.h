@@ -219,6 +219,19 @@ extern void lxpanel_plugin_adjust_popup_position(GtkWidget *popup, GtkWidget *pl
 extern void lxpanel_plugin_popup_set_position_helper(LXPanel *p, GtkWidget *near, GtkWidget *popup, gint *px, gint *py);
 
 /**
+ * panel_plugin_calculate_menu_anchor_helper
+ * @panel: a panel instance
+ * @widget_anchor: (out): pointer to receive widget anchor
+ * @menu_anchor: (out): pointer to receive menu anchor
+ *
+ * Calculates desired anchor of menu and widget
+ */
+extern void panel_plugin_calculate_menu_anchor_helper(
+    const LXPanel *panel,
+    GdkGravity *widget_anchor,
+    GdkGravity *menu_anchor);
+
+/**
  * plugin_widget_set_background
  * @widget: a widget
  * @p: a panel instance

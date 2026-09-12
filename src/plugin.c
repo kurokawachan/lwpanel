@@ -312,6 +312,38 @@ void lxpanel_plugin_popup_set_position_helper(LXPanel *p, GtkWidget *near, GtkWi
     *py = y;
 }
 
+/* Helper for anchor-calculation for popup menus. */
+void panel_plugin_calculate_menu_anchor_helper(
+    const LXPanel *panel,
+    GdkGravity *widget_anchor,
+    GdkGravity *menu_anchor)
+{
+    g_return_if_fail(panel != NULL);
+    g_return_if_fail(widget_anchor != NULL);
+    g_return_if_fail(menu_anchor != NULL);
+
+    if (EDGE_TOP == panel->priv->edge)
+    {
+        *widget_anchor = GDK_GRAVITY_SOUTH_WEST;
+        *menu_anchor = GDK_GRAVITY_NORTH_WEST;
+    }
+    if (EDGE_BOTTOM == panel->priv->edge)
+    {
+        *widget_anchor = GDK_GRAVITY_NORTH_WEST;
+        *menu_anchor = GDK_GRAVITY_SOUTH_WEST;
+    }
+    if (EDGE_LEFT == panel->priv->edge)
+    {
+        *widget_anchor = GDK_GRAVITY_NORTH_EAST;
+        *menu_anchor = GDK_GRAVITY_NORTH_WEST;
+    }
+    if (EDGE_RIGHT == panel->priv->edge)
+    {
+        *widget_anchor = GDK_GRAVITY_NORTH_WEST;
+        *menu_anchor = GDK_GRAVITY_NORTH_EAST;
+    }
+}
+
 /* for old plugins compatibility -- popup_req is ignored here */
 void plugin_popup_set_position_helper(Plugin *p, GtkWidget *near, GtkWidget *popup, GtkRequisition *popup_req, gint *px, gint *py)
 {
