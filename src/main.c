@@ -100,14 +100,18 @@ static void process_client_msg(XClientMessageEvent *ev)
             GList *plugins, *pl;
 
             if (p->priv->box == NULL)
+            {
                 continue;
+            }
             plugins = gtk_container_get_children(GTK_CONTAINER(p->priv->box));
             for (pl = plugins; pl; pl = pl->next)
             {
                 const LXPanelPluginInit *init = PLUGIN_CLASS(pl->data);
                 if (init->show_system_menu)
+                {
                     /* queue to show system menu */
                     init->show_system_menu(pl->data);
+                }
             }
             g_list_free(plugins);
         }
@@ -121,7 +125,9 @@ static void process_client_msg(XClientMessageEvent *ev)
     {
         LXPanel *p = ((all_panels != NULL) ? all_panels->data : NULL);
         if (p != NULL)
+        {
             panel_configure(p, 0);
+        }
     }
     break;
     case LXPANEL_CMD_RESTART:
@@ -134,11 +140,14 @@ static void process_client_msg(XClientMessageEvent *ev)
         monitor = (ev->data.b[1] & 0xf) - 1; /* 0 for no monitor */
         edge = (ev->data.b[1] >> 4) & 0x7;
         if ((ev->data.b[1] & 0x80) != 0)
+        {
             /* some extension, not supported yet */
             break;
+        }
         plugin_type = g_strndup(&ev->data.b[2], 18);
         command = strchr(plugin_type, '\t');
         if (command)
+        {
             do /* use do{}while(0) to enable break */
             {
                 LXPanel *p;
@@ -152,19 +161,29 @@ static void process_client_msg(XClientMessageEvent *ev)
                 for (l = all_panels; l; l = l->next)
                 {
                     p = (LXPanel *)l->data;
-                    if (p->priv->box == NULL) /* inactive panel */
+                    if (p->priv->box == NULL)
+                    { /* inactive panel */
                         continue;
+                    }
                     if (monitor >= 0 && p->priv->monitor != monitor)
+                    {
                         continue;
+                    }
                     if (edge == EDGE_NONE || p->priv->edge == edge)
+                    {
                         break;
+                    }
                 }
-                if (l == NULL) /* match not found */
+                if (l == NULL)
+                { /* match not found */
                     break;
+                }
                 /* find the plugin */
                 init = g_hash_table_lookup(lxpanel_get_all_types(), plugin_type);
-                if (init == NULL) /* no such plugin known */
+                if (init == NULL)
+                { /* no such plugin known */
                     break;
+                }
                 plugins = gtk_container_get_children(GTK_CONTAINER(p->priv->box));
                 for (pl = plugins; pl; pl = pl->next)
                 {
@@ -186,19 +205,26 @@ static void process_client_msg(XClientMessageEvent *ev)
                                                         "Plugin");
                         config_group_set_string(cfg, "type", plugin_type);
                         plugin = lxpanel_add_plugin(p, plugin_type, cfg, -1);
-                        if (plugin == NULL) /* failed to create */
+                        if (plugin == NULL)
+                        { /* failed to create */
                             config_setting_destroy(cfg);
+                        }
                     }
                 }
                 else if (strcmp(command, "DEL") == 0)
                 {
                     if (plugin != NULL)
+                    {
                         lxpanel_remove_plugin(p, plugin);
+                    }
                 }
                 /* send the command */
                 else if (plugin && init->control)
+                {
                     init->control(plugin, command);
+                }
             } while (0);
+        }
         g_free(plugin_type);
         break;
     }
@@ -239,14 +265,18 @@ panel_event_filter(GdkXEvent *xevent, GdkEvent *event, gpointer not_used)
         {
             GSList *l;
             for (l = all_panels; l; l = l->next)
+            {
                 ((LXPanel *)l->data)->priv->curdesk = get_net_current_desktop();
+            }
             fb_ev_emit(fbev, EV_CURRENT_DESKTOP);
         }
         else if (at == a_NET_NUMBER_OF_DESKTOPS)
         {
             GSList *l;
             for (l = all_panels; l; l = l->next)
+            {
                 ((LXPanel *)l->data)->priv->desknum = get_net_number_of_desktops();
+            }
             fb_ev_emit(fbev, EV_NUMBER_OF_DESKTOPS);
         }
         else if (at == a_NET_DESKTOP_NAMES)
@@ -265,10 +295,14 @@ panel_event_filter(GdkXEvent *xevent, GdkEvent *event, gpointer not_used)
         {
             GSList *l;
             for (l = all_panels; l; l = l->next)
+            {
                 _panel_queue_update_background((LXPanel *)l->data);
+            }
         }
         else
+        {
             return GDK_FILTER_CONTINUE;
+        }
 
         return GDK_FILTER_REMOVE;
     }
@@ -387,7 +421,9 @@ static gboolean check_main_lock()
     XGrabServer(xdisplay);
 
     if (XGetSelectionOwner(xdisplay, atom) != None)
+    {
         goto out;
+    }
 
     clipboard = gtk_clipboard_get(gdk_atom_intern(CLIPBOARD_NAME, FALSE));
 
@@ -395,7 +431,9 @@ static gboolean check_main_lock()
                                     G_N_ELEMENTS(targets),
                                     clipboard_get_func,
                                     clipboard_clear_func, NULL))
+    {
         retval = TRUE;
+    }
 
 out:
     XUngrabServer(xdisplay);
@@ -422,7 +460,9 @@ static void _start_panels_from_dir(const char *panel_dir)
         {
             LXPanel *panel = panel_new(panel_config, name);
             if (panel)
+            {
                 all_panels = g_slist_prepend(all_panels, panel);
+            }
         }
         g_free(panel_config);
     }
@@ -439,19 +479,25 @@ static gboolean start_all_panels()
     _start_panels_from_dir(panel_dir);
     g_free(panel_dir);
     if (all_panels != NULL)
+    {
         return TRUE;
+    }
     /* else try XDG fallbacks */
     dir = g_get_system_config_dirs();
     if (dir)
+    {
         while (dir[0])
         {
             panel_dir = _system_config_file_name(dir[0], "panels");
             _start_panels_from_dir(panel_dir);
             g_free(panel_dir);
             if (all_panels != NULL)
+            {
                 return TRUE;
+            }
             dir++;
         }
+    }
     /* last try at old fallback for compatibility reasons */
     panel_dir = _old_system_config_file_name("panels");
     _start_panels_from_dir(panel_dir);
@@ -591,7 +637,9 @@ int main(int argc, char *argv[], char *env[])
     gdk_window_add_filter(gdk_get_default_root_window(), (GdkFilterFunc)panel_event_filter, NULL);
 
     if (G_UNLIKELY(!start_all_panels()))
+    {
         g_warning("Config files are not found.\n");
+    }
     /*
      * FIXME: configure??
         if (config)
@@ -618,10 +666,16 @@ int main(int argc, char *argv[], char *env[])
     g_object_unref(fbev);
 
     if (!is_restarting)
+    {
         return 0;
+    }
     if (strchr(argv[0], G_DIR_SEPARATOR))
+    {
         execve(argv[0], argv, env);
+    }
     else
+    {
         execve(g_find_program_in_path(argv[0]), argv, env);
+    }
     return 1;
 }
