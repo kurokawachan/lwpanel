@@ -48,6 +48,7 @@ Makefile
 *.a
 .[A-Za-z]*
 !.clang-format
+!.jsbeautifyrc
 src/lxpanel
 src/lxpanelctl
 src/panel.h
