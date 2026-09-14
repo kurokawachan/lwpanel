@@ -137,6 +137,21 @@ static gint get_window_monitor(Window win)
     return m;
 }
 
+// Note
+//
+// The return value should be freed using
+//
+// g_free()
+//
+char *get_x11_window_name(Window window)
+{
+    GdkDisplay *gdk_display = gdk_display_get_default();
+    Display *x_display = GDK_DISPLAY_XDISPLAY(gdk_display);
+    char *window_name = NULL;
+    window_name = get_utf8_property(window, a_NET_WM_NAME);
+    return window_name;
+}
+
 /* Determine if the "urgency" hint is set on a window. */
 static gboolean task_has_urgency(Window win)
 {
@@ -204,6 +219,19 @@ static gboolean task_set_names(TaskDetails *tk, Atom source)
     return FALSE;
 }
 
+static void lwpanel_migration_task_set_names(TaskDetails *tk)
+{
+    if (tk->name == NULL)
+    {
+        tk->name = get_x11_window_name(tk->win);
+    }
+    else
+    {
+        g_free(tk->name);
+        tk->name = get_x11_window_name(tk->win);
+    }
+}
+
 static gboolean task_is_visible(TaskButton *b, TaskDetails *task)
 {
     /* Not on same monitor */
@@ -243,7 +271,7 @@ static TaskDetails *task_details_for_window(TaskButton *button, Window win)
     details->win = win;
     details->desktop = get_net_wm_desktop(win);
     details->monitor = get_window_monitor(win);
-    task_set_names(details, None);
+    lwpanel_migration_task_set_names(details);
     task_update_icon(button, details, None);
     details->urgency = task_has_urgency(win);
     details->iconified = (get_wm_state(win) == IconicState);
@@ -1994,10 +2022,8 @@ gboolean task_button_window_xprop_changed(TaskButton *button, Window win, Atom a
     else if ((atom == XA_WM_NAME) || (atom == a_NET_WM_NAME) || (atom == a_NET_WM_VISIBLE_NAME))
     {
         /* Window changed name. */
-        if (task_set_names(details, atom))
-        {
-            task_redraw_label(button);
-        }
+        lwpanel_migration_task_set_names(details);
+        task_redraw_label(button);
     }
     else if (atom == XA_WM_CLASS)
     {
