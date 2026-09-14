@@ -515,6 +515,36 @@ static void _ensure_user_config_dirs(void)
     g_free(dir);
 }
 
+void load_css_file(const gchar *path)
+{
+    GtkCssProvider *css_provider = gtk_css_provider_new();
+    {
+        GError *error = NULL;
+        gtk_css_provider_load_from_path(
+            css_provider,
+            path,
+            &error);
+        if (error != NULL)
+        {
+            // std::cout << error->message << std::endl;
+            printf("%s\n", error->message);
+            g_error_free(error);
+
+            // std::cout << "warning it should not be here" << std::endl;
+            printf("%s\n", "warning it should not be here");
+            // std::abort();
+            exit(1);
+        }
+
+        GdkScreen *gdk_screen = gdk_screen_get_default();
+        gtk_style_context_add_provider_for_screen(
+            gdk_screen,
+            GTK_STYLE_PROVIDER(css_provider),
+            GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    }
+    g_object_unref(css_provider);
+}
+
 int main(int argc, char *argv[], char *env[])
 {
     int i;
@@ -599,9 +629,17 @@ int main(int argc, char *argv[], char *env[])
     }
 
     /* Add a gtkrc file to be parsed too. */
-    file = _user_config_file_name("gtkrc", NULL);
-    gtk_rc_parse(file);
-    g_free(file);
+    {
+        file = _user_config_file_name("gtkrc", NULL);
+        gtk_rc_parse(file);
+        g_free(file);
+    }
+
+    {
+        gchar *css_file = g_build_filename(PACKAGE_STYLES_DIR, "panel.css", NULL);
+        load_css_file(css_file);
+        g_free(css_file);
+    }
 
     /* Check for duplicated lxpanel instances */
     if (!check_main_lock() && !config)

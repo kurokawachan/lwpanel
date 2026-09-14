@@ -111,6 +111,15 @@ target_install_datadir_project_dir = prefix / datadir / install_subdir_package_n
 # '/usr/share/lxpanel/ui'
 target_install_datadir_project_dir_ui_dir = prefix / datadir / install_subdir_package_name / 'ui'
 
+
+
+
+# '/usr/share/lxpanel/styles'
+target_install_datadir_project_dir_styles_dir = prefix / datadir / install_subdir_package_name / 'styles'
+
+
+
+
 # '/usr/share/lxpanel/images'
 target_install_datadir_project_dir_images_dir = prefix / datadir / install_subdir_package_name / 'images'
 # '/usr/share/lxpanel/images/xkb-flags'
@@ -428,6 +437,9 @@ lxpanel_CPPFLAGS = [
     '-DPACKAGE_LIB_DIR="@0@"'.format(target_install_libdir),
     '-DPACKAGE_DATA_DIR="@0@"'.format(target_install_datadir_project_dir),
     '-DPACKAGE_UI_DIR="@0@"'.format(target_install_datadir_project_dir_ui_dir),
+    '-DPACKAGE_STYLES_DIR="@0@"'.format(
+        target_install_datadir_project_dir_styles_dir,
+    ),
     '-DPACKAGE_BIN_DIR="@0@"'.format(target_install_bindir),
     '-DPACKAGE_LOCALE_DIR="@0@"'.format(target_install_localedir),
     # TODO fix it
@@ -1410,6 +1422,16 @@ install_data(
 # data above *********************************************************
 
 
+# data above *********************************************************
+install_data(
+    [
+        'data/styles/panel.css',
+    ],
+    # '/usr/share/lxpanel/styles'
+    install_dir: target_install_datadir_project_dir_styles_dir,
+    install_tag: 'lxpanel-data',
+)
+# data below *********************************************************
 
 # data below *********************************************************
 install_data(
