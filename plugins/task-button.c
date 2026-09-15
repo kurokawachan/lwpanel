@@ -1767,7 +1767,7 @@ static gboolean task_button_enter_notify_event(GtkWidget *widget, GdkEventCrossi
     TaskButton *tb = PANEL_TASK_BUTTON(widget);
 
     tb->entered_state = TRUE;
-    task_draw_label(tb, tb->flags.flat_button, FALSE);
+    task_redraw_label(tb);
     /* As a matter of policy, avoid showing selected or prelight states on flat buttons. */
     if (tb->flags.flat_button)
     {
@@ -1781,7 +1781,7 @@ static gboolean task_button_leave_notify_event(GtkWidget *widget, GdkEventCrossi
     TaskButton *tb = PANEL_TASK_BUTTON(widget);
 
     tb->entered_state = FALSE;
-    task_draw_label(tb, FALSE, FALSE);
+    task_redraw_label(tb);
     if (tb->flags.flat_button)
     {
         return TRUE;
@@ -2437,12 +2437,12 @@ TaskButton *task_button_split(TaskButton *button)
     if (button->n_visible > 0)
     {
         task_update_icon(button, button->last_focused, None);
-        task_draw_label(button, FALSE, TRUE);
+        task_redraw_label(button);
     }
     if (sibling->n_visible > 0)
     {
         task_update_icon(sibling, button->last_focused, None);
-        task_draw_label(sibling, FALSE, TRUE);
+        task_redraw_label(sibling);
     }
     assemble_gui(sibling);
     // FIXME: test if need to update menu
