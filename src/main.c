@@ -340,6 +340,10 @@ static void init_static_plugins(void)
     REGISTER_STATIC_MODULE(lwwindowsminimizer);
 #endif
 
+#ifdef STATIC_LWLAUNCHBAR
+    REGISTER_STATIC_MODULE(lwlaunchbar);
+#endif
+
 #ifdef STATIC_DIRMENU
     REGISTER_STATIC_MODULE(dirmenu);
 #endif

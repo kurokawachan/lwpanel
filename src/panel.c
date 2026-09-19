@@ -2173,6 +2173,11 @@ GtkWidget *panel_box_new(LXPanel *panel, gboolean homogeneous, gint spacing)
     return gtk_vbox_new(homogeneous, spacing);
 }
 
+GtkWidget *panel_box_container_new(LXPanel *panel, gint spacing)
+{
+    return gtk_box_new(panel->priv->orientation, spacing);
+}
+
 GtkWidget *panel_separator_new(LXPanel *panel)
 {
     if (panel->priv->orientation == GTK_ORIENTATION_HORIZONTAL)

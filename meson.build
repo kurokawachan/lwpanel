@@ -522,6 +522,15 @@ libbuiltin_plugins_sources = [
     'plugins/tray.c',
     'plugins/wincmd.c',
     'plugins/lwwindowsminimizer.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog_app_view.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog_handle_widget_event.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog_handle_user_event.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog_modify_data.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog_refresh_widget_status.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_config_dialog.cc',
+    'plugins/lwlaunchbar/lwlaunchbar_widget.cc',
+    'plugins/lwlaunchbar/lwlaunchbutton.cc',
+    'plugins/lwlaunchbar/lwlaunchbar.cc',
 ]
 if (ENABLE_MENU_CACHE == true)
     # MENU_SOURCES = 'plugins/menu.c'
@@ -552,6 +561,11 @@ libbuiltin_plugins_a = static_library(
         ),
         '-DPACKAGE_LOCALE_DIR="@0@"'.format(target_install_localedir),
     ],
+    cpp_args: [
+        '-DPACKAGE_UI_DIR="@0@"'.format(
+            target_install_datadir_project_dir_ui_dir,
+        ),
+    ],
     link_with: [liblxpanel_la],
     link_args: [
         '-module -avoid-version',
@@ -565,6 +579,7 @@ libbuiltin_plugins_a = static_library(
     dependencies: [
         GTK_LIBS,
         PACKAGE_LIBS,
+        dependency('libgnome-menu-3.0'),
     ],
 )
 
@@ -1421,6 +1436,18 @@ install_data(
 )
 # data above *********************************************************
 
+# data below *********************************************************
+install_data(
+    [
+        'data/ui/lwlaunchbar.glade',
+    ],
+    rename: 'lwlaunchbar.glade',
+    # install_dir: '/usr/share/lxpanel/ui/',
+    install_dir: target_install_datadir_project_dir_ui_dir,
+    install_tag: 'lxpanel-data',
+)
+
+# data above *********************************************************
 
 # data above *********************************************************
 install_data(
