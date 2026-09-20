@@ -11,7 +11,7 @@
 static gboolean launch_button_enter_notify_event(GtkWidget *self, GdkEventCrossing *event, gpointer user_data)
 {
     GtkStyleContext *style_context = gtk_widget_get_style_context(self);
-    gtk_style_context_add_class(style_context, "button_highlight");
+    gtk_style_context_add_class(style_context, "lwlaunchbutton_hover");
 
     // Debug
     // printf("%s\n", "launch_button_enter_notify_event");
@@ -24,7 +24,7 @@ static gboolean launch_button_enter_notify_event(GtkWidget *self, GdkEventCrossi
 static gboolean launch_button_leave_notify_event(GtkWidget *self, GdkEventCrossing *event, gpointer user_data)
 {
     GtkStyleContext *style_context = gtk_widget_get_style_context(self);
-    gtk_style_context_remove_class(style_context, "button_highlight");
+    gtk_style_context_remove_class(style_context, "lwlaunchbutton_hover");
 
     // Debug
     // printf("%s\n", "launch_button_leave_notify_event");
@@ -36,6 +36,8 @@ static gboolean launch_button_leave_notify_event(GtkWidget *self, GdkEventCrossi
 
 static gboolean launch_button_button_press_event(GtkWidget *self, GdkEventButton *event, gpointer user_data)
 {
+    GtkStyleContext *style_context = gtk_widget_get_style_context(self);
+    gtk_style_context_add_class(style_context, "lwlaunchbutton_pressed");
     // Debug
     // printf("%s\n", "launch_button_button_press_event");
     // printf("%d\n", event->button);
@@ -116,6 +118,8 @@ static gboolean launch_button_button_press_event(GtkWidget *self, GdkEventButton
 
 static gboolean launch_button_button_release_event(GtkWidget *self, GdkEventButton *event, gpointer user_data)
 {
+    GtkStyleContext *style_context = gtk_widget_get_style_context(self);
+    gtk_style_context_remove_class(style_context, "lwlaunchbutton_pressed");
     // Debug
     // printf("%s\n", "launch_button_button_release_event");
 
@@ -134,8 +138,8 @@ GtkWidget *lwlaunchbutton_new(LXPanel *panel, const std::string &desktop_id)
 
     gtk_container_add(GTK_CONTAINER(launch_button_event_box), image);
 
-    gtk_widget_set_name(GTK_WIDGET(launch_button_event_box), "launch_button_event_box");
-    gtk_widget_set_name(GTK_WIDGET(image), "launch_button_image");
+    gtk_widget_set_name(GTK_WIDGET(launch_button_event_box), "lwlaunchbutton_widget");
+    gtk_widget_set_name(GTK_WIDGET(image), "lwlaunchbutton_image");
 
     // make sure it all receive the widget events
     gtk_widget_add_events(
@@ -148,45 +152,6 @@ GtkWidget *lwlaunchbutton_new(LXPanel *panel, const std::string &desktop_id)
         G_OBJECT(launch_button_event_box), "leave-notify-event",
         G_CALLBACK(launch_button_leave_notify_event), NULL);
 
-    {
-        GtkCssProvider *css_provider = gtk_css_provider_new();
-        {
-            GError *error = NULL;
-            gboolean result = gtk_css_provider_load_from_data(
-                css_provider,
-                ".button_highlight #launch_button_image{"
-                "background-color:rgba(255,255,255,255);"
-                "}",
-                -1, &error);
-
-            if (error != NULL)
-            {
-                std::cout << error->message << std::endl;
-                // printf("%s\n", error->message);
-                g_error_free(error);
-
-                std::cout << "warning it should not be here" << std::endl;
-                std::abort();
-                // printf("%s\n", "warning it should not be here");
-                // exit(1);
-            }
-
-            // The return value is deprecated and FALSE will only be returned
-            // for backwards compatibility reasons
-            if (result == false)
-            {
-                std::cout << "warning it should not be here" << std::endl;
-                std::abort();
-            }
-
-            GtkStyleContext *style_context = gtk_widget_get_style_context(GTK_WIDGET(image));
-            gtk_style_context_add_provider(
-                style_context,
-                GTK_STYLE_PROVIDER(css_provider),
-                GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-        }
-        g_object_unref(css_provider);
-    }
     {
         GDesktopAppInfo *desktop_app_info = g_desktop_app_info_new(desktop_id.c_str());
         g_object_set_qdata_full(

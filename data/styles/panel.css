@@ -2,3 +2,23 @@
   background-image: none;
   background-color: rgb(255, 0, 0);
 }
+
+
+
+@define-color lwlaunchbutton_background rgba(255, 255, 255, 0);
+@define-color lwlaunchbutton_hover rgba(255, 255, 255, 0.8);
+@define-color lwlaunchbutton_pressed rgba(255, 255, 255, 0.6);
+
+
+
+#lwlaunchbutton_widget #lwlaunchbutton_image {
+  background-color: @lwlaunchbutton_background;
+}
+
+#lwlaunchbutton_widget.lwlaunchbutton_hover #lwlaunchbutton_image {
+  background-color: @lwlaunchbutton_hover;
+}
+
+#lwlaunchbutton_widget.lwlaunchbutton_pressed #lwlaunchbutton_image {
+  background-color: @lwlaunchbutton_pressed;
+}
