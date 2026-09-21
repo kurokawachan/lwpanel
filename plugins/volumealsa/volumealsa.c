@@ -183,7 +183,9 @@ static gboolean asound_find_element(VolumeALSAPlugin *vol, const char **ename, i
             snd_mixer_selem_get_id(vol->master_element, sid);
             if (snd_mixer_selem_is_active(vol->master_element) &&
                 strcmp(ename[i], snd_mixer_selem_id_get_name(sid)) == 0)
+            {
                 return TRUE;
+            }
         }
     }
     return FALSE;
@@ -213,7 +215,9 @@ static gboolean asound_find_element(VolumeALSAPlugin *vol, const char **ename, i
 static gboolean asound_reset_mixer_evt_idle(VolumeALSAPlugin *vol)
 {
     if (!g_source_is_destroyed(g_main_current_source()))
+    {
         vol->mixer_evt_idle = 0;
+    }
     return FALSE;
 }
 
@@ -224,7 +228,9 @@ static gboolean asound_mixer_event(GIOChannel *channel, GIOCondition cond, gpoin
     int res = 0;
 
     if (g_source_is_destroyed(g_main_current_source()))
+    {
         return FALSE;
+    }
 
     if (vol->mixer_evt_idle == 0)
     {
@@ -250,7 +256,9 @@ static gboolean asound_mixer_event(GIOChannel *channel, GIOCondition cond, gpoin
                                                    " Please check the lxpanel logs."));
 
         if (vol->restart_idle == 0)
+        {
             vol->restart_idle = g_timeout_add_seconds(1, asound_restart, vol);
+        }
 
         return FALSE;
     }
@@ -263,7 +271,9 @@ static gboolean asound_restart(gpointer vol_gpointer)
     VolumeALSAPlugin *vol = vol_gpointer;
 
     if (g_source_is_destroyed(g_main_current_source()))
+    {
         return FALSE;
+    }
 
     asound_deinitialize(vol);
 
@@ -296,7 +306,9 @@ static gboolean asound_initialize(VolumeALSAPlugin *vol)
 #else
     snd_mixer_open(&vol->mixer, 0);
     if (vol->used_device < 0)
+    {
         snd_mixer_attach(vol->mixer, "default");
+    }
     else
     {
         char id[16];
@@ -311,7 +323,9 @@ static gboolean asound_initialize(VolumeALSAPlugin *vol)
     {
         /* If user defined the channel then use it */
         if (!asound_find_element(vol, (const char **)&vol->master_channel, 1))
+        {
             return FALSE;
+        }
     }
     else
     {
@@ -329,16 +343,22 @@ static gboolean asound_initialize(VolumeALSAPlugin *vol)
                     snd_mixer_selem_has_playback_volume(vol->master_element) &&
                     !snd_mixer_selem_has_capture_volume(vol->master_element) &&
                     !snd_mixer_selem_has_capture_switch(vol->master_element))
+                {
                     break;
+                }
             }
             if (vol->master_element == NULL)
+            {
                 return FALSE;
+            }
         }
     }
 
     /* Set the playback volume range as we wish it. */
     if (!vol->alsamixer_mapping)
+    {
         snd_mixer_selem_set_playback_volume_range(vol->master_element, 0, 100);
+    }
 
     /* Listen to events from ALSA. */
     int n_fds = snd_mixer_poll_descriptors_count(vol->mixer);
@@ -389,7 +409,9 @@ static void asound_deinitialize(VolumeALSAPlugin *vol)
     vol->num_channels = 0;
 
     if (vol->mixer)
+    {
         snd_mixer_close(vol->mixer);
+    }
     vol->mixer = NULL;
     vol->master_element = NULL;
 #endif
@@ -419,7 +441,9 @@ static gboolean asound_is_muted(VolumeALSAPlugin *vol)
     value = (levels.left + levels.right) >> 1;
 #else
     if (vol->master_element != NULL)
+    {
         snd_mixer_selem_get_playback_switch(vol->master_element, 0, &value);
+    }
 #endif
     return (value == 0);
 }
@@ -428,11 +452,17 @@ static gboolean asound_is_muted(VolumeALSAPlugin *vol)
 static long lrint_dir(double x, int dir)
 {
     if (dir > 0)
+    {
         return lrint(ceil(x));
+    }
     else if (dir < 0)
+    {
         return lrint(floor(x));
+    }
     else
+    {
         return lrint(x);
+    }
 }
 
 static inline gboolean use_linear_dB_scale(long dBmin, long dBmax)
@@ -452,21 +482,29 @@ static long get_normalized_volume(snd_mixer_elem_t *elem,
     {
         err = snd_mixer_selem_get_playback_volume_range(elem, &min, &max);
         if (err < 0 || min == max)
+        {
             return 0;
+        }
 
         err = snd_mixer_selem_get_playback_volume(elem, channel, &value);
         if (err < 0)
+        {
             return 0;
+        }
 
         return lrint(100.0 * (value - min) / (double)(max - min));
     }
 
     err = snd_mixer_selem_get_playback_dB(elem, channel, &value);
     if (err < 0)
+    {
         return 0;
+    }
 
     if (use_linear_dB_scale(min, max))
+    {
         return lrint(100.0 * (value - min) / (double)(max - min));
+    }
 
     normalized = exp10((value - max) / 6000.0);
     if (min != SND_CTL_TLV_DB_GAIN_MUTE)
@@ -526,7 +564,9 @@ static int set_normalized_volume(snd_mixer_elem_t *elem,
     {
         err = snd_mixer_selem_get_playback_volume_range(elem, &min, &max);
         if (err < 0)
+        {
             return err;
+        }
 
         value = lrint_dir(volume * (max - min), dir) + min;
         return snd_mixer_selem_set_playback_volume(elem, channel, value);
@@ -557,7 +597,9 @@ static void asound_set_volume(VolumeALSAPlugin *vol, int volume)
 
     /* Volume is set to the correct value already */
     if (dir == 0)
+    {
         return;
+    }
 
 #ifdef DISABLE_ALSA
     StereoVolume levels;
@@ -675,8 +717,12 @@ static void volume_run_mixer(VolumeALSAPlugin *vol)
 
     /* check if command line was configured */
     if (config_setting_lookup_string(vol->settings, "MixerCommand", &command_line))
+    {
         if (config_setting_lookup_int(vol->settings, "MixerCommandTerm", &i) && i)
+        {
             flags = G_APP_INFO_CREATE_NEEDS_TERMINAL;
+        }
+    }
 
     /* if command isn't set in settings then let guess it */
     if (command_line == NULL)
@@ -702,7 +748,9 @@ static void volume_run_mixer(VolumeALSAPlugin *vol)
             {
                 command_line = mixers[i].cmd;
                 if (mixers[i].needs_term)
+                {
                     flags = G_APP_INFO_CREATE_NEEDS_TERMINAL;
+                }
                 g_free(path);
                 break;
             }
@@ -832,13 +880,19 @@ static void volumealsa_popup_scale_scrolled(GtkScale *scale, GdkEventScroll *evt
         gdouble delta_x, delta_y;
         gdk_event_get_scroll_deltas((GdkEvent *)evt, &delta_x, &delta_y);
         if ((delta_y < 0) || (delta_x < 0))
+        {
             val += 2;
+        }
         else if ((delta_y > 0) || (delta_x > 0))
+        {
             val -= 2;
+        }
     }
 #endif
     else
+    {
         val -= 2;
+    }
 
     /* Reset the state of the vertical scale.  This provokes a "value_changed" event. */
     gtk_range_set_value(GTK_RANGE(vol->volume_scale), CLAMP((int)val, 0, 100));
@@ -867,7 +921,9 @@ static void volumealsa_popup_mute_toggled(GtkWidget *widget, VolumeALSAPlugin *v
     {
         int chn;
         for (chn = 0; chn <= SND_MIXER_SCHN_LAST; chn++)
+        {
             snd_mixer_selem_set_playback_switch(vol->master_element, chn, ((mute) ? 0 : 1));
+        }
     }
 
 #endif
@@ -974,9 +1030,13 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
     /* Read config necessary for proper initialization of ALSA. */
     config_setting_lookup_int(settings, "UseAlsamixerVolumeMapping", &vol->alsamixer_mapping);
     if (config_setting_lookup_string(settings, "MasterChannel", &tmp_str))
+    {
         vol->master_channel = g_strdup(tmp_str);
+    }
     if (!config_setting_lookup_int(settings, "CardNumber", &vol->used_device))
+    {
         vol->used_device = -1;
+    }
 #else
 
     vol->master_channel = SOUND_MIXER_VOLUME;
@@ -990,21 +1050,37 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
 
 #endif
     if (config_setting_lookup_string(settings, "MuteButton", &tmp_str))
+    {
         vol->mute_click = panel_config_click_parse(tmp_str, &vol->mute_click_mods);
+    }
     else
+    {
         vol->mute_click = 2; /* middle-click default */
+    }
     if (config_setting_lookup_string(settings, "SliderButton", &tmp_str))
+    {
         vol->slider_click = panel_config_click_parse(tmp_str, &vol->slider_click_mods);
+    }
     else
+    {
         vol->slider_click = 1; /* left-click default */
+    }
     if (config_setting_lookup_string(settings, "MixerButton", &tmp_str))
+    {
         vol->mixer_click = panel_config_click_parse(tmp_str, &vol->mixer_click_mods);
+    }
     if (config_setting_lookup_string(settings, "VolumeUpKey", &tmp_str))
+    {
         lxpanel_apply_hotkey(&vol->hotkey_up, tmp_str, volume_up, vol, FALSE);
+    }
     if (config_setting_lookup_string(settings, "VolumeDownKey", &tmp_str))
+    {
         lxpanel_apply_hotkey(&vol->hotkey_down, tmp_str, volume_down, vol, FALSE);
+    }
     if (config_setting_lookup_string(settings, "VolumeMuteKey", &tmp_str))
+    {
         lxpanel_apply_hotkey(&vol->hotkey_mute, tmp_str, volume_mute, vol, FALSE);
+    }
 
     /* Initialize ALSA.  If that fails, present nothing. */
     if (!asound_initialize(vol))
@@ -1055,11 +1131,15 @@ static void volumealsa_destructor(gpointer user_data)
 
     /* If the dialog box is open, dismiss it. */
     if (vol->popup_window != NULL)
+    {
         gtk_widget_destroy(vol->popup_window);
+    }
 
 #ifndef DISABLE_ALSA
     if (vol->restart_idle)
+    {
         g_source_remove(vol->restart_idle);
+    }
 
     g_free(vol->master_channel);
 #endif
@@ -1093,7 +1173,9 @@ static GtkListStore *alsa_make_channels_list(VolumeALSAPlugin *vol, int *active)
             gtk_list_store_insert_with_values(list, &iter, i, 0, _(name),
                                               1, name, -1);
             if (elem == vol->master_element)
+            {
                 *active = i;
+            }
         }
     }
     return list;
@@ -1124,7 +1206,9 @@ static void card_selector_changed(GtkComboBox *card_selector, VolumeALSAPlugin *
             // FIXME: reset the selector back
             /* schedule to restart with old settings */
             if (vol->restart_idle == 0)
+            {
                 vol->restart_idle = g_timeout_add_seconds(1, asound_restart, vol);
+            }
             return;
         }
         g_free(old_channel);
@@ -1165,7 +1249,9 @@ static void channel_selector_changed(GtkComboBox *channel_selector, VolumeALSAPl
     asound_find_element(vol, (const char **)&ch, 1); // FIXME: is error possible?
     /* Set the playback volume range as we wish it. */
     if (!vol->alsamixer_mapping)
+    {
         snd_mixer_selem_set_playback_volume_range(vol->master_element, 0, 100);
+    }
     /* g_debug("MasterChannel changed: %s", ch); */
     g_free(vol->master_channel);
 #endif
@@ -1183,20 +1269,28 @@ static void mixer_selector_changed(GtkComboBox *mixer_selector, VolumeALSAPlugin
 
     i = gtk_combo_box_get_active(mixer_selector);
     if (i < 0)
+    {
         /* it was just editing */
         return;
+    }
     if (!config_setting_lookup_string(vol->settings, "MixerCommand", &set))
+    {
         set = NULL;
+    }
     cmd = gtk_entry_get_text((GtkEntry *)mixer_entry);
     if (set)
     {
         if (strcmp(set, cmd) == 0)
+        {
             /* not changed */
             return;
+        }
     }
     else if (gtk_combo_box_get_active(mixer_selector) == 0)
+    {
         /* it's left at default */
         return;
+    }
     model = gtk_combo_box_get_model(mixer_selector);
     gtk_tree_model_iter_nth_child(model, &iter, NULL, i);
     gtk_tree_model_get(model, &iter, 1, &i, -1);
@@ -1243,7 +1337,9 @@ static gboolean mixer_selector_focus_out(GtkWidget *mixer_entry,
 
     /* check if current value is one of model choices */
     if (gtk_combo_box_get_active(data.mixer_selector) < 0)
+    {
         gtk_tree_model_foreach(model, &mixer_selector_check, &data);
+    }
     /* check executable and remember selection */
     if (gtk_combo_box_get_active(data.mixer_selector) < 0)
     {
@@ -1253,7 +1349,9 @@ static gboolean mixer_selector_focus_out(GtkWidget *mixer_entry,
         /* g_debug("user entered mixer: %s", data.text); */
         exec = strchr(data.text, ' ');
         if (exec)
+        {
             exec = g_strndup(data.text, exec - data.text);
+        }
         path = g_find_program_in_path(exec ? exec : data.text);
         g_free(exec);
         g_free(path);
@@ -1273,8 +1371,10 @@ static gboolean mixer_selector_key_press(GtkWidget *mixer_entry,
                                          GdkEventKey *evt, VolumeALSAPlugin *vol)
 {
     if (evt->keyval == GDK_KEY_Return)
+    {
         /* loose focus on Enter press */
         gtk_window_set_focus(GTK_WINDOW(gtk_widget_get_toplevel(mixer_entry)), NULL);
+    }
     return FALSE;
 }
 
@@ -1338,7 +1438,9 @@ static gboolean up_key_changed(GtkWidget *btn, char *click, VolumeALSAPlugin *vo
 
     res = lxpanel_apply_hotkey(&vol->hotkey_up, click, &volume_up, vol, TRUE);
     if (res)
+    {
         config_group_set_string(vol->settings, "VolumeUpKey", click);
+    }
     return res;
 }
 
@@ -1348,7 +1450,9 @@ static gboolean down_key_changed(GtkWidget *btn, char *click, VolumeALSAPlugin *
 
     res = lxpanel_apply_hotkey(&vol->hotkey_down, click, &volume_down, vol, TRUE);
     if (res)
+    {
         config_group_set_string(vol->settings, "VolumeDownKey", click);
+    }
     return res;
 }
 
@@ -1358,7 +1462,9 @@ static gboolean mute_key_changed(GtkWidget *btn, char *click, VolumeALSAPlugin *
 
     res = lxpanel_apply_hotkey(&vol->hotkey_mute, click, &volume_mute, vol, TRUE);
     if (res)
+    {
         config_group_set_string(vol->settings, "VolumeMuteKey", click);
+    }
     return res;
 }
 
@@ -1407,7 +1513,9 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
             gtk_list_store_insert_with_values(list, &iter, i++, 0, _("default"),
                                               1, j, -1);
             if (vol->used_device < 0)
+            {
                 active = 0;
+            }
         }
         snd_hctl_close(hctl);
     }
@@ -1432,7 +1540,9 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
                     snd_mixer_selem_has_playback_volume(elem) &&
                     !snd_mixer_selem_has_capture_volume(elem) &&
                     !snd_mixer_selem_has_capture_switch(elem))
+                {
                     break;
+                }
             }
             snd_mixer_close(mixer);
             if (elem != NULL)
@@ -1441,10 +1551,14 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
                 gtk_list_store_insert_with_values(list, &iter, i++, 0, name,
                                                   1, j, -1);
                 if (vol->used_device == j)
+                {
                     active = i;
+                }
             }
             else
+            {
                 g_debug("no elements in soundcard %s", name);
+            }
             free(name);
         }
     }
@@ -1494,17 +1608,23 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
 
     /* setup buttons */
     if (!config_setting_lookup_string(vol->settings, "SliderButton", &tmp_str))
+    {
         tmp_str = "1";
+    }
     volume_button = panel_config_click_button_new(_("Click for Volume Slider"), tmp_str);
     gtk_widget_set_tooltip_text(volume_button, _("Click to select, then press a mouse button"));
     g_signal_connect(volume_button, "changed", G_CALLBACK(volume_button_changed), vol);
     if (!config_setting_lookup_string(vol->settings, "MuteButton", &tmp_str))
+    {
         tmp_str = "2";
+    }
     mute_button = panel_config_click_button_new(_("Click for Toggle Mute"), tmp_str);
     gtk_widget_set_tooltip_text(mute_button, _("Click to select, then press a mouse button"));
     g_signal_connect(mute_button, "changed", G_CALLBACK(mute_button_changed), vol);
     if (!config_setting_lookup_string(vol->settings, "MixerButton", &tmp_str))
+    {
         tmp_str = NULL;
+    }
     mixer_button = panel_config_click_button_new(_("Click for Open Mixer"), tmp_str);
     gtk_widget_set_tooltip_text(mixer_button, _("Click to select, then press a mouse button"));
     g_signal_connect(mixer_button, "changed", G_CALLBACK(mixer_button_changed), vol);
@@ -1522,16 +1642,24 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
 
     /* setup mixer selector */
     if (!config_setting_lookup_string(vol->settings, "MixerCommand", &tmp_str))
+    {
         tmp_str = NULL;
+    }
     active = -1;
     i = j = 0;
     list = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_INT); /* line, needs_term */
     path = g_find_program_in_path("pulseaudio");
     if (path)
+    {
         g_free(path);
+    }
     else
+    {
         while (mixers[i].cmd && mixers[i].needs_pa)
+        {
             i++;
+        }
+    }
     for (; mixers[i].cmd; i++)
     {
         path = g_find_program_in_path(mixers[i].exec);
@@ -1555,7 +1683,9 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
         gtk_list_store_insert_with_values(list, &iter, j, 0, tmp_str, 1, 0, -1);
     }
     if (active < 0)
+    {
         active = 0;
+    }
 #if GTK_CHECK_VERSION(2, 24, 0)
     mixer_selector = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(list));
     gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(mixer_selector), 0);
