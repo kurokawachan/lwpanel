@@ -685,11 +685,17 @@ static void volume_run_mixer(VolumeALSAPlugin *vol)
         path = g_find_program_in_path("pulseaudio");
         /* Assume that when pulseaudio is installed, it's launching every time */
         if (path)
+        {
             g_free(path);
+        }
         /* Fallback to alsamixer when PA is not running, or when no PA utility is find */
         else
+        {
             while (mixers[i].cmd && mixers[i].needs_pa)
+            {
                 i++;
+            }
+        }
         for (; mixers[i].cmd; i++)
         {
             if ((path = g_find_program_in_path(mixers[i].exec)))
@@ -817,7 +823,9 @@ static void volumealsa_popup_scale_scrolled(GtkScale *scale, GdkEventScroll *evt
 
     /* Dispatch on scroll direction to update the value. */
     if ((evt->direction == GDK_SCROLL_UP) || (evt->direction == GDK_SCROLL_LEFT))
+    {
         val += 2;
+    }
 #if GTK_CHECK_VERSION(3, 4, 0)
     else if (evt->direction == GDK_SCROLL_SMOOTH)
     {
@@ -854,12 +862,14 @@ static void volumealsa_popup_mute_toggled(GtkWidget *widget, VolumeALSAPlugin *v
         asound_set_volume(vol, vol->vol_before_mute);
     }
 #else
+
     if (vol->master_element != NULL)
     {
         int chn;
         for (chn = 0; chn <= SND_MIXER_SCHN_LAST; chn++)
             snd_mixer_selem_set_playback_switch(vol->master_element, chn, ((mute) ? 0 : 1));
     }
+
 #endif
 
     /*
@@ -968,6 +978,7 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
     if (!config_setting_lookup_int(settings, "CardNumber", &vol->used_device))
         vol->used_device = -1;
 #else
+
     vol->master_channel = SOUND_MIXER_VOLUME;
     if (config_setting_lookup_string(settings, "MasterChannel", &tmp_str))
     {
@@ -976,6 +987,7 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
         else if (strcmp(tmp_str, "Headphone") == 0)
             vol->master_channel = SOUND_MIXER_PHONEOUT;
     }
+
 #endif
     if (config_setting_lookup_string(settings, "MuteButton", &tmp_str))
         vol->mute_click = panel_config_click_parse(tmp_str, &vol->mute_click_mods);
@@ -1137,7 +1149,9 @@ static void channel_selector_changed(GtkComboBox *channel_selector, VolumeALSAPl
 #ifdef DISABLE_ALSA
     int ch; /* channel index */
 #else
+
     char *ch; /* channel name */
+
 #endif
     int i = gtk_combo_box_get_active(channel_selector);
 
@@ -1146,6 +1160,7 @@ static void channel_selector_changed(GtkComboBox *channel_selector, VolumeALSAPl
 #ifdef DISABLE_ALSA
     config_group_set_int(vol->settings, "MasterChannel", ch);
 #else
+
     config_group_set_string(vol->settings, "MasterChannel", ch);
     asound_find_element(vol, (const char **)&ch, 1); // FIXME: is error possible?
     /* Set the playback volume range as we wish it. */
@@ -1462,6 +1477,7 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
     if (vol->master_channel == SOUND_MIXER_VOLUME)
         active = 2;
 #else
+
     list = alsa_make_channels_list(vol, &active);
 #endif
     vol->channel_selector = gtk_combo_box_new_with_model(GTK_TREE_MODEL(list));
@@ -1544,6 +1560,7 @@ static GtkWidget *volumealsa_configure(LXPanel *panel, GtkWidget *p)
     mixer_selector = gtk_combo_box_new_with_model_and_entry(GTK_TREE_MODEL(list));
     gtk_combo_box_set_entry_text_column(GTK_COMBO_BOX(mixer_selector), 0);
 #else
+
     mixer_selector = gtk_combo_box_entry_new_with_model(GTK_TREE_MODEL(list), 0);
 #endif
     g_object_unref(list);
