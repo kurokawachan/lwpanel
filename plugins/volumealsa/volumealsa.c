@@ -999,11 +999,11 @@ static void volumealsa_build_popup_window(GtkWidget *p)
     gtk_container_add(GTK_CONTAINER(viewport), frame);
 
     /* Create a vertical box as the child of the frame. */
-    GtkWidget *box = gtk_vbox_new(FALSE, 0);
+    GtkWidget *box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_container_add(GTK_CONTAINER(frame), box);
 
     /* Create a vertical scale as the child of the vertical box. */
-    vol->volume_scale = gtk_vscale_new(GTK_ADJUSTMENT(gtk_adjustment_new(100, 0, 100, 0, 0, 0)));
+    vol->volume_scale = gtk_scale_new(GTK_ORIENTATION_VERTICAL, GTK_ADJUSTMENT(gtk_adjustment_new(100, 0, 100, 0, 0, 0)));
     gtk_scale_set_draw_value(GTK_SCALE(vol->volume_scale), FALSE);
     gtk_range_set_inverted(GTK_RANGE(vol->volume_scale), TRUE);
     gtk_box_pack_start(GTK_BOX(box), vol->volume_scale, TRUE, TRUE, 0);
@@ -1732,10 +1732,17 @@ static void volumealsa_panel_configuration_changed(LXPanel *panel, GtkWidget *p)
 
 static gboolean volumealsa_update_context_menu(GtkWidget *plugin, GtkMenu *menu)
 {
-    GtkWidget *img = gtk_image_new_from_stock("gtk-directory", GTK_ICON_SIZE_MENU);
-    GtkWidget *menu_item = gtk_image_menu_item_new_with_label(_("Launch Mixer"));
+    GtkWidget *menu_item = gtk_menu_item_new();
+    {
+        GtkWidget *box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+        GtkWidget *icon = gtk_image_new_from_icon_name("gtk-directory", GTK_ICON_SIZE_MENU);
+        GtkWidget *label = gtk_label_new(_("Launch Mixer"));
+        gtk_box_pack_start(GTK_BOX(box), icon, FALSE, FALSE, 0);
+        gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+        gtk_container_add(GTK_CONTAINER(menu_item), box);
+        gtk_menu_item_set_reserve_indicator(GTK_MENU_ITEM(menu_item), TRUE);
+    }
     // FIXME: precheck and disable if MixerCommand not set
-    gtk_image_menu_item_set_image((GtkImageMenuItem *)menu_item, img);
     g_signal_connect_swapped(menu_item, "activate", G_CALLBACK(volume_run_mixer),
                              lxpanel_plugin_get_data(plugin));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
