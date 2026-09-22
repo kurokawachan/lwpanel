@@ -75,6 +75,8 @@
 #include "misc.h"
 #include "gtk-compat.h"
 
+#include "lw.hpp"
+
 #define ICONS_VOLUME_HIGH "volume-high"
 #define ICONS_VOLUME_MEDIUM "volume-medium"
 #define ICONS_VOLUME_LOW "volume-low"
@@ -655,13 +657,43 @@ static void volumealsa_lookup_current_icon(VolumeALSAPlugin *vol, gboolean mute,
     vol->icon_fallback = icon_fallback;
 }
 
+static void lwpanel_migration_volumealsa_lookup_current_icon(VolumeALSAPlugin *vol, gboolean mute, int level)
+{
+    /* Change icon according to mute / volume */
+    const char *icon_panel = "audio-volume-muted";
+    const char *icon_fallback = ICONS_MUTE;
+    if (mute)
+    {
+        icon_panel = "audio-volume-muted";
+        icon_fallback = ICONS_MUTE;
+    }
+    else if (level >= 66)
+    {
+        icon_panel = "audio-volume-high";
+        icon_fallback = ICONS_VOLUME_HIGH;
+    }
+    else if (level >= 33)
+    {
+        icon_panel = "audio-volume-medium";
+        icon_fallback = ICONS_VOLUME_MEDIUM;
+    }
+    else if (level > 0)
+    {
+        icon_panel = "audio-volume-low";
+        icon_fallback = ICONS_VOLUME_LOW;
+    }
+
+    vol->icon_panel = icon_panel;
+    vol->icon_fallback = icon_fallback;
+}
 static void volumealsa_update_current_icon(VolumeALSAPlugin *vol, gboolean mute, int level)
 {
     /* Find suitable icon */
-    volumealsa_lookup_current_icon(vol, mute, level);
+    lwpanel_migration_volumealsa_lookup_current_icon(vol, mute, level);
 
     /* Change icon, fallback to default icon if theme doesn't exsit */
-    lxpanel_image_change_icon(vol->tray_icon, vol->icon_panel, vol->icon_fallback);
+    // TODO use vol->icon_fallback
+    lwpanel_icon_set_from_icon_name(GTK_IMAGE(vol->tray_icon), vol->panel, vol->icon_panel);
 
     /* Display current level in tooltip. */
     char *tooltip = g_strdup_printf(_("Volume: %d%%"), level);
@@ -1097,8 +1129,8 @@ static GtkWidget *volumealsa_constructor(LXPanel *panel, config_setting_t *setti
     gtk_widget_set_tooltip_text(p, _("Volume control"));
 
     /* Allocate icon as a child of top level. */
-    vol->tray_icon = lxpanel_image_new_for_icon(panel, "audio-volume-muted-panel",
-                                                -1, ICONS_MUTE);
+    // TODO use vol->icon_fallback
+    vol->tray_icon = lwpanel_icon_new_from_icon_name(vol->panel, "audio-volume-muted");
     gtk_container_add(GTK_CONTAINER(p), vol->tray_icon);
 #if GTK_CHECK_VERSION(3, 4, 0)
     gtk_widget_add_events(p, GDK_SCROLL_MASK);

@@ -324,6 +324,39 @@ GtkWidget *get_icon_as_gtk_image_using_gdkpixbuf(
     return image;
 }
 
+static void set_icon_for_gtk_image_using_gdkpixbuf(
+    GtkImage *image,
+    const int logical_size,
+    const gint scale,
+    const GdkPixbuf *pixbuf_largest)
+{
+    g_return_if_fail(NULL != image);
+    g_return_if_fail(GTK_IS_IMAGE(image));
+
+    g_return_if_fail(logical_size > 0);
+    g_return_if_fail(scale > 0);
+
+    g_return_if_fail(NULL != pixbuf_largest);
+    g_return_if_fail(GDK_IS_PIXBUF(pixbuf_largest));
+
+    int real_size = logical_size * scale;
+
+    {
+        GdkPixbuf *pixbuf_real = gdk_pixbuf_scale_simple(pixbuf_largest, real_size, real_size, GDK_INTERP_HYPER);
+        {
+            cairo_surface_t *surface = gdk_cairo_surface_create_from_pixbuf(
+                pixbuf_real,
+                scale,
+                NULL);
+            {
+                gtk_image_set_from_surface(image, surface);
+            }
+            cairo_surface_destroy(surface);
+        }
+        g_object_unref(pixbuf_real);
+    }
+}
+
 // Return value
 //
 // The data is owned by the called function.
@@ -368,4 +401,40 @@ GtkWidget *get_largest_desktop_icon_as_gtk_image_using_icon_name(LXPanel *panel,
         g_object_unref(pixbuf_largest);
     }
     return image;
+}
+
+// Return value
+//
+// The data is owned by the called function.
+//
+GtkWidget *lwpanel_icon_new_from_icon_name(LXPanel *panel, const gchar *icon_name)
+{
+    g_return_val_if_fail(NULL != panel, NULL);
+    g_return_val_if_fail(NULL != icon_name, NULL);
+    return get_largest_desktop_icon_as_gtk_image_using_icon_name(panel, std::string(icon_name));
+}
+
+// Return value
+//
+// The data is owned by the called function.
+//
+void lwpanel_icon_set_from_icon_name(GtkImage *icon, LXPanel *panel, const gchar *icon_name)
+{
+    g_return_if_fail(NULL != icon);
+    g_return_if_fail(NULL != panel);
+    g_return_if_fail(NULL != icon_name);
+
+    GtkWidget *panel_widget = GTK_WIDGET(panel);
+    GdkWindow *gdk_window = gtk_widget_get_window(panel_widget);
+    gint scale = gdk_window_get_scale_factor(gdk_window);
+
+    int logical_size = panel_get_icon_size(panel);
+
+    {
+        GdkPixbuf *pixbuf_largest = get_largest_desktop_icon_with_icon_name(icon_name);
+        {
+            set_icon_for_gtk_image_using_gdkpixbuf(icon, logical_size, scale, pixbuf_largest);
+        }
+        g_object_unref(pixbuf_largest);
+    }
 }
