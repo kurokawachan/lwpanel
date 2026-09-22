@@ -1000,12 +1000,13 @@ static void volumealsa_build_popup_window(GtkWidget *p)
 
     /* Create a new window. */
     vol->popup_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    gtk_window_set_transient_for(GTK_WINDOW(vol->popup_window), GTK_WINDOW(vol->panel));
     gtk_window_set_decorated(GTK_WINDOW(vol->popup_window), FALSE);
     gtk_container_set_border_width(GTK_CONTAINER(vol->popup_window), 5);
-    gtk_window_set_default_size(GTK_WINDOW(vol->popup_window), 80, scaling_factor * 140);
+    gtk_window_set_default_size(GTK_WINDOW(vol->popup_window), scaling_factor * 80, scaling_factor * 140);
     gtk_window_set_skip_taskbar_hint(GTK_WINDOW(vol->popup_window), TRUE);
     gtk_window_set_skip_pager_hint(GTK_WINDOW(vol->popup_window), TRUE);
-    gtk_window_set_type_hint(GTK_WINDOW(vol->popup_window), GDK_WINDOW_TYPE_HINT_DIALOG);
+    gtk_window_set_type_hint(GTK_WINDOW(vol->popup_window), GDK_WINDOW_TYPE_HINT_DROPDOWN_MENU);
 
     /* Connect signals. */
     g_signal_connect(G_OBJECT(vol->popup_window), "focus-out-event", G_CALLBACK(volumealsa_popup_focus_out), vol);
