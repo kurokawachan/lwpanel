@@ -357,6 +357,37 @@ static void set_icon_for_gtk_image_using_gdkpixbuf(
     }
 }
 
+static void theme_changed(
+    GtkIconTheme *self,
+    gpointer user_data)
+{
+    GtkImage *image = (GtkImage *)user_data;
+    g_return_if_fail(NULL != image);
+    g_return_if_fail(GTK_IS_IMAGE(image));
+
+    gchar *desktop_id = (gchar *)g_object_get_qdata(
+        G_OBJECT(image),
+        g_quark_from_string("desktop_id"));
+    g_return_if_fail(NULL != desktop_id);
+
+    LXPanel *panel = (LXPanel *)g_object_get_qdata(
+        G_OBJECT(image),
+        g_quark_from_string("panel_pointer"));
+    g_return_if_fail(NULL != panel);
+
+    {
+        gint scale = gtk_widget_get_scale_factor(GTK_WIDGET(image));
+
+        int logical_size = panel_get_icon_size(panel);
+
+        GdkPixbuf *pixbuf_largest = get_largest_desktop_icon(desktop_id);
+        {
+            set_icon_for_gtk_image_using_gdkpixbuf(GTK_IMAGE(image), logical_size, scale, pixbuf_largest);
+        }
+        g_object_unref(pixbuf_largest);
+    }
+}
+
 // Return value
 //
 // The data is owned by the called function.
@@ -374,6 +405,24 @@ GtkWidget *get_largest_desktop_icon_as_gtk_image(LXPanel *panel, const std::stri
         GdkPixbuf *pixbuf_largest = get_largest_desktop_icon(desktop_id);
         {
             image = get_icon_as_gtk_image_using_gdkpixbuf(logical_size, scale, pixbuf_largest);
+            {
+                g_object_set_qdata_full(
+                    G_OBJECT(image),
+                    g_quark_from_string("desktop_id"),
+                    g_strdup(desktop_id.c_str()), g_free);
+                g_object_set_qdata_full(
+                    G_OBJECT(image),
+                    g_quark_from_string("panel_pointer"),
+                    panel, NULL);
+
+                GdkScreen *screen = gdk_screen_get_default();
+                // The data is owned by the called function.
+                GtkIconTheme *gtk_icon_theme = gtk_icon_theme_get_for_screen(screen);
+                g_signal_connect_object(
+                    G_OBJECT(gtk_icon_theme),
+                    "changed", G_CALLBACK(theme_changed),
+                    GTK_IMAGE(image), G_CONNECT_DEFAULT);
+            }
         }
         g_object_unref(pixbuf_largest);
     }
